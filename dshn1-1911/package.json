@@ -1,0 +1,21 @@
+{
+  "name": "dshn1-1911-recap",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Recap out/dshn1-1911.mp4",
+    "render:nobgm": "remotion render src/index.ts Recap out/dshn1-1911-nobgm.mp4 --props=props-nobgm.json"
+  },
+  "dependencies": {
+    "@fontsource/be-vietnam-pro": "5.2.5",
+    "@remotion/cli": "4.0.484",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remotion": "4.0.484"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,79 @@
+# DSHN1 · Ngày Quốc tế Đàn ông 19.11 — Design spec
+
+Mode: **autonomous free creation** (video-shotcraft pipeline), user chose
+"video-shotcraft + Keep Highlights".
+
+## 1. Brief
+- Purpose: internal recap video for the 19/11 International Men's Day party of team DSHN1
+  (KiotViet office, visible in footage). Audience: team members, internal social channels.
+- Inputs: 7 vertical iPhone clips (720×1280, 30 fps, 5.9–58.3 s; total 2:38) + 2 landscape
+  group photos (2568×1926, formal pose / fun pose, everyone wearing medals, red pennant).
+- Content: office party games — blindfolded guessing who by touching faces, red-veil
+  guessing, lots of laughter, a prize being handed out, hugs, group photos.
+- Format: **1080×1920 vertical, 30 fps, ~66.6 s** (source is vertical → native for phones).
+- Language: Vietnamese on-screen text.
+- Audio: no user BGM → library `house-vibez.mp3` (upbeat house, fits a party), original
+  clip laughter kept underneath. Two deliverables: with BGM / without BGM (SFX + clip audio kept).
+- Data: footage of real colleagues is the content; no extra personal data added; no names.
+  Raw media + renders are git-ignored (not pushed).
+
+## 2. Requirement → execution decisions
+| Requirement | Decision |
+|---|---|
+| "Tổng hợp" from user media | Keep Highlights picks key moments per clip; montage uses only those windows |
+| Fun party tone | Energy preset "lively/joyful" (~27f entrances, out-back pops 1.6–1.7), house BGM 122 BPM |
+| Phone viewing | Vertical; captions 84px bold + 44px kicker on bottom scrim |
+| Strong-beat BGM | All shot boundaries = `beatF(n)`; grid 122.00 BPM, phase 0.065 s, onset coverage 97.5 % |
+| Group photos | Outro: photo cards with camera-flash swap, then closing title |
+
+## 3. Visual tokens (from the event, not a promo skin)
+- navy `#081428` (base), blue `#2F7BFF` / teal `#38D6C4` (KiotViet logo + ceiling light
+  sculpture), **gold `#FFC23D` (medals — primary accent)**, red `#D7261E` (pennant/veil).
+- Font: Be Vietnam Pro 500/800/900 (full Vietnamese diacritics).
+- Motion: lively/joyful preset; hard cuts on beats; whole-frame impacts limited to 2 (R4).
+- No styleframe page: footage-driven event recap, look is defined by the footage + 4 tokens
+  above (skipped per pipeline stage 1 allowance; rationale recorded here).
+
+## 4. Moment → shot-card mapping
+| Moment | Card · variant | Demo source |
+|---|---|---|
+| Opening title "19.11" with footage inside | `text-as-mask` | demos/opening/text-as-mask/TextAsMask.tsx |
+| Hook: footage ↔ word cards | `trailer-grammar-moves` · B card-footage-cadence | demos/rhythm/trailer-grammar-moves/CardFootageCadence.tsx |
+| "Expression of the year" | `speed-ramp-freeze` · freeze-annotate | demos/rhythm/speed-ramp-freeze/FreezeAnnotateReal.tsx |
+| Reaction burst | `quad-split-parallel-scenes` | demos/rhythm/quad-split-parallel-scenes/QuadSplitParallelScenes.tsx |
+| Closing title | `marker-underline-title` | demos/typography/marker-underline-title/MarkerUnderlineTitle.tsx |
+| Montage shots | plain footage + lower-third caption (no card) | — |
+
+Adaptations (documented in each component header): inline SVG clipPath instead of data-URI
+mask (web font); beat-locked segments; freeze implemented with an exact still + 1.4× unfreeze;
+quad gets two staggered punch-in rounds because it runs ~3.9 s (> 2.1 s density limit).
+
+## 5. Storyboard (beats @122 BPM → frames)
+| # | Beats | Frames | Shot | Content | Caption / text |
+|---|---|---|---|---|---|
+| 1 | 0–12 | 0–179 | intro | "19.11" mask over c7 (from 2 s) → takeover at f149 | NGÀY QUỐC TẾ ĐÀN ÔNG · 19.11 · DSHN1 |
+| 2 | 12–20 | 179–297 | hook | c3@5.5 / BỊT MẮT / c7@50.5 / ĐOÁN NGƯỜI / c4@4.0 / CƯỜI XỈU | word cards |
+| 3 | 20–28 | 297–415 | m1 | c2 0–3.9 s blindfold guessing | TRÒ CHƠI · Bịt mắt, đoán xem ai? |
+| 4 | 28–40 | 415–592 | m2 | c5 5.2–11.1 s | CĂNG NÃO · Đoán mãi chưa ra |
+| 5 | 40–56 | 592–828 | m3 | c3 1.0–8.9 s red veil | THỬ THÁCH · Trùm khăn đỏ, ai đây? |
+| 6 | 56–64 | 828–946 | freeze | c5 13.9 s flow → freeze @14.9 s (55f) → 1.4× | Biểu cảm của năm |
+| 7 | 64–76 | 946–1123 | m5 | c6 17.5–23.4 s (incl. hug) | ANH EM · Tình đồng đội DSHN1 |
+| 8 | 76–84 | 1123–1241 | quad | c2@20.6 · c6@24.0 · c7@29.7 · c1@3.4 | DSHN1 · 19.11 |
+| 9 | 84–96 | 1241–1418 | m6 | c4 0.6–6.5 s prize handed over | CÓ THƯỞNG · Chơi hết mình, nhận quà liền |
+| 10 | 96–112 | 1418–1654 | m7a+b | c7 12.5–16.4 s, 21.6–25.5 s | CẢ PHÒNG · Cười nghiêng ngả |
+| 11 | 112–134 (+20f) | 1654–1999 | outro | photo formal → flash → photo fun (b116) → title (b120), marker underline | 19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG / Chúc mừng anh em DSHN1 |
+
+Keep Highlights windows used (notes/keep-highlights.json): every montage in-point lies inside or
+starts at a Keep segment; small extensions were made only to reach beat-locked lengths.
+
+## 6. Sound
+- BGM 0.30 (fade in 12f, out 50f), wrapped in `bgm` inputProp.
+- Clip audio 0.55 on montage shots (laughter), 0.4 on intro takeover, muted in hook/quad/unfreeze.
+- SFX table in `src/Main.tsx` (relative frames, annotated): woosh+impact (intro takeover, slam 1),
+  swoosh ×3 stepped 0.32→0.22 (hook cards), shutter + marker (freeze), woosh (quad),
+  camera clicks ×2 (photos), riser → impact (slam 2, loudest) → shimmer (outro).
+- Audio offset compensation (S5) not measured for this pipeline — known limitation.
+
+## 7. Known deviations
+- Captions describe the games generically (rules were inferred from footage).
+- No styleframe (see §3). No workbench manifest (cloud session; localhost workbench unreachable).
