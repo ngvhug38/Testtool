@@ -22,7 +22,9 @@ const HIGHLIGHTS = FACES.filter((face) => face.track[0][1] >= 520).flatMap((face
 
 const P6 = PAIRS[5];
 const P6_SLOW = resolveSubs(P6)[1];
-const P3_FREEZE_AT = ACT.p3.from + resolveSubs(PAIRS[2])[0].dur; // freeze shot starts here
+const P2 = PAIRS[1];
+const P2_FIXED = resolveSubs(P2).reduce((a, s) => a + s.dur, 0);
+const P3_FREEZE_AT = ACT.p2.from + P2_FIXED; // freeze shot (pair B) starts here
 const IMPACT_LEAD = 65; // impact-cine-big hits ~65f into the file
 const TITLE_LAND = ACT.outro.from + OUTRO.titleMove + 32;
 
@@ -37,8 +39,8 @@ const SFX: Sfx[] = [
   ...[10, 40, 96].map((f, i) => ({ from: ACT.rules.from + f, src: 'pop', volume: [0.45, 0.4, 0.35][i], dur: 15, note: `rule ${i + 1} pops` })),
   { from: ACT.problem.from + 18, src: 'pop', volume: 0.55, dur: 15, note: 'GẦN slams in' },
   ...PAIRS.map((p) => ({ from: ACT[p.key].from, src: 'swoosh-quick', volume: 0.22, note: `pair ${p.n} badge` })),
-  { from: P3_FREEZE_AT + FREEZE.flowEnd, src: 'camera-shutter-hard', volume: 0.5, note: 'pair 3: freeze' },
-  { from: P3_FREEZE_AT + FREEZE.flowEnd + 7, src: 'paper-slide-g', volume: 0.6, note: 'pair 3: marker circle' },
+  { from: P3_FREEZE_AT + FREEZE.flowEnd, src: 'camera-shutter-hard', volume: 0.5, note: 'pair 2 (B): freeze' },
+  { from: P3_FREEZE_AT + FREEZE.flowEnd + 7, src: 'paper-slide-g', volume: 0.6, note: 'pair 2 (B): marker circle' },
   { from: P6_SLOW.from, src: 'applause-rhythmic-loop', volume: 0.45, dur: 120, note: 'pair 6: slow-mo, room erupts' },
   { from: P6_SLOW.from + 20, src: 'pop', volume: 0.6, dur: 15, note: 'pair 6: meter VỠ!' },
   { from: ACT.quad.from, src: 'air-woosh-quick', volume: 0.32, note: 'quad: cells fly in' },
@@ -57,7 +59,7 @@ export const Story: React.FC<StoryProps> = ({ bgm }) => {
   const acts = PAIRS.map((p) => {
     const from = prev;
     prev = p.ngai;
-    const tail = p.key === 'p3' ? <Freeze dur={len(ACT.p3) - resolveSubs(p)[0].dur} /> : undefined;
+    const tail = p.key === 'p2' ? <Freeze dur={len(ACT.p2) - P2_FIXED} /> : undefined;
     const burstAt = p.key === 'p6' ? P6_SLOW.from - ACT.p6.from + 20 : undefined;
     return (
       <Sequence key={p.key} from={ACT[p.key].from} durationInFrames={len(ACT[p.key])}>

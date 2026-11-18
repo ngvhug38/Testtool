@@ -21,15 +21,15 @@ export const ACT = {
   org: S(22, 30), // organisers: the women of DSHN1
   rules: S(30, 38), // rules graphic
   problem: S(38, 42), // "…but the closer you bite, the closer the faces"
-  p1: S(42, 50),
-  p2: S(50, 58),
-  p3: S(58, 70), // includes the freeze-annotate
-  p4: S(70, 78),
-  p5: S(78, 86),
-  p6: S(86, 98), // the near-kiss climax, slow motion
-  quad: S(98, 106), // the crowd
-  result: S(106, 110),
-  outro: S(110, 122), // medal ceremony photos + closing title
+  p1: S(42, 50), // pair A
+  p2: S(50, 62), // pair B, ends with the freeze-annotate
+  p3: S(62, 70), // pair F
+  p4: S(70, 78), // pair E
+  p5: S(78, 90), // pair D
+  p6: S(90, 102), // pair C — near-kiss climax, slow motion
+  quad: S(102, 110), // the crowd
+  result: S(110, 114),
+  outro: S(114, 126), // medal ceremony photos + closing title
 } as const;
 export const TOTAL = ACT.outro.to + 15;
 export const BGM_START = ACT.cold.to; // music enters with the title
@@ -46,38 +46,49 @@ export type Pair = {
 
 const f = (s: number) => Math.round(s * 30);
 
-// Pair → tactic mapping is read from the footage (clothes identify the pairs); windows
-// avoid every blocked / blurred stretch found in the frame-by-frame review.
+// Pairs identified by clothing across all 11 clips (frame-by-frame check, user-corrected):
+//  A brown sweater+glasses / grey striped sweater ........ c1, c2
+//  B curly hair black top+white pants / white shirt+glasses c3 (veil), c5, c11 1:18–1:40
+//  C brown leather jacket / "Same Fight Different" hoodie . c4, c8 0–3 s, c9 48–57 s
+//  D "KINGKONG" sweatshirt / dark turtleneck .............. c6, c7, c8 34–90 s, c9 84–95 s, c11 3–54 s
+//  E yellow jacket+glasses / black tee with tattoo ........ c9 0–27 s, c10 69–80 s
+//  F plaid shirt / white tee+beige trousers ............... c10 0–40 s
+// Ordered so the "ngại" meter escalates. Windows avoid every blocked/blurred stretch.
+// c9/c10 are wide shots → reframed (≤1.45×) onto the pair.
 export const PAIRS: Pair[] = [
   {
     key: 'p1', n: 1, tactic: 'KHÔNG NHÌN LÀ ĐƯỢC', comment: 'Che mắt lại là xong!', ngai: 60,
     subs: [
       { src: 'clips/c2.mp4', at: 0, dur: f(3.9) },
-      { src: 'clips/c1.mp4', at: 0.2, dur: 0 }, // fills the rest of the act
+      { src: 'clips/c1.mp4', at: 0.2, dur: 0 },
     ],
   },
   {
-    key: 'p2', n: 2, tactic: 'TRÙM KHĂN ĐỎ', comment: 'Không thấy mặt, chắc đỡ ngại?', ngai: 72,
+    key: 'p2', n: 2, tactic: 'TRÙM KHĂN ĐỎ', comment: 'Không thấy mặt, chắc đỡ ngại?', ngai: 70,
     subs: [
       { src: 'clips/c11.mp4', at: 96.0, dur: f(1.5) },
-      { src: 'clips/c3.mp4', at: 1.5, dur: 0 },
-    ],
+      { src: 'clips/c3.mp4', at: 1.5, dur: f(2.8) },
+    ], // + Freeze (c5, same pair) for the rest
   },
   {
-    key: 'p3', n: 3, tactic: 'CƯỜI TRỪ', comment: 'Cười cho đỡ ngượng', ngai: 80,
-    subs: [{ src: 'clips/c5.mp4', at: 5.2, dur: f(4.0) }], // + Freeze for the rest
-  },
-  {
-    key: 'p4', n: 4, tactic: 'NHẮM MẮT CHO QUA', comment: 'Nhắm mắt, đếm tới ba…', ngai: 88,
+    key: 'p3', n: 3, tactic: 'NÉ CÀNG XA CÀNG TỐT', comment: 'Né được bao nhiêu thì né!', ngai: 78,
     subs: [
-      { src: 'clips/c7.mp4', at: 12.5, dur: f(3.1) },
-      { src: 'clips/c6.mp4', at: 20.5, dur: 0 },
+      { src: 'clips/c10.mp4', at: 7.5, dur: f(2.8), push: [1.4, 1.45], origin: '22% 60%' },
+      { src: 'clips/c10.mp4', at: 28.0, dur: 0, push: [1.4, 1.45], origin: '22% 60%' },
     ],
   },
   {
-    key: 'p5', n: 5, tactic: 'ĂN VỘI CHO XONG', comment: 'Cắn nhanh, khỏi suy nghĩ', ngai: 93,
+    key: 'p4', n: 4, tactic: 'KÉO ĐẦU VÀO LUÔN', comment: 'Một tay kéo đầu, khỏi suy nghĩ', ngai: 86,
+    subs: [
+      { src: 'clips/c9.mp4', at: 2.0, dur: f(3.4), push: [1.4, 1.45], origin: '20% 60%' },
+      { src: 'clips/c10.mp4', at: 70.5, dur: 0, push: [1.4, 1.45], origin: '30% 62%' },
+    ],
+  },
+  {
+    key: 'p5', n: 5, tactic: 'CƯỜI RA NƯỚC MẮT', comment: 'Cười trước, cắn sau', ngai: 93,
     subs: [
       { src: 'clips/c11.mp4', at: 5.9, dur: f(3.1) },
+      { src: 'clips/c6.mp4', at: 20.5, dur: f(2.4) },
       { src: 'clips/c8.mp4', at: 80.0, dur: 0 },
     ],
   },

@@ -136,3 +136,12 @@ no measured data) → medal ceremony (zoom into the medals) → title + "Cảm �
 Pair→tactic mapping inferred from clothes; awaiting user confirmation of the winner/food.
 Face highlights in the top band (y<520) are skipped here so they never collide with the HUD.
 The original montage remains as composition `Recap`.
+
+### 12a. Pair identification fix (user: "cặp 4/6 và 5/6 đang là 1 cặp")
+Re-identified all six pairs by clothing across the 11 clips (wide shots cropped and zoomed):
+A brown sweater+glasses / grey striped sweater (c1, c2) · B curly hair black top / white shirt+glasses
+(c3 veil, c5, c11 1:18–1:40) · C leather jacket / "Same Fight Different" hoodie (c4, c8 0–3, c9 48–57) ·
+D "KINGKONG" sweatshirt / dark turtleneck (c6, c7, c8 34–90, c9 84–95, c11 3–54) · E yellow jacket /
+black tattooed tee (c9 0–27, c10 69–80) · F plaid shirt / white tee (c10 0–40). The red veil is a shared
+prop (pair A also wears it in c2 10–16). New act order: A che mắt → B trùm khăn (+freeze, same pair) →
+F né → E kéo đầu → D cười ra nước mắt → C liều thật sự. Pairs E and F had no shot before.
