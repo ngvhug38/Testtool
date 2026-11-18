@@ -16,7 +16,13 @@ const ORIGIN = '233px 955px'; // stem spans x 200–266, y 833–1078 at frame 2
 const SRC = 'clips/c7.mp4';
 const AT = 2.0; // takeover lands on c7 @ ~7 s: the whole room laughing
 
-export const Intro: React.FC<{ dur: number; takeoverEnd: number }> = ({ dur, takeoverEnd }) => {
+export const Intro: React.FC<{ dur: number; takeoverEnd: number; top?: string; bottom?: string[]; bottomSize?: number }> = ({
+  dur,
+  takeoverEnd,
+  top = 'NGÀY QUỐC TẾ ĐÀN ÔNG',
+  bottom = ['DSHN1'],
+  bottomSize = 72,
+}) => {
   const f = useCurrentFrame();
   const tStart = takeoverEnd - 30;
   const endT = interpolate(f, [tStart, takeoverEnd], [0, 1], { ...CLAMP, easing: Easing.bezier(0.4, 0, 0.2, 1) });
@@ -105,7 +111,7 @@ export const Intro: React.FC<{ dur: number; takeoverEnd: number }> = ({ dur, tak
           transform: `translateY(${(1 - titleIn) * 24}px)`,
         }}
       >
-        NGÀY QUỐC TẾ ĐÀN ÔNG
+        {top}
       </div>
       <div
         style={{
@@ -115,14 +121,17 @@ export const Intro: React.FC<{ dur: number; takeoverEnd: number }> = ({ dur, tak
           textAlign: 'center',
           fontFamily: T.font,
           fontWeight: 800,
-          fontSize: 72,
-          letterSpacing: 22,
+          fontSize: bottomSize,
+          lineHeight: 1.15,
+          letterSpacing: bottomSize >= 72 ? 22 : 6,
           color: T.white,
           opacity: labels,
           transform: `translateY(${(1 - titleIn) * -24}px)`,
         }}
       >
-        DSHN1
+        {bottom.map((l) => (
+          <div key={l}>{l}</div>
+        ))}
       </div>
     </AbsoluteFill>
   );

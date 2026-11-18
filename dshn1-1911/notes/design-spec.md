@@ -123,3 +123,16 @@ windows level (wall/ceiling line, door and whiteboard verticals) → no rotation
 | n3 | 92–100 | c11 @5.6 | snack + big smile (avoids hand/body blocking at 10–15 s) | face-tracked tag "Cười tít mắt" |
 | n4 | 136–144 | c8 @80.0 | doubled-over laugh (starts after the plaid-shirt block at 79 s) | caption TỚI BẾN · Vui tới phút cuối + tag "Cười gập người" |
 Total length now 79.3 s (2378 frames); all other shots shifted by whole bars, cuts stay on the grid.
+
+## 12. Story version — "THỬ THÁCH CẮN NGẮN NHẤT" (composition `Story`, v6)
+Real game per user: 6 pairs bite one food item from both ends, shortest piece wins; the
+comedy is the guys' reluctance as faces get close. Organised by the women of DSHN1.
+Structure: cold open (trailer-bumper, heartbeat, no music) → "19.11" title on the BGM drop
+(g-eazy-nba-type, 86.66 BPM, song offset 6.76 s) → organisers (c10 push to the women in red)
+→ rules graphic (2 faces + 1 snack biting inward) → "…mặt càng GẦN" → 6 pair acts, each with a
+HUD (CẶP n/6, tactic, "MỨC ĐỘ NGẠI" meter 60→72→80→88→93→100 "VỠ!") and a commentary caption →
+pair 6 with 0.35× slow-motion → crowd quad → result ("ai cũng dũng cảm" — no ranking claimed,
+no measured data) → medal ceremony (zoom into the medals) → title + "Cảm ơn chị em đã tổ chức".
+Pair→tactic mapping inferred from clothes; awaiting user confirmation of the winner/food.
+Face highlights in the top band (y<520) are skipped here so they never collide with the HUD.
+The original montage remains as composition `Recap`.

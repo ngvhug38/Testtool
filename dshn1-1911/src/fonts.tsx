@@ -30,6 +30,22 @@ const loadFonts = () => {
   return loaded;
 };
 
+export function withFonts<P extends object>(Comp: React.ComponentType<P>): React.FC<P> {
+  return (props: P) => {
+    const [handle] = useState(() => delayRender('Be Vietnam Pro'));
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+      loadFonts()
+        .catch(() => undefined)
+        .then(() => {
+          setReady(true);
+          continueRender(handle);
+        });
+    }, [handle]);
+    return ready ? <Comp {...props} /> : null;
+  };
+}
+
 export const MainWithFonts: React.FC<MainProps> = (props) => {
   const [handle] = useState(() => delayRender('Be Vietnam Pro'));
   const [ready, setReady] = useState(false);

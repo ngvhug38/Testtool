@@ -40,7 +40,10 @@ const buildStroke = (len: number, seed: number) => {
 // Local frames, beat-locked: photo swap on beat 116, title move on beat 120.
 export const OUTRO = { swap: beatF(116) - beatF(112), titleMove: beatF(120) - beatF(112) } as const;
 
-export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
+export type OutroText = { kicker: string; line1: string; line2: string; mark: string; sub?: string; chipKicker?: string; chip?: string };
+const DEFAULT_TEXT: OutroText = { kicker: '19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG', line1: 'Chúc mừng', line2: 'anh em', mark: 'DSHN1' };
+
+export const Outro: React.FC<{ dur: number; text?: OutroText; medalZoom?: boolean }> = ({ dur, text = DEFAULT_TEXT, medalZoom = false }) => {
   const f = useCurrentFrame();
   const revealId = `reveal-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const { swap, titleMove } = OUTRO;
@@ -49,7 +52,11 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
   const flash1 = interpolate(f, [0, 2, 8], [0.5, 0.5, 0], CLAMP);
   const flash2 = interpolate(f, [swap, swap + 1, swap + 7], [0.5, 0.5, 0], CLAMP);
   const photo = f < swap ? 'photos/group-formal.jpg' : 'photos/group-fun.jpg';
-  const drift = interpolate(f, [0, dur], [1, 1.06], CLAMP); // slow push on the photo itself
+  // slow push on the photo; with medalZoom the formal photo pushes into the medal row first
+  const drift = medalZoom && f < swap ? interpolate(f, [0, swap], [1, 1.3], { ...CLAMP, easing: Easing.inOut(Easing.cubic) }) : interpolate(f, [0, dur], [1, 1.06], CLAMP);
+  const driftOrigin = medalZoom && f < swap ? '52% 58%' : '50% 50%';
+  const chipIn = interpolate(f, [8, 20], [0, 1], { ...CLAMP, easing: Easing.out(Easing.back(1.6)) });
+  const chipOut = interpolate(f, [titleMove - 6, titleMove + 4], [1, 0], CLAMP);
 
   const move = interpolate(f, [titleMove, titleMove + 24], [0, 1], { ...CLAMP, easing: Easing.out(Easing.cubic) });
   const cardY = interpolate(move, [0, 1], [0, -250]) + (1 - cardIn) * 120;
@@ -87,7 +94,7 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
             position: 'relative',
           }}
         >
-          <Img src={staticFile(photo)} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${drift})` }} />
+          <Img src={staticFile(photo)} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${drift})`, transformOrigin: driftOrigin }} />
           {/* camera flash, limited to the photo card (not a full-frame hit, R4) */}
           <div style={{ position: 'absolute', inset: 0, background: '#fff', opacity: Math.max(flash1, flash2) }} />
         </div>
@@ -106,13 +113,13 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
           transform: `translateY(${(1 - eo) * 36}px)`,
         }}
       >
-        <div style={{ color: T.gold, fontWeight: 800, fontSize: 48, letterSpacing: 6, marginBottom: 26 }}>19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG</div>
+        <div style={{ color: T.gold, fontWeight: 800, fontSize: 48, letterSpacing: 6, marginBottom: 26 }}>{text.kicker}</div>
         <div style={{ color: T.white, fontWeight: 900, fontSize: 120, lineHeight: 1.1, letterSpacing: '-0.02em' }}>
-          <div>Chúc mừng</div>
+          <div>{text.line1}</div>
           <div>
-            anh em{' '}
+            {text.line2}{' '}
             <span style={{ position: 'relative', display: 'inline-block' }}>
-              DSHN1
+              {text.mark}
               <svg width={LEN} height={52} viewBox={`0 0 ${LEN} 52`} style={{ position: 'absolute', left: -14, bottom: -18, overflow: 'visible' }}>
                 <defs>
                   <clipPath id={revealId}>
@@ -124,8 +131,31 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
             </span>
           </div>
         </div>
+        {text.sub ? (
+          <div style={{ color: T.white, opacity: 0.92 * interpolate(f, [settle + 16, settle + 30], [0, 1], CLAMP), fontWeight: 800, fontSize: 56, marginTop: 40 }}>
+            {text.sub}
+          </div>
+        ) : null}
       </div>
 
+      {/* photo-phase chip (e.g. medal ceremony) */}
+      {text.chip ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 1330,
+            textAlign: 'center',
+            fontFamily: T.font,
+            opacity: Math.min(1, chipIn * 1.4) * chipOut,
+            transform: `scale(${0.85 + 0.15 * chipIn})`,
+          }}
+        >
+          {text.chipKicker ? <div style={{ color: T.gold, fontWeight: 800, fontSize: 50, letterSpacing: 7, marginBottom: 18 }}>{text.chipKicker}</div> : null}
+          <div style={{ color: T.white, fontWeight: 900, fontSize: 80, lineHeight: 1.12, padding: '0 70px' }}>{text.chip}</div>
+        </div>
+      ) : null}
     </AbsoluteFill>
   );
 };
