@@ -87,3 +87,18 @@ A clean-context reviewer flagged 13 issues on v1 (late impacts, riser, inaudible
 hook footage reuse, card overflow, blurry freeze lead-in, long static ending, full-frame flashes,
 small kickers, flash/swap off-by-one, shaky m6, hook word/shot mismatch). All were addressed in v2.
 Open note: the freeze singles out one colleague — confirm they are fine with it before wider posting.
+
+## 9. Reaction highlights (v3, user request)
+Per user feedback, the "expression of the year" idea is extended: 5 extra moments where the
+room laughs loudest (clip-audio RMS peaks inside the used windows), one per person, are marked
+with a face-tracked gold marker ellipse + tag while the footage keeps playing (no extra freeze,
+so the freeze stays the hero). Tracking: notes/track-faces.py (OpenCV Haar, 7-frame smoothing)
+→ src/faces.json.
+| Shot | Clip @ s | Frames | Tag |
+|---|---|---|---|
+| m1 | c2 @2.5–3.7 | 372–408 | Cười banh nóc |
+| m5 | c6 @21.4–22.6 | 1063–1099 | Cảm động muốn khóc |
+| m6 | c4 @0.6–1.5 | 1241–1268 | Gần lắm rồi! |
+| m7a | c7 @14.2–15.4 | 1468–1504 | Nín cười không nổi |
+| m7b | c7 @23.6–24.8 | 1595–1631 | Cười trộm |
+Captions on m1 and m3 were removed per user feedback.

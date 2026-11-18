@@ -6,6 +6,7 @@ import { Hook, HOOK_CARD_STARTS } from './Hook';
 import { Intro } from './Intro';
 import { Outro, OUTRO } from './Outro';
 import { Quad } from './Quad';
+import { FACES, Highlight } from './Highlight';
 import { CLAMP } from './theme';
 import { MONTAGE, SHOTS, TOTAL, beatF } from './timeline';
 
@@ -22,6 +23,12 @@ type Sfx = { from: number; src: string; volume: number; dur?: number; note: stri
 // (sources were recorded ~-20 dB RMS and vanished under the BGM).
 const IMPACT_LEAD = 65;
 const TITLE_LAND = SHOTS.outro.from + OUTRO.titleMove + 32;
+// Reaction highlights: absolute start = montage shot start + (face.t0 - clip in-point).
+const HIGHLIGHTS = FACES.map((face) => {
+  const k = face.key as keyof typeof MONTAGE;
+  return { face, from: SHOTS[k].from + Math.round((face.t0 - MONTAGE[k].clip.at) * 30) };
+});
+
 const SFX: Sfx[] = [
   { from: INTRO_TAKEOVER_END - 30, src: 'air-woosh-quick', volume: 0.4, note: 'intro: "19.11" starts swelling' },
   { from: INTRO_TAKEOVER_END - IMPACT_LEAD, src: 'impact-cine-big', volume: 0.42, dur: 125, note: 'intro: takeover lands (slam 1/2)' },
@@ -34,6 +41,7 @@ const SFX: Sfx[] = [
   { from: SHOTS.outro.from + OUTRO.titleMove - 4, src: 'air-woosh-quick', volume: 0.38, note: 'outro: photo lifts, title rises' },
   { from: TITLE_LAND - IMPACT_LEAD, src: 'impact-cine-big', volume: 0.55, dur: 150, note: 'outro: title lands (slam 2/2, loudest)' },
   { from: TITLE_LAND + 10, src: 'shimmer-sparkle-sweep', volume: 0.3, dur: 80, note: 'outro: marker underline sparkle tail' },
+  ...HIGHLIGHTS.map((h) => ({ from: h.from + 2, src: 'paper-slide-g', volume: 0.4, dur: 30, note: `highlight ${h.face.key}: marker circle` })),
 ];
 
 const MontageShot: React.FC<{ k: keyof typeof MONTAGE }> = ({ k }) => {
@@ -79,6 +87,11 @@ export const Main: React.FC<MainProps> = ({ bgm }) => {
       <Sequence from={SHOTS.m7a.from} durationInFrames={SHOTS.m7b.to - SHOTS.m7a.from}>
         <Caption kicker={MONTAGE.m7a.kicker} line={MONTAGE.m7a.line} dur={SHOTS.m7b.to - SHOTS.m7a.from} />
       </Sequence>
+      {HIGHLIGHTS.map((h) => (
+        <Sequence key={h.face.key} from={h.from} durationInFrames={h.face.track.length} name={`highlight ${h.face.key}`}>
+          <Highlight face={h.face} />
+        </Sequence>
+      ))}
       <Sequence from={SHOTS.outro.from} durationInFrames={TOTAL - SHOTS.outro.from}>
         <Outro dur={TOTAL - SHOTS.outro.from} />
       </Sequence>
