@@ -63,7 +63,7 @@ export const Story: React.FC<StoryProps> = ({ bgm }) => {
     const burstAt = p.key === 'p6' ? P6_SLOW.from - ACT.p6.from + 20 : undefined;
     return (
       <Sequence key={p.key} from={ACT[p.key].from} durationInFrames={len(ACT[p.key])}>
-        <PairAct pair={p} prevNgai={from} tail={tail} burstAt={burstAt} />
+        <PairAct pair={p} prevNgai={from} tail={tail} burstAt={burstAt} cleanFrom={p.key === 'p2' ? P2_FIXED + FREEZE.flowEnd - 8 : undefined} />
       </Sequence>
     );
   });

@@ -99,7 +99,17 @@ const TopScrim: React.FC = () => (
 );
 
 // ── One pair act: sequential sub-shots + HUD + commentary caption.
-export const PairAct: React.FC<{ pair: Pair; prevNgai: number; tail?: React.ReactNode; burstAt?: number }> = ({ pair, prevNgai, tail, burstAt }) => {
+// cleanFrom: local frame from which the HUD + commentary fade out (8f) and stay hidden — used
+// for the freeze so the circled face + one label are the only graphics on screen.
+export const PairAct: React.FC<{ pair: Pair; prevNgai: number; tail?: React.ReactNode; burstAt?: number; cleanFrom?: number }> = ({
+  pair,
+  prevNgai,
+  tail,
+  burstAt,
+  cleanFrom,
+}) => {
+  const lf = useCurrentFrame();
+  const hud = cleanFrom === undefined ? 1 : interpolate(lf, [cleanFrom, cleanFrom + 8], [1, 0], CLAMP);
   const act = ACT[pair.key];
   const dur = act.to - act.from;
   const subs = resolveSubs(pair);
@@ -117,10 +127,12 @@ export const PairAct: React.FC<{ pair: Pair; prevNgai: number; tail?: React.Reac
           {tail}
         </Sequence>
       ) : null}
-      <TopScrim />
-      <PairBadge n={pair.n} tactic={pair.tactic} />
-      <Meter from={prevNgai} to={pair.ngai} burst={burstAt} />
-      <Caption kicker="BÌNH LUẬN VIÊN" line={pair.comment} dur={dur} />
+      <AbsoluteFill style={{ opacity: hud }}>
+        <TopScrim />
+        <PairBadge n={pair.n} tactic={pair.tactic} />
+        <Meter from={prevNgai} to={pair.ngai} burst={burstAt} />
+        <Caption kicker="BÌNH LUẬN VIÊN" line={pair.comment} dur={cleanFrom ?? dur} />
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -205,9 +217,9 @@ export const Problem: React.FC<{ dur: number }> = ({ dur }) => {
   return (
     <AbsoluteFill style={{ background: T.navy, alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ fontFamily: T.font, textAlign: 'center', color: T.white, fontWeight: 900 }}>
-        <div style={{ fontSize: 80, opacity: a, transform: `translateY(${(1 - a) * 30}px)` }}>…nhưng càng cắn,</div>
-        <div style={{ fontSize: 80, opacity: a, transform: `translateY(${(1 - a) * 30}px)` }}>mặt càng</div>
-        <div style={{ fontSize: 230, lineHeight: 1, color: T.gold, transform: `scale(${0.6 + 0.4 * b})`, opacity: Math.min(1, b * 1.4) }}>GẦN</div>
+        <div style={{ fontSize: 80, opacity: a, transform: `translateY(${(1 - a) * 30}px)` }}>…càng cắn,</div>
+        <div style={{ fontSize: 80, opacity: a, transform: `translateY(${(1 - a) * 30}px)` }}>môi càng</div>
+        <div style={{ fontSize: 230, lineHeight: 1, marginTop: 48, color: T.gold, transform: `scale(${0.6 + 0.4 * b})`, opacity: Math.min(1, b * 1.4) }}>GẦN</div>
       </div>
       <Meter from={0} to={99} left={56} top={1500} />
     </AbsoluteFill>
