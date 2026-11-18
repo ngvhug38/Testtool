@@ -246,12 +246,14 @@ export const Result: React.FC<{ dur: number }> = ({ dur }) => (
 // 2568×1926) — a clean shot of them only; slow pan along the row, also a teaser for the medals.
 export const Organisers: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
-  const x = interpolate(f, [0, dur], [34, 66], { ...CLAMP, easing: Easing.inOut(Easing.sin) });
+  // front-row women span ~22–88 % of the photo width; at 1.6× the frame shows x ± 13 %,
+  // so the pan runs 35 → 76 % to include the last woman on the right.
+  const x = interpolate(f, [0, dur], [35, 76], { ...CLAMP, easing: Easing.inOut(Easing.sin) });
   return (
     <AbsoluteFill style={{ background: T.navy, overflow: 'hidden' }}>
       <Img
         src={staticFile('photos/group-fun.jpg')}
-        style={{ position: 'absolute', height: '100%', width: 'auto', left: '50%', top: 0, transform: `translateX(-${x}%) translateY(-22%) scale(1.75)`, transformOrigin: `${x}% 72%` }}
+        style={{ position: 'absolute', height: '100%', width: 'auto', left: '50%', top: 0, transform: `translateX(-${x}%) translateY(-16.5%) scale(1.6)`, transformOrigin: `${x}% 72%` }}
       />
       <Caption kicker="BAN TỔ CHỨC" line="Chị em DSHN1" dur={dur} />
     </AbsoluteFill>
