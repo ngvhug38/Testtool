@@ -32,9 +32,9 @@ export const TOTAL = SHOTS.outro.to + 15;
 // Montage shots: source in-points come from Keep Highlights segments
 // (notes/keep-highlights.json), trimmed to the beat-locked length.
 export const MONTAGE = {
-  m1: { clip: { src: 'clips/c2.mp4', at: 0 }, kicker: 'TRÒ CHƠI', line: 'Bịt mắt, đoán xem ai?' },
+  m1: { clip: { src: 'clips/c2.mp4', at: 0 }, kicker: '', line: '' },
   m2: { clip: { src: 'clips/c5.mp4', at: 5.2 }, kicker: 'CĂNG NÃO', line: 'Đoán mãi chưa ra' },
-  m3: { clip: { src: 'clips/c3.mp4', at: 1.0 }, kicker: 'THỬ THÁCH', line: 'Trùm khăn đỏ, ai đây?' },
+  m3: { clip: { src: 'clips/c3.mp4', at: 1.0 }, kicker: '', line: '' },
   m5: { clip: { src: 'clips/c6.mp4', at: 17.5 }, kicker: 'ANH EM', line: 'Tình đồng đội DSHN1' },
   m6: { clip: { src: 'clips/c4.mp4', at: 0.6 }, kicker: 'CÓ THƯỞNG', line: 'Chơi hết mình, nhận quà liền' },
   m7a: { clip: { src: 'clips/c7.mp4', at: 12.52 }, kicker: 'CẢ PHÒNG', line: 'Cười nghiêng ngả' },

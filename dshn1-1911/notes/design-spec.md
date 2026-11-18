@@ -53,9 +53,9 @@ quad gets two staggered punch-in rounds because it runs ~3.9 s (> 2.1 s density 
 |---|---|---|---|---|---|
 | 1 | 0–12 | 0–179 | intro | "19.11" mask over c7 (from 2 s) → takeover at f149 | NGÀY QUỐC TẾ ĐÀN ÔNG · 19.11 · DSHN1 |
 | 2 | 12–20 | 179–297 | hook | c6@8.7 / BỊT MẮT / c7@50.5 / ĐOÁN NGƯỜI / c1@0.2 / CƯỜI XỈU (no reuse of montage windows) | word cards (124px) |
-| 3 | 20–28 | 297–415 | m1 | c2 0–3.9 s blindfold guessing | TRÒ CHƠI · Bịt mắt, đoán xem ai? |
+| 3 | 20–28 | 297–415 | m1 | c2 0–3.9 s blindfold guessing | (no caption — removed per user) |
 | 4 | 28–40 | 415–592 | m2 | c5 5.2–11.1 s | CĂNG NÃO · Đoán mãi chưa ra |
-| 5 | 40–56 | 592–828 | m3 | c3 1.0–8.9 s red veil | THỬ THÁCH · Trùm khăn đỏ, ai đây? |
+| 5 | 40–56 | 592–828 | m3 | c3 1.0–8.9 s red veil | (no caption — removed per user) |
 | 6 | 56–64 | 828–946 | freeze | c5 14.7 s flow (20f, after camera whip) → freeze @15.37 s (65f) → 1.4× | Biểu cảm của năm |
 | 7 | 64–76 | 946–1123 | m5 | c6 17.5–23.4 s (incl. hug) | ANH EM · Tình đồng đội DSHN1 |
 | 8 | 76–84 | 1123–1241 | quad | c2@20.6 · c6@24.0 · c7@29.7 · c1@3.4 | DSHN1 · 19.11 |
