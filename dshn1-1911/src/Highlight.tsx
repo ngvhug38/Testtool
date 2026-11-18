@@ -31,7 +31,10 @@ export const Highlight: React.FC<{ face: FaceTrack }> = ({ face }) => {
   // face); above only when the face sits so low the tag would reach the caption band.
   const below = y < 1100;
   const tagY = below ? y + ry + 36 : y - ry - 120;
-  const tagX = Math.max(330, Math.min(750, x));
+  // Keep the whole tag ≥50px inside the frame: half-width estimated from the label
+  // length at 60px/900 (≈32px per glyph incl. padding).
+  const half = face.label.length * 16 + 40;
+  const tagX = Math.max(50 + half, Math.min(1030 - half, x));
 
   return (
     <AbsoluteFill style={{ opacity: out, pointerEvents: 'none' }}>
