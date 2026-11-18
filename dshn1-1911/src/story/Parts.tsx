@@ -236,7 +236,7 @@ export const Problem: React.FC<{ dur: number }> = ({ dur }) => {
 export const Result: React.FC<{ dur: number }> = ({ dur }) => (
   <AbsoluteFill>
     <Footage src="clips/c7.mp4" at={13.4} dur={dur} push={[1.3, 1.36]} origin="50% 18%" />
-    <Caption kicker="CHUNG CUỘC" line="6 cặp, 6 người hùng, ai cũng dũng cảm" dur={dur} />
+    <Caption kicker="CHUNG CUỘC" line="6 cặp, 12 người hùng, ai cũng dũng cảm" dur={dur} />
   </AbsoluteFill>
 );
 
