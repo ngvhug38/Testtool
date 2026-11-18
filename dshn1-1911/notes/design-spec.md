@@ -109,3 +109,17 @@ round 1 (c2@20.6 Haha! · c7@29.7 Ối giời ơi · c1@3.4 Hú hồn · c6@5.8 
 punch-in pops a gold reaction tag + gold border flash; on beat 80 cells swap one by one (4f apart,
 in-cell white flash) to round 2 (c6@26.5 Cười xỉu · c7@36.5 Ngước lên nào · c7@44 Gục luôn ·
 c7@47 Đỉnh nóc). Punches stay 6f apart and change cell order between rounds.
+
+## 11. Batch 2: four more clips (c8–c11), v5
+Frame-by-frame review (1 fps sheets + per-second Laplacian sharpness, frame-diff motion and
+loudness, notes in session): blocked/blurred stretches excluded — c8 18–27 s & 79 s, c9 30–45 s,
+c10 42–66 s, c11 57–69 s. Keep Highlights segments were sparse (first 30 s only), so selection
+combined Keep + local QC + laughter loudness. Camera tilt checked against a level grid: all four
+windows level (wall/ceiling line, door and whiteboard verticals) → no rotation applied.
+| Shot | Beats | Clip @ s | Content | Treatment |
+|---|---|---|---|---|
+| n1 | 20–28 | c10 @0.5 | wide establishing shot, whole room | slow push 1→1.12 toward the group; caption DSHN1 · Cả team cùng quẩy |
+| n2 | 48–56 | c9 @48.0 | open-mouth laugh (avoids the kiss at 53–56 s — same gag as m6) | reframed 1.15→1.2 anchored left so both faces stay in frame |
+| n3 | 92–100 | c11 @5.6 | snack + big smile (avoids hand/body blocking at 10–15 s) | face-tracked tag "Cười tít mắt" |
+| n4 | 136–144 | c8 @80.0 | doubled-over laugh (starts after the plaid-shirt block at 79 s) | caption TỚI BẾN · Vui tới phút cuối + tag "Cười gập người" |
+Total length now 79.3 s (2378 frames); all other shots shifted by whole bars, cuts stay on the grid.

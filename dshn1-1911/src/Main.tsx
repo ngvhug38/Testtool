@@ -52,7 +52,7 @@ const MontageShot: React.FC<{ k: keyof typeof MONTAGE }> = ({ k }) => {
   const d = len(s);
   return (
     <Sequence from={s.from} durationInFrames={d}>
-      <Footage src={m.clip.src} at={m.clip.at} dur={d} push={steady ? [1, 1] : [1, 1.04]} />
+      <Footage src={m.clip.src} at={m.clip.at} dur={d} push={m.push ?? (steady ? [1, 1] : [1, 1.04])} origin={m.origin} />
       <Caption kicker={m.kicker} line={m.line} dur={k === 'm7a' ? d + len(SHOTS.m7b) : d} />
     </Sequence>
   );
@@ -67,13 +67,16 @@ export const Main: React.FC<MainProps> = ({ bgm }) => {
       <Sequence from={SHOTS.hook.from} durationInFrames={len(SHOTS.hook)}>
         <Hook />
       </Sequence>
+      <MontageShot k="n1" />
       <MontageShot k="m1" />
       <MontageShot k="m2" />
+      <MontageShot k="n2" />
       <MontageShot k="m3" />
       <Sequence from={SHOTS.freeze.from} durationInFrames={len(SHOTS.freeze)}>
         <Freeze dur={len(SHOTS.freeze)} />
       </Sequence>
       <MontageShot k="m5" />
+      <MontageShot k="n3" />
       <Sequence from={SHOTS.quad.from} durationInFrames={len(SHOTS.quad)}>
         <Quad dur={len(SHOTS.quad)} />
       </Sequence>
@@ -88,6 +91,7 @@ export const Main: React.FC<MainProps> = ({ bgm }) => {
       <Sequence from={SHOTS.m7a.from} durationInFrames={SHOTS.m7b.to - SHOTS.m7a.from}>
         <Caption kicker={MONTAGE.m7a.kicker} line={MONTAGE.m7a.line} dur={SHOTS.m7b.to - SHOTS.m7a.from} />
       </Sequence>
+      <MontageShot k="n4" />
       {HIGHLIGHTS.map((h) => (
         <Sequence key={h.face.key} from={h.from} durationInFrames={h.face.track.length} name={`highlight ${h.face.key}`}>
           <Highlight face={h.face} />

@@ -12,7 +12,7 @@ import { CLAMP, T } from './theme';
 export type FaceTrack = { key: string; clip: string; t0: number; t1: number; label: string; track: number[][] };
 export const FACES = faces as FaceTrack[];
 
-const clampR = (r: number) => Math.max(80, Math.min(150, r));
+const clampR = (r: number) => Math.max(80, Math.min(130, r));
 
 export const Highlight: React.FC<{ face: FaceTrack }> = ({ face }) => {
   const f = useCurrentFrame();

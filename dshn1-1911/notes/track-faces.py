@@ -6,6 +6,8 @@ T=[ # key, clip, t0, t1, seed x,y, label
  ('m6','c4',0.6,1.5,220,840,'Gần lắm rồi!'),
  ('m7a','c7',14.2,15.4,580,440,'Nín cười không nổi'),
  ('m7b','c7',23.6,24.8,720,840,'Cười trộm'),
+ ('n3','c11',7.6,8.8,253,960,'Cười tít mắt'),
+ ('n4','c8',81.2,82.4,347,933,'Cười gập người'),
 ]
 cd=cv2.data.haarcascades
 front=cv2.CascadeClassifier(cd+'haarcascade_frontalface_default.xml')
