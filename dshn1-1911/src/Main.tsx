@@ -5,7 +5,7 @@ import { Freeze, FREEZE } from './Freeze';
 import { Hook, HOOK_CARD_STARTS } from './Hook';
 import { Intro } from './Intro';
 import { Outro, OUTRO } from './Outro';
-import { Quad } from './Quad';
+import { Quad, QUAD_SWAP } from './Quad';
 import { FACES, Highlight } from './Highlight';
 import { CLAMP } from './theme';
 import { MONTAGE, SHOTS, TOTAL, beatF } from './timeline';
@@ -35,7 +35,8 @@ const SFX: Sfx[] = [
   ...HOOK_CARD_STARTS.map((f, i) => ({ from: f, src: 'swoosh-quick', volume: [0.32, 0.27, 0.22][i], note: `hook: title card ${i + 1} cut` })),
   { from: SHOTS.freeze.from + FREEZE.flowEnd, src: 'camera-shutter-hard', volume: 0.5, note: 'freeze: frame stops' },
   { from: SHOTS.freeze.from + FREEZE.flowEnd + 7, src: 'paper-slide-g', volume: 0.6, note: 'freeze: marker circle drawn' },
-  { from: SHOTS.quad.from, src: 'air-woosh-quick', volume: 0.32, note: 'quad: cut into 2×2' },
+  { from: SHOTS.quad.from, src: 'air-woosh-quick', volume: 0.32, note: 'quad: cells fly in' },
+  { from: SHOTS.quad.from + QUAD_SWAP, src: 'swoosh-quick', volume: 0.28, note: 'quad: cells swap to round 2' },
   { from: SHOTS.outro.from, src: 'click-camera-g', volume: 0.7, note: 'outro: photo 1 shutter + flash' },
   { from: SHOTS.outro.from + OUTRO.swap, src: 'click-camera-g', volume: 0.7, note: 'outro: photo 2 shutter + flash' },
   { from: SHOTS.outro.from + OUTRO.titleMove - 4, src: 'air-woosh-quick', volume: 0.38, note: 'outro: photo lifts, title rises' },

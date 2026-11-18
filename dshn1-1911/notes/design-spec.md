@@ -102,3 +102,10 @@ so the freeze stays the hero). Tracking: notes/track-faces.py (OpenCV Haar, 7-fr
 | m7a | c7 @14.2–15.4 | 1468–1504 | Nín cười không nổi |
 | m7b | c7 @23.6–24.8 | 1595–1631 | Cười trộm |
 Captions on m1 and m3 were removed per user feedback.
+
+## 10. Quad split v2 (user feedback: "not enough scenes / accents")
+8 moments instead of 4, none reused elsewhere. Cells fly in from their corners (3f stagger);
+round 1 (c2@20.6 Haha! · c7@29.7 Ối giời ơi · c1@3.4 Hú hồn · c6@5.8 Há miệng nào) — each
+punch-in pops a gold reaction tag + gold border flash; on beat 80 cells swap one by one (4f apart,
+in-cell white flash) to round 2 (c6@26.5 Cười xỉu · c7@36.5 Ngước lên nào · c7@44 Gục luôn ·
+c7@47 Đỉnh nóc). Punches stay 6f apart and change cell order between rounds.
