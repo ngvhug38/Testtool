@@ -157,3 +157,4 @@ Recap shots (cold open teaser, crowd quad) intentionally reuse moments from the 
 Re-review round 2: GẦN meter row recentred (130/130 px), freeze ellipse 52 px from the edge,
 organisers shot replaced by a slow pan along the women in the front row of the fun group photo
 (no player in frame), result shot = c7 @14.5 cropped onto the standing, laughing crowd.
+Round 3: result shot = c7 14.5–15.35 s only (the clean standing-crowd stretch), 0.3× motion-interpolated pre-render clips/c7crowd.mp4, 1.85× crop onto the standing people.

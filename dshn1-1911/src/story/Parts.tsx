@@ -235,7 +235,9 @@ export const Problem: React.FC<{ dur: number }> = ({ dur }) => {
 // ── Result: no ranking is claimed (no measured data) — everyone gets the bravery medal.
 export const Result: React.FC<{ dur: number }> = ({ dur }) => (
   <AbsoluteFill>
-    <Footage src="clips/c7.mp4" at={14.5} dur={dur} push={[1.7, 1.75]} origin="62% 6%" />
+    {/* c7 14.5–15.35 s only (the clean stretch: standing crowd), slowed 0.3× with motion interpolation
+        → clips/c7crowd.mp4 (ffmpeg setpts=PTS/0.3,minterpolate=fps=30:mi_mode=mci) */}
+    <Footage src="clips/c7crowd.mp4" at={0} dur={dur} push={[1.85, 1.9]} origin="70% 0%" muted />
     <Caption kicker="CHUNG CUỘC" line="6 cặp, 12 người hùng, ai cũng dũng cảm" dur={dur} />
   </AbsoluteFill>
 );
