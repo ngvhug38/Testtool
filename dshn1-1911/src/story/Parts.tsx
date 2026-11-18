@@ -38,7 +38,7 @@ export const ColdOpen: React.FC<{ dur: number }> = ({ dur }) => {
 
 // ── HUD: pair badge + tactic title (top) and the "MỨC ĐỘ NGẠI" meter (right).
 // Meter eases from the previous pair's value to this pair's in 20f (out-cubic).
-export const Meter: React.FC<{ from: number; to: number; burst?: number; left?: number; top?: number }> = ({ from, to, burst, left = 56, top = 372 }) => {
+export const Meter: React.FC<{ from: number; to: number; burst?: number; left?: number; top?: number; inline?: boolean }> = ({ from, to, burst, left = 56, top = 372, inline = false }) => {
   const f = useCurrentFrame();
   const v = interpolate(f, [6, 26], [from, to], { ...CLAMP, easing: Easing.out(Easing.cubic) });
   const W_ = 430;
@@ -46,7 +46,7 @@ export const Meter: React.FC<{ from: number; to: number; burst?: number; left?: 
   const broken = burst !== undefined && f >= burst;
   const pop = burst !== undefined ? interpolate(f, [burst, burst + 10], [0, 1], { ...CLAMP, easing: Easing.out(Easing.back(2)) }) : 0;
   return (
-    <div style={{ position: 'absolute', left, top, fontFamily: T.font, display: 'flex', alignItems: 'center', gap: 18 }}>
+    <div style={{ ...(inline ? { position: 'relative' as const } : { position: 'absolute' as const, left, top }), fontFamily: T.font, display: 'flex', alignItems: 'center', gap: 18 }}>
       <div style={{ color: T.white, fontWeight: 800, fontSize: 34, letterSpacing: 2, textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}>MỨC ĐỘ NGẠI</div>
       <div style={{ position: 'relative', width: W_, height: 34, borderRadius: 17, background: 'rgba(8,20,40,0.72)', border: '4px solid rgba(255,255,255,0.85)', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${v}%`, background: col, borderRadius: 13 }} />
@@ -152,11 +152,11 @@ export const Rules: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
   const pop = (a: number) => interpolate(f, [a, a + 12], [0, 1], { ...CLAMP, easing: Easing.out(Easing.back(1.7)) });
   const bite = interpolate(f, [52, 118], [0, 1], { ...CLAMP, easing: Easing.inOut(Easing.cubic) });
-  const gap = interpolate(bite, [0, 1], [560, 130]); // distance between the two face centres
+  const gap = interpolate(bite, [0, 1], [560, 232]); // face centres; ends with faces just touching (2R + 22), no overlap
   const stick = interpolate(bite, [0, 1], [340, 46]);
   const blush = interpolate(bite, [0.55, 1], [0, 0.8], CLAMP);
   const cx = 540;
-  const cy = 700;
+  const cy = 810;
   const R = 105;
   const face = (x: number, flip: boolean) => (
     <g transform={`translate(${x} ${cy}) scale(${flip ? -1 : 1} 1)`}>
@@ -176,7 +176,7 @@ export const Rules: React.FC<{ dur: number }> = ({ dur }) => {
   const out = interpolate(f, [dur - 8, dur], [1, 0], CLAMP);
   return (
     <AbsoluteFill style={{ background: T.navy, opacity: out }}>
-      <div style={{ position: 'absolute', top: 300, width: '100%', textAlign: 'center', fontFamily: T.font, color: T.gold, fontWeight: 900, fontSize: 64, letterSpacing: 12, opacity: pop(0) }}>
+      <div style={{ position: 'absolute', top: 410, left: 0, right: 0, textAlign: 'center', fontFamily: T.font, color: T.gold, fontWeight: 900, fontSize: 64, letterSpacing: 12, paddingLeft: 12, opacity: pop(0) }}>
         LUẬT CHƠI
       </div>
       <svg width={1080} height={1920} style={{ position: 'absolute', inset: 0 }}>
@@ -186,13 +186,14 @@ export const Rules: React.FC<{ dur: number }> = ({ dur }) => {
           {face(cx + gap / 2, true)}
         </g>
       </svg>
-      <div style={{ position: 'absolute', top: 960, left: 90, right: 90, fontFamily: T.font }}>
+      <div style={{ position: 'absolute', top: 1090, left: 0, right: 0, display: 'flex', justifyContent: 'center', fontFamily: T.font }}>
+        <div>
         {lines.map((l) => {
           const p = pop(l.a);
           return (
             <div key={l.n} style={{ display: 'flex', alignItems: 'center', gap: 28, marginBottom: 44, opacity: Math.min(1, p * 1.4), transform: `translateX(${(1 - p) * 60}px)` }}>
               <div style={{ width: 92, height: 92, borderRadius: 46, background: T.gold, color: T.navy, fontWeight: 900, fontSize: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{l.n}</div>
-              <div style={{ color: T.white, fontWeight: 900, fontSize: 70, lineHeight: 1.1 }}>
+              <div style={{ color: T.white, fontWeight: 900, fontSize: 64, lineHeight: 1.1, whiteSpace: 'nowrap' }}>
                 {l.n === '3' ? (
                   <>
                     Còn ngắn nhất = <span style={{ color: T.gold }}>THẮNG</span>
@@ -204,6 +205,7 @@ export const Rules: React.FC<{ dur: number }> = ({ dur }) => {
             </div>
           );
         })}
+        </div>
       </div>
     </AbsoluteFill>
   );
@@ -216,12 +218,14 @@ export const Problem: React.FC<{ dur: number }> = ({ dur }) => {
   const b = interpolate(f, [18, 28], [0, 1], { ...CLAMP, easing: Easing.out(Easing.back(2)) });
   return (
     <AbsoluteFill style={{ background: T.navy, alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ fontFamily: T.font, textAlign: 'center', color: T.white, fontWeight: 900 }}>
+      <div style={{ fontFamily: T.font, textAlign: 'center', color: T.white, fontWeight: 900, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ fontSize: 80, opacity: a, transform: `translateY(${(1 - a) * 30}px)` }}>…càng cắn,</div>
         <div style={{ fontSize: 80, opacity: a, transform: `translateY(${(1 - a) * 30}px)` }}>môi càng</div>
         <div style={{ fontSize: 230, lineHeight: 1, marginTop: 48, color: T.gold, transform: `scale(${0.6 + 0.4 * b})`, opacity: Math.min(1, b * 1.4) }}>GẦN</div>
+        <div style={{ marginTop: 110 }}>
+          <Meter from={0} to={99} inline />
+        </div>
       </div>
-      <Meter from={0} to={99} left={56} top={1500} />
     </AbsoluteFill>
   );
 };
