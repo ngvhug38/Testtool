@@ -10,7 +10,7 @@ Mode: **autonomous free creation** (video-shotcraft pipeline), user chose
   group photos (2568×1926, formal pose / fun pose, everyone wearing medals, red pennant).
 - Content: office party games — blindfolded guessing who by touching faces, red-veil
   guessing, lots of laughter, a prize being handed out, hugs, group photos.
-- Format: **1080×1920 vertical, 30 fps, ~66.6 s** (source is vertical → native for phones).
+- Format: **1080×1920 vertical, 30 fps, 63.6 s** (source is vertical → native for phones).
 - Language: Vietnamese on-screen text.
 - Audio: no user BGM → library `house-vibez.mp3` (upbeat house, fits a party), original
   clip laughter kept underneath. Two deliverables: with BGM / without BGM (SFX + clip audio kept).
@@ -52,16 +52,16 @@ quad gets two staggered punch-in rounds because it runs ~3.9 s (> 2.1 s density 
 | # | Beats | Frames | Shot | Content | Caption / text |
 |---|---|---|---|---|---|
 | 1 | 0–12 | 0–179 | intro | "19.11" mask over c7 (from 2 s) → takeover at f149 | NGÀY QUỐC TẾ ĐÀN ÔNG · 19.11 · DSHN1 |
-| 2 | 12–20 | 179–297 | hook | c3@5.5 / BỊT MẮT / c7@50.5 / ĐOÁN NGƯỜI / c4@4.0 / CƯỜI XỈU | word cards |
+| 2 | 12–20 | 179–297 | hook | c6@8.7 / BỊT MẮT / c7@50.5 / ĐOÁN NGƯỜI / c1@0.2 / CƯỜI XỈU (no reuse of montage windows) | word cards (124px) |
 | 3 | 20–28 | 297–415 | m1 | c2 0–3.9 s blindfold guessing | TRÒ CHƠI · Bịt mắt, đoán xem ai? |
 | 4 | 28–40 | 415–592 | m2 | c5 5.2–11.1 s | CĂNG NÃO · Đoán mãi chưa ra |
 | 5 | 40–56 | 592–828 | m3 | c3 1.0–8.9 s red veil | THỬ THÁCH · Trùm khăn đỏ, ai đây? |
-| 6 | 56–64 | 828–946 | freeze | c5 13.9 s flow → freeze @14.9 s (55f) → 1.4× | Biểu cảm của năm |
+| 6 | 56–64 | 828–946 | freeze | c5 14.7 s flow (20f, after camera whip) → freeze @15.37 s (65f) → 1.4× | Biểu cảm của năm |
 | 7 | 64–76 | 946–1123 | m5 | c6 17.5–23.4 s (incl. hug) | ANH EM · Tình đồng đội DSHN1 |
 | 8 | 76–84 | 1123–1241 | quad | c2@20.6 · c6@24.0 · c7@29.7 · c1@3.4 | DSHN1 · 19.11 |
 | 9 | 84–96 | 1241–1418 | m6 | c4 0.6–6.5 s prize handed over | CÓ THƯỞNG · Chơi hết mình, nhận quà liền |
 | 10 | 96–112 | 1418–1654 | m7a+b | c7 12.5–16.4 s, 21.6–25.5 s | CẢ PHÒNG · Cười nghiêng ngả |
-| 11 | 112–134 (+20f) | 1654–1999 | outro | photo formal → flash → photo fun (b116) → title (b120), marker underline | 19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG / Chúc mừng anh em DSHN1 |
+| 11 | 112–128 (+15f) | 1654–1905 | outro | photo formal → card-only flash → photo fun (b116) → title (b120), marker underline, ~2.7 s hold | 19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG / Chúc mừng anh em DSHN1 |
 
 Keep Highlights windows used (notes/keep-highlights.json): every montage in-point lies inside or
 starts at a Keep segment; small extensions were made only to reach beat-locked lengths.
@@ -71,9 +71,19 @@ starts at a Keep segment; small extensions were made only to reach beat-locked l
 - Clip audio 0.55 on montage shots (laughter), 0.4 on intro takeover, muted in hook/quad/unfreeze.
 - SFX table in `src/Main.tsx` (relative frames, annotated): woosh+impact (intro takeover, slam 1),
   swoosh ×3 stepped 0.32→0.22 (hook cards), shutter + marker (freeze), woosh (quad),
-  camera clicks ×2 (photos), riser → impact (slam 2, loudest) → shimmer (outro).
+  camera clicks ×2 (photos, +12 dB pre-gained), woosh → impact (slam 2, loudest) → shimmer (outro).
+- impact-cine-big hits ~65f into the file → started 65f early. Measured after render: intro hit f151
+  (visual f149), title hit f1809 (visual settle f1804).
+- Final mix normalised: -14.2 LUFS / -0.9 dBTP (with BGM), -14.8 LUFS / -0.5 dBTP (no BGM).
+- Full-frame hits: only the two impacts; photo flashes are limited to the photo card (R4).
 - Audio offset compensation (S5) not measured for this pipeline — known limitation.
 
 ## 7. Known deviations
 - Captions describe the games generically (rules were inferred from footage).
 - No styleframe (see §3). No workbench manifest (cloud session; localhost workbench unreachable).
+
+## 8. Independent review
+A clean-context reviewer flagged 13 issues on v1 (late impacts, riser, inaudible SFX, loudness,
+hook footage reuse, card overflow, blurry freeze lead-in, long static ending, full-frame flashes,
+small kickers, flash/swap off-by-one, shaky m6, hook word/shot mismatch). All were addressed in v2.
+Open note: the freeze singles out one colleague — confirm they are fine with it before wider posting.
