@@ -58,8 +58,8 @@ export const Caption: React.FC<{ kicker: string; line: string; dur: number }> = 
       <div
         style={{
           position: 'absolute',
-          left: 72,
-          right: 72,
+          left: 56,
+          right: 56,
           bottom: 250,
           opacity: e * out,
           transform: `translateY(${(1 - e) * 40}px)`,
@@ -79,6 +79,7 @@ export const Caption: React.FC<{ kicker: string; line: string; dur: number }> = 
             fontWeight: 800,
             fontSize: 84,
             lineHeight: 1.12,
+            textWrap: 'balance',
             letterSpacing: '-0.01em',
             textShadow: '0 4px 24px rgba(0,0,0,0.45)',
           }}

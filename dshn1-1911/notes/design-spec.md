@@ -145,3 +145,12 @@ D "KINGKONG" sweatshirt / dark turtleneck (c6, c7, c8 34–90, c9 84–95, c11 3
 black tattooed tee (c9 0–27, c10 69–80) · F plaid shirt / white tee (c10 0–40). The red veil is a shared
 prop (pair A also wears it in c2 10–16). New act order: A che mắt → B trùm khăn (+freeze, same pair) →
 F né → E kéo đầu → D cười ra nước mắt → C liều thật sự. Pairs E and F had no shot before.
+
+### 12b. Independent layout review fixes (v7)
+VỠ! sticker now replaces the % (no overlap); title label lineHeight 1.4 (accent gap 1 px → 13 px);
+outro underline below the glyphs; highlight tags / freeze ellipse kept ≥40 px from edges; captions
+share the HUD's 56 px left margin and use balanced wrapping; letter-spaced labels compensated with
+paddingLeft; slow motion pre-rendered with motion interpolation (clips/c9slow.mp4, generated from
+c9 53.6–54.55 s with `setpts=PTS/0.35,minterpolate=fps=30:mi_mode=mci`); organisers shot cropped
+onto the women; result shot changed to the standing crowd (c7 @13.4); meter starts at 0 %.
+Recap shots (cold open teaser, crowd quad) intentionally reuse moments from the pair acts.

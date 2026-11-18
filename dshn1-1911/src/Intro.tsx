@@ -106,6 +106,7 @@ export const Intro: React.FC<{ dur: number; takeoverEnd: number; top?: string; b
           fontWeight: 800,
           fontSize: 50,
           letterSpacing: 8,
+          paddingLeft: 8, // cancel the trailing letter-space so the label is truly centred
           color: T.gold,
           opacity: labels,
           transform: `translateY(${(1 - titleIn) * 24}px)`,
@@ -122,8 +123,9 @@ export const Intro: React.FC<{ dur: number; takeoverEnd: number; top?: string; b
           fontFamily: T.font,
           fontWeight: 800,
           fontSize: bottomSize,
-          lineHeight: 1.15,
+          lineHeight: 1.4, // room for Ắ/Ấ accents under the line above
           letterSpacing: bottomSize >= 72 ? 22 : 6,
+          paddingLeft: bottomSize >= 72 ? 22 : 6,
           color: T.white,
           opacity: labels,
           transform: `translateY(${(1 - titleIn) * -24}px)`,

@@ -34,7 +34,7 @@ export const ACT = {
 export const TOTAL = ACT.outro.to + 15;
 export const BGM_START = ACT.cold.to; // music enters with the title
 
-export type Sub = { src: string; at: number; dur: number; rate?: number; push?: [number, number]; origin?: string; volume?: number };
+export type Sub = { src: string; at: number; dur: number; rate?: number; slow?: boolean; push?: [number, number]; origin?: string; volume?: number };
 export type Pair = {
   key: 'p1' | 'p2' | 'p3' | 'p4' | 'p5' | 'p6';
   n: number;
@@ -96,7 +96,9 @@ export const PAIRS: Pair[] = [
     key: 'p6', n: 6, tactic: 'LIỀU THẬT SỰ', comment: 'Cả phòng nín thở…', ngai: 100,
     subs: [
       { src: 'clips/c9.mp4', at: 52.6, dur: f(1.0) },
-      { src: 'clips/c9.mp4', at: 53.6, dur: f(2.6), rate: 0.35, volume: 0 }, // slow motion at the closest moment
+      // slow motion at the closest moment: c9 53.6–54.55 s pre-rendered at 0.35× with motion interpolation
+      // (ffmpeg setpts=PTS/0.35,minterpolate=fps=30:mi_mode=mci) → clips/c9slow.mp4, played at 1×
+      { src: 'clips/c9slow.mp4', at: 0, dur: f(2.6), volume: 0, slow: true },
       { src: 'clips/c4.mp4', at: 0.6, dur: f(2.7) },
       { src: 'clips/c8.mp4', at: 0.0, dur: 0 },
     ],

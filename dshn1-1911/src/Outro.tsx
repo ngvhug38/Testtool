@@ -113,14 +113,14 @@ export const Outro: React.FC<{ dur: number; text?: OutroText; medalZoom?: boolea
           transform: `translateY(${(1 - eo) * 36}px)`,
         }}
       >
-        <div style={{ color: T.gold, fontWeight: 800, fontSize: 48, letterSpacing: 6, marginBottom: 26 }}>{text.kicker}</div>
+        <div style={{ color: T.gold, fontWeight: 800, fontSize: 48, letterSpacing: 6, paddingLeft: 6, marginBottom: 26 }}>{text.kicker}</div>
         <div style={{ color: T.white, fontWeight: 900, fontSize: 120, lineHeight: 1.1, letterSpacing: '-0.02em' }}>
           <div>{text.line1}</div>
           <div>
             {text.line2}{' '}
             <span style={{ position: 'relative', display: 'inline-block' }}>
               {text.mark}
-              <svg width={LEN} height={52} viewBox={`0 0 ${LEN} 52`} style={{ position: 'absolute', left: -14, bottom: -18, overflow: 'visible' }}>
+              <svg width={LEN} height={52} viewBox={`0 0 ${LEN} 52`} style={{ position: 'absolute', left: -14, bottom: -34, overflow: 'visible' }}>
                 <defs>
                   <clipPath id={revealId}>
                     <rect x={0} y={-20} width={drawE * (LEN + 6)} height={80} />
@@ -152,7 +152,7 @@ export const Outro: React.FC<{ dur: number; text?: OutroText; medalZoom?: boolea
             transform: `scale(${0.85 + 0.15 * chipIn})`,
           }}
         >
-          {text.chipKicker ? <div style={{ color: T.gold, fontWeight: 800, fontSize: 50, letterSpacing: 7, marginBottom: 18 }}>{text.chipKicker}</div> : null}
+          {text.chipKicker ? <div style={{ color: T.gold, fontWeight: 800, fontSize: 50, letterSpacing: 7, paddingLeft: 7, marginBottom: 18 }}>{text.chipKicker}</div> : null}
           <div style={{ color: T.white, fontWeight: 900, fontSize: 80, lineHeight: 1.12, padding: '0 70px' }}>{text.chip}</div>
         </div>
       ) : null}

@@ -51,27 +51,29 @@ export const Meter: React.FC<{ from: number; to: number; burst?: number; left?: 
       <div style={{ position: 'relative', width: W_, height: 34, borderRadius: 17, background: 'rgba(8,20,40,0.72)', border: '4px solid rgba(255,255,255,0.85)', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${v}%`, background: col, borderRadius: 13 }} />
       </div>
-      <div style={{ color: T.white, fontWeight: 900, fontSize: 40, minWidth: 100, textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}>{Math.round(v)}%</div>
-      {broken ? (
-        <div
-          style={{
-            position: 'absolute',
-            right: 40,
-            top: -30,
-            transform: `scale(${pop}) rotate(-10deg)`,
-            background: T.red,
-            color: T.white,
-            fontWeight: 900,
-            fontSize: 58,
-            padding: '6px 20px',
-            borderRadius: 14,
-            boxShadow: '0 10px 30px rgba(0,0,0,0.45)',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          VỠ!
-        </div>
-      ) : null}
+      {/* the "VỠ!" sticker REPLACES the percentage in the same slot — never sits on the bar or the number */}
+      <div style={{ minWidth: 140, display: 'flex', alignItems: 'center' }}>
+        {broken ? (
+          <div
+            style={{
+              transform: `scale(${pop}) rotate(-6deg)`,
+              background: T.red,
+              color: T.white,
+              fontWeight: 900,
+              fontSize: 46,
+              lineHeight: 1,
+              padding: '8px 18px',
+              borderRadius: 12,
+              boxShadow: '0 8px 24px rgba(0,0,0,0.45)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            VỠ!
+          </div>
+        ) : (
+          <div style={{ color: T.white, fontWeight: 900, fontSize: 40, textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}>{Math.round(v)}%</div>
+        )}
+      </div>
     </div>
   );
 };
@@ -119,7 +121,7 @@ export const PairAct: React.FC<{ pair: Pair; prevNgai: number; tail?: React.Reac
       {subs.map((s, i) => (
         <Sequence key={i} from={s.from - act.from} durationInFrames={s.dur}>
           <Footage src={s.src} at={s.at} dur={s.dur} playbackRate={s.rate ?? 1} volume={s.volume ?? 0.55} muted={s.volume === 0} push={s.push} origin={s.origin} />
-          {s.rate && s.rate < 1 ? <SlowBadge /> : null}
+          {s.slow ? <SlowBadge /> : null}
         </Sequence>
       ))}
       {tail ? (
@@ -233,14 +235,14 @@ export const Problem: React.FC<{ dur: number }> = ({ dur }) => {
 // ── Result: no ranking is claimed (no measured data) — everyone gets the bravery medal.
 export const Result: React.FC<{ dur: number }> = ({ dur }) => (
   <AbsoluteFill>
-    <Footage src="clips/c4.mp4" at={4.5} dur={dur} push={[1, 1]} />
-    <Caption kicker="CHUNG CUỘC" line="6 cặp · 6 người hùng · ai cũng dũng cảm" dur={dur} />
+    <Footage src="clips/c7.mp4" at={13.4} dur={dur} push={[1.3, 1.36]} origin="50% 18%" />
+    <Caption kicker="CHUNG CUỘC" line="6 cặp, 6 người hùng, ai cũng dũng cảm" dur={dur} />
   </AbsoluteFill>
 );
 
 export const Organisers: React.FC<{ dur: number }> = ({ dur }) => (
   <AbsoluteFill>
-    <Footage src="clips/c10.mp4" at={0.5} dur={dur} push={[1, 1.32]} origin="78% 42%" volume={0.4} />
+    <Footage src="clips/c10.mp4" at={0.5} dur={dur} push={[1.55, 1.65]} origin="92% 40%" volume={0.4} />
     <Caption kicker="BAN TỔ CHỨC" line="Chị em DSHN1" dur={dur} />
   </AbsoluteFill>
 );

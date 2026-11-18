@@ -21,7 +21,7 @@ const HIGHLIGHTS = FACES.filter((face) => face.track[0][1] >= 520).flatMap((face
 });
 
 const P6 = PAIRS[5];
-const P6_SLOW = resolveSubs(P6)[1];
+const P6_SLOW = resolveSubs(P6)[1]; // the slow-motion sub-shot
 const P2 = PAIRS[1];
 const P2_FIXED = resolveSubs(P2).reduce((a, s) => a + s.dur, 0);
 const P3_FREEZE_AT = ACT.p2.from + P2_FIXED; // freeze shot (pair B) starts here
@@ -55,7 +55,7 @@ const SFX: Sfx[] = [
 ];
 
 export const Story: React.FC<StoryProps> = ({ bgm }) => {
-  let prev = 30;
+  let prev = 0;
   const acts = PAIRS.map((p) => {
     const from = prev;
     prev = p.ngai;
