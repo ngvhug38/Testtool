@@ -46,8 +46,8 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
   const { swap, titleMove } = OUTRO;
 
   const cardIn = interpolate(f, [0, 16], [0, 1], { ...CLAMP, easing: Easing.out(Easing.cubic) });
-  const flash1 = interpolate(f, [0, 2, 8], [0.85, 0.85, 0], CLAMP);
-  const flash2 = interpolate(f, [swap, swap + 1, swap + 7], [0, 0.95, 0], CLAMP);
+  const flash1 = interpolate(f, [0, 2, 8], [0.5, 0.5, 0], CLAMP);
+  const flash2 = interpolate(f, [swap, swap + 1, swap + 7], [0.5, 0.5, 0], CLAMP);
   const photo = f < swap ? 'photos/group-formal.jpg' : 'photos/group-fun.jpg';
   const drift = interpolate(f, [0, dur], [1, 1.06], CLAMP); // slow push on the photo itself
 
@@ -84,9 +84,12 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
             overflow: 'hidden',
             boxShadow: '0 40px 110px rgba(0,0,0,0.55)',
             background: '#fff',
+            position: 'relative',
           }}
         >
           <Img src={staticFile(photo)} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${drift})` }} />
+          {/* camera flash, limited to the photo card (not a full-frame hit, R4) */}
+          <div style={{ position: 'absolute', inset: 0, background: '#fff', opacity: Math.max(flash1, flash2) }} />
         </div>
       </AbsoluteFill>
 
@@ -103,7 +106,7 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
           transform: `translateY(${(1 - eo) * 36}px)`,
         }}
       >
-        <div style={{ color: T.gold, fontWeight: 800, fontSize: 42, letterSpacing: 7, marginBottom: 26 }}>19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG</div>
+        <div style={{ color: T.gold, fontWeight: 800, fontSize: 48, letterSpacing: 6, marginBottom: 26 }}>19.11 · NGÀY QUỐC TẾ ĐÀN ÔNG</div>
         <div style={{ color: T.white, fontWeight: 900, fontSize: 120, lineHeight: 1.1, letterSpacing: '-0.02em' }}>
           <div>Chúc mừng</div>
           <div>
@@ -123,8 +126,6 @@ export const Outro: React.FC<{ dur: number }> = ({ dur }) => {
         </div>
       </div>
 
-      {/* camera flashes on each photo */}
-      <AbsoluteFill style={{ background: '#fff', opacity: Math.max(flash1, flash2) }} />
     </AbsoluteFill>
   );
 };

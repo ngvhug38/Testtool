@@ -17,27 +17,33 @@ const INTRO_TAKEOVER_END = beatF(10);
 // ---- SFX table: every entry is relative to a shot boundary or beat (S2/S3). ----
 // Volumes set against measured peaks (all sources peak between -7.7 and 0 dB).
 type Sfx = { from: number; src: string; volume: number; dur?: number; note: string };
+// impact-cine-big builds slowly: its hit sits ~65f into the file (RMS envelope), so it
+// is started 65f before the visual landing. *-g files are copies gained +10/+12 dB
+// (sources were recorded ~-20 dB RMS and vanished under the BGM).
+const IMPACT_LEAD = 65;
+const TITLE_LAND = SHOTS.outro.from + OUTRO.titleMove + 32;
 const SFX: Sfx[] = [
   { from: INTRO_TAKEOVER_END - 30, src: 'air-woosh-quick', volume: 0.4, note: 'intro: "19.11" starts swelling' },
-  { from: INTRO_TAKEOVER_END - 6, src: 'impact-cine-big', volume: 0.42, dur: 75, note: 'intro: takeover lands (slam 1/2)' },
+  { from: INTRO_TAKEOVER_END - IMPACT_LEAD, src: 'impact-cine-big', volume: 0.42, dur: 125, note: 'intro: takeover lands (slam 1/2)' },
   ...HOOK_CARD_STARTS.map((f, i) => ({ from: f, src: 'swoosh-quick', volume: [0.32, 0.27, 0.22][i], note: `hook: title card ${i + 1} cut` })),
   { from: SHOTS.freeze.from + FREEZE.flowEnd, src: 'camera-shutter-hard', volume: 0.5, note: 'freeze: frame stops' },
-  { from: SHOTS.freeze.from + FREEZE.flowEnd + 7, src: 'paper-slide', volume: 0.32, note: 'freeze: marker circle drawn' },
+  { from: SHOTS.freeze.from + FREEZE.flowEnd + 7, src: 'paper-slide-g', volume: 0.6, note: 'freeze: marker circle drawn' },
   { from: SHOTS.quad.from, src: 'air-woosh-quick', volume: 0.32, note: 'quad: cut into 2×2' },
-  { from: SHOTS.outro.from, src: 'click-camera', volume: 0.6, note: 'outro: photo 1 shutter + flash' },
-  { from: SHOTS.outro.from + OUTRO.swap, src: 'click-camera', volume: 0.6, note: 'outro: photo 2 shutter + flash' },
-  { from: SHOTS.outro.from + OUTRO.titleMove + 32 - 146, src: 'riser-cine', volume: 0.3, dur: 146, note: 'outro: riser into title' },
-  { from: SHOTS.outro.from + OUTRO.titleMove + 30, src: 'impact-cine-big', volume: 0.55, dur: 110, note: 'outro: title lands (slam 2/2, loudest)' },
-  { from: SHOTS.outro.from + OUTRO.titleMove + 42, src: 'shimmer-sparkle-sweep', volume: 0.3, dur: 80, note: 'outro: marker underline sparkle tail' },
+  { from: SHOTS.outro.from, src: 'click-camera-g', volume: 0.7, note: 'outro: photo 1 shutter + flash' },
+  { from: SHOTS.outro.from + OUTRO.swap, src: 'click-camera-g', volume: 0.7, note: 'outro: photo 2 shutter + flash' },
+  { from: SHOTS.outro.from + OUTRO.titleMove - 4, src: 'air-woosh-quick', volume: 0.38, note: 'outro: photo lifts, title rises' },
+  { from: TITLE_LAND - IMPACT_LEAD, src: 'impact-cine-big', volume: 0.55, dur: 150, note: 'outro: title lands (slam 2/2, loudest)' },
+  { from: TITLE_LAND + 10, src: 'shimmer-sparkle-sweep', volume: 0.3, dur: 80, note: 'outro: marker underline sparkle tail' },
 ];
 
 const MontageShot: React.FC<{ k: keyof typeof MONTAGE }> = ({ k }) => {
+  const steady = k === 'm6'; // handheld footage already moves a lot (Q3)
   const s = SHOTS[k];
   const m = MONTAGE[k];
   const d = len(s);
   return (
     <Sequence from={s.from} durationInFrames={d}>
-      <Footage src={m.clip.src} at={m.clip.at} dur={d} />
+      <Footage src={m.clip.src} at={m.clip.at} dur={d} push={steady ? [1, 1] : [1, 1.04]} />
       <Caption kicker={m.kicker} line={m.line} dur={k === 'm7a' ? d + len(SHOTS.m7b) : d} />
     </Sequence>
   );

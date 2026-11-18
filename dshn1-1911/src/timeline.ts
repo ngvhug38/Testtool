@@ -24,10 +24,10 @@ export const SHOTS = {
   m6: S(84, 96), // c4 prize
   m7a: S(96, 104), // c7 part 1
   m7b: S(104, 112), // c7 part 2
-  outro: S(112, 134), // group photos + marker-underline title
+  outro: S(112, 128), // group photos + marker-underline title
 } as const;
 
-export const TOTAL = SHOTS.outro.to + 20;
+export const TOTAL = SHOTS.outro.to + 15;
 
 // Montage shots: source in-points come from Keep Highlights segments
 // (notes/keep-highlights.json), trimmed to the beat-locked length.

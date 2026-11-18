@@ -70,7 +70,7 @@ export const Caption: React.FC<{ kicker: string; line: string; dur: number }> = 
         {kicker ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 18 }}>
             <div style={{ width: 56, height: 8, borderRadius: 4, background: T.gold }} />
-            <div style={{ color: T.gold, fontWeight: 800, fontSize: 44, letterSpacing: 8 }}>{kicker}</div>
+            <div style={{ color: T.gold, fontWeight: 800, fontSize: 50, letterSpacing: 7 }}>{kicker}</div>
           </div>
         ) : null}
         <div

@@ -4,16 +4,16 @@
 // freeze ≥45f; amber/gold marker ellipse drawn in 8f via strokeDashoffset with
 // feTurbulence (scale 7) hand-drawn wobble, arrow 6f after, annotations fade 8f.
 // Changed: the "card rail" is a video. Freeze = pre-extracted still of the exact
-// frame (public/stills/c5-freeze.jpg, c5 @ 14.9 s); unfreeze plays at 1.4×.
+// frame (public/stills/c5-freeze.jpg, c5 @ 15.367 s); unfreeze plays at 1.4×.
 import React, { useId } from 'react';
 import { AbsoluteFill, Easing, Img, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { Footage } from './components';
 import { CLAMP, T } from './theme';
 
-export const FREEZE = { flowEnd: 30, freezeEnd: 85 } as const;
+export const FREEZE = { flowEnd: 20, freezeEnd: 85 } as const;
 const SRC = 'clips/c5.mp4';
-const AT = 13.9; // flow in-point; 13.9 s + 30f = 14.9 s = still frame
-const FACE = { cx: 752, cy: 752, rx: 200, ry: 236 };
+const AT = 14.7; // in-point right after the camera whip; 14.7 s + 20f = 15.367 s = still frame
+const FACE = { cx: 900, cy: 730, rx: 165, ry: 205 };
 
 export const Freeze: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
@@ -63,7 +63,7 @@ export const Freeze: React.FC<{ dur: number }> = ({ dur }) => {
           filter={`url(#${roughId})`}
         />
         <path
-          d={`M 330 1250 Q 420 1080 ${cx - 150} ${cy + 230}`}
+          d={`M 380 1250 Q 520 1060 ${cx - 140} ${cy + 200}`}
           fill="none"
           stroke={T.gold}
           strokeWidth={12}

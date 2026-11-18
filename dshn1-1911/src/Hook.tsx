@@ -17,10 +17,10 @@ const TitleCard: React.FC<{ text: string; underline?: boolean }> = ({ text, unde
   return (
     <AbsoluteFill style={{ background: T.navy, alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ transform: `scale(${scale})`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30 }}>
-        <div style={{ fontFamily: T.font, fontWeight: 900, fontSize: 150, color: T.white, lineHeight: 1, letterSpacing: 2 }}>
+        <div style={{ fontFamily: T.font, fontWeight: 900, fontSize: 124, color: T.white, lineHeight: 1, letterSpacing: 0 }}>
           {text}
         </div>
-        {underline && <div style={{ width: 520, height: 16, background: T.gold, borderRadius: 8 }} />}
+        {underline && <div style={{ width: 460, height: 16, background: T.gold, borderRadius: 8 }} />}
       </div>
     </AbsoluteFill>
   );
@@ -34,11 +34,11 @@ type Seg =
   | { kind: 'card'; a: number; b: number; text: string; underline?: boolean };
 
 const SEGS: Seg[] = [
-  { kind: 'clip', a: 0, b: 2, src: 'clips/c3.mp4', at: 5.5, push: [1, 1.08] },
+  { kind: 'clip', a: 0, b: 2, src: 'clips/c6.mp4', at: 8.7, push: [1, 1.08] }, // hands over eyes
   { kind: 'card', a: 2, b: 3, text: 'BỊT MẮT' },
   { kind: 'clip', a: 3, b: 5, src: 'clips/c7.mp4', at: 50.5, push: [1.4, 1.4], origin: '50% 40%', tx: [40, -40] },
   { kind: 'card', a: 5, b: 6, text: 'ĐOÁN NGƯỜI' },
-  { kind: 'clip', a: 6, b: 7, src: 'clips/c4.mp4', at: 4.0, push: [1.8, 1.92], origin: '45% 35%' },
+  { kind: 'clip', a: 6, b: 7, src: 'clips/c1.mp4', at: 0.2, push: [1.15, 1.22], origin: '50% 20%' }, // crowd laughing
   { kind: 'card', a: 7, b: 8, text: 'CƯỜI XỈU', underline: true },
 ];
 
