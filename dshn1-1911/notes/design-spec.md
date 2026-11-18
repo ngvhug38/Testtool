@@ -154,3 +154,6 @@ paddingLeft; slow motion pre-rendered with motion interpolation (clips/c9slow.mp
 c9 53.6–54.55 s with `setpts=PTS/0.35,minterpolate=fps=30:mi_mode=mci`); organisers shot cropped
 onto the women; result shot changed to the standing crowd (c7 @13.4); meter starts at 0 %.
 Recap shots (cold open teaser, crowd quad) intentionally reuse moments from the pair acts.
+Re-review round 2: GẦN meter row recentred (130/130 px), freeze ellipse 52 px from the edge,
+organisers shot replaced by a slow pan along the women in the front row of the fun group photo
+(no player in frame), result shot = c7 @14.5 cropped onto the standing, laughing crowd.

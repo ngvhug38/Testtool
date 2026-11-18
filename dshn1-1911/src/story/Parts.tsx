@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Easing, Sequence, interpolate, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Easing, Img, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { Caption, Footage } from '../components';
 import { CLAMP, T } from '../theme';
 import { Pair, resolveSubs, ACT } from './timeline';
@@ -52,7 +52,7 @@ export const Meter: React.FC<{ from: number; to: number; burst?: number; left?: 
         <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${v}%`, background: col, borderRadius: 13 }} />
       </div>
       {/* the "VỠ!" sticker REPLACES the percentage in the same slot — never sits on the bar or the number */}
-      <div style={{ minWidth: 140, display: 'flex', alignItems: 'center' }}>
+      <div style={{ minWidth: inline ? 0 : 140, display: 'flex', alignItems: 'center' }}>
         {broken ? (
           <div
             style={{
@@ -235,14 +235,23 @@ export const Problem: React.FC<{ dur: number }> = ({ dur }) => {
 // ── Result: no ranking is claimed (no measured data) — everyone gets the bravery medal.
 export const Result: React.FC<{ dur: number }> = ({ dur }) => (
   <AbsoluteFill>
-    <Footage src="clips/c7.mp4" at={13.4} dur={dur} push={[1.3, 1.36]} origin="50% 18%" />
+    <Footage src="clips/c7.mp4" at={14.5} dur={dur} push={[1.7, 1.75]} origin="62% 6%" />
     <Caption kicker="CHUNG CUỘC" line="6 cặp, 12 người hùng, ai cũng dũng cảm" dur={dur} />
   </AbsoluteFill>
 );
 
-export const Organisers: React.FC<{ dur: number }> = ({ dur }) => (
-  <AbsoluteFill>
-    <Footage src="clips/c10.mp4" at={0.5} dur={dur} push={[1.55, 1.65]} origin="92% 40%" volume={0.4} />
-    <Caption kicker="BAN TỔ CHỨC" line="Chị em DSHN1" dur={dur} />
-  </AbsoluteFill>
-);
+// Organisers: the women sit together in the front row of the fun group photo (high-res
+// 2568×1926) — a clean shot of them only; slow pan along the row, also a teaser for the medals.
+export const Organisers: React.FC<{ dur: number }> = ({ dur }) => {
+  const f = useCurrentFrame();
+  const x = interpolate(f, [0, dur], [34, 66], { ...CLAMP, easing: Easing.inOut(Easing.sin) });
+  return (
+    <AbsoluteFill style={{ background: T.navy, overflow: 'hidden' }}>
+      <Img
+        src={staticFile('photos/group-fun.jpg')}
+        style={{ position: 'absolute', height: '100%', width: 'auto', left: '50%', top: 0, transform: `translateX(-${x}%) translateY(-22%) scale(1.75)`, transformOrigin: `${x}% 72%` }}
+      />
+      <Caption kicker="BAN TỔ CHỨC" line="Chị em DSHN1" dur={dur} />
+    </AbsoluteFill>
+  );
+};

@@ -13,7 +13,7 @@ import { CLAMP, T } from './theme';
 export const FREEZE = { flowEnd: 20, freezeEnd: 85 } as const;
 const SRC = 'clips/c5.mp4';
 const AT = 14.7; // in-point right after the camera whip; 14.7 s + 20f = 15.367 s = still frame
-const FACE = { cx: 900, cy: 730, rx: 140, ry: 200 }; // rx keeps the ellipse ≥40px inside the frame
+const FACE = { cx: 880, cy: 730, rx: 140, ry: 200 }; // rx keeps the ellipse ≥40px inside the frame
 
 export const Freeze: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
