@@ -126,3 +126,28 @@ Cả hai ngành dưới đây có cùng mức giá cho 3 gói:
 | **Hóa đơn điện tử – Chữ ký số** | Đăng ký Chữ ký số · Thiết lập ban đầu HĐĐT · Phát hành HĐĐT · Xử lý sai sót HĐĐT · Chứng từ điện tử & Phiếu xuất kho |
 
 (HKD = hộ kinh doanh; HĐĐT = hóa đơn điện tử. Trang có link "Xem thêm: Tổng Quan Các Nhóm Giải Pháp KiotViet".)
+
+## 6. Thương hiệu tiêu biểu (logo)
+
+Danh sách logo người dùng cung cấp (ảnh không ghi chú thích – nhiều khả năng là khách hàng/đối tác tiêu biểu; cần xác nhận trước khi dùng công khai):
+
+| # | Thương hiệu | Lĩnh vực |
+|---|---|---|
+| 1 | Masan Group | Tập đoàn hàng tiêu dùng |
+| 2 | VinWonders | Vui chơi giải trí |
+| 3 | Grab | Gọi xe, giao đồ ăn |
+| 4 | Vietnam Post | Bưu chính, vận chuyển |
+| 5 | 5S Fashion | Thời trang |
+| 6 | Vietnhat | (chưa rõ) |
+| 7 | Green Food | Thực phẩm |
+| 8 | Diva Group – "Nơi kiến tạo thương hiệu" | Phát triển thương hiệu |
+| 9 | miniBAO | (chưa rõ) |
+| 10 | KAFA Café | Cà phê |
+| 11 | thegioisua.com | Bán lẻ sữa |
+| 12 | Hanvico – "Ấm áp như lòng mẹ" | Chăn ga gối đệm |
+| 13 | Cashion – "Đẳng cấp trong tầm tay" | Thời trang/phụ kiện |
+| 14 | Himalaya – Scents for Serenity | Hương liệu, nến thơm |
+| 15 | Thanh Trà | Trà sữa, đồ uống |
+| 16 | Coconails – "Tinh tế từng chạm" | Làm móng, làm đẹp |
+| 17 | Pierre Cardin Paris | Thời trang |
+| 18 | Thế Giới Thời Gian – World of Time | Đồng hồ |
