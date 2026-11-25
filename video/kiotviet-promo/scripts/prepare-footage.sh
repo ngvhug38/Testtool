@@ -14,4 +14,4 @@ mi="minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:vsbmc=1"
 x=(-an -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p)
 ffmpeg -v error -y -ss 53.25 -t 1.35 -i "$V" -vf "scale=1920:1080,setpts=3.2*PTS,$mi" "${x[@]}" public/footage/qrlock-slow.mp4
 ffmpeg -v error -y -ss 43.0  -t 3.0  -i "$V" -vf "scale=1920:1080,setpts=2*PTS,$mi"   "${x[@]}" public/footage/tablet-slow.mp4
-ffmpeg -v error -y -ss 25.4  -t 3.5  -i "$V" -vf "scale=1920:1080,setpts=PTS/0.6,$mi" "${x[@]}" public/footage/qr-slow.mp4
+ffmpeg -v error -y -ss 25.4  -t 1.65 -i "$V" -vf "scale=1920:1080,setpts=3.55*PTS,$mi" "${x[@]}" public/footage/qr-slow.mp4
