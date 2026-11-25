@@ -102,3 +102,13 @@ Cả hai ngành dưới đây có cùng mức giá cho 3 gói:
 | 🇯🇵 Nhật Bản | (+81) 50 5050 8167 |
 | 🇱🇦 Lào | (+856) 20 9991 5707 |
 | 🇰🇭 Campuchia | (+855) 23 962 610 |
+
+## 4. Danh mục giải pháp KiotViet
+
+| Nhóm giải pháp | Các giải pháp |
+|---|---|
+| **Bán hàng** | Bán buôn, bán lẻ · Ăn uống, giải trí · Sức khỏe, làm đẹp · Khách sạn, nhà nghỉ |
+| **Kế toán & Thuế** | Kế toán hộ kinh doanh *(Miễn phí)* · Hóa đơn điện tử *(Miễn phí)* · Tư vấn thuế |
+| **Tài chính** | Giải pháp thanh toán QR · Giải pháp vay vốn kinh doanh |
+| **Bán hàng Online** | Đồng bộ sàn TMĐT và mạng xã hội · Tích hợp FoodApp · Tích hợp OTA · Tạo website bán hàng · Giải pháp giao hàng |
+| **Quản lý nhân viên** | Bảng chấm công · Bảng tính lương · Lịch làm việc · Bảng hoa hồng |
