@@ -168,3 +168,17 @@ Các thương hiệu/gian hàng tiêu biểu đang sử dụng phần mềm Kiot
 | Đặt chỗ | 5% |
 
 Định dạng slide tham khảo (ảnh "Về KiotViet"): nền trắng, thanh nhấn xanh gradient bên trái tiêu đề; tiêu đề đậm xanh navy; số liệu lớn trong thẻ bo góc (cam nhạt – chữ cam; xanh lá nhạt – chữ xanh lá); biểu đồ tròn xanh dương #0070F4 / cam #FF8A00 / xanh lá #0A9E1E; font sans-serif hiện đại (kiểu Inter/Be Vietnam Pro).
+
+## 8. Trích từ trang chủ kiotviet.vn (đọc ngày 2026-11-25)
+
+- Tiêu đề: "Phần mềm quản lý bán hàng phổ biến nhất".
+- "300.000+ nhà kinh doanh sử dụng và 10.000+ nhà kinh doanh mới mỗi tháng."
+- Nút: "Dùng thử miễn phí".
+- "Phiên bản dành riêng cho Việt Kiều kinh doanh ở nước ngoài".
+- "Đơn giản & Dễ sử dụng – Giao diện đơn giản và thông minh. Chỉ mất 15 phút làm quen."
+- "Tiết kiệm chi phí – Miễn phí cài đặt, triển khai, nâng cấp và hỗ trợ."
+- "Phù hợp từng ngành hàng – Phù hợp cho hơn 20 ngành nghề kinh doanh khác nhau."
+
+## 9. Liên hệ tư vấn (người dùng cung cấp)
+
+- Dùng thử miễn phí – liên hệ Hưng (KiotViet): 0327 012 877.
