@@ -127,9 +127,9 @@ Cả hai ngành dưới đây có cùng mức giá cho 3 gói:
 
 (HKD = hộ kinh doanh; HĐĐT = hóa đơn điện tử. Trang có link "Xem thêm: Tổng Quan Các Nhóm Giải Pháp KiotViet".)
 
-## 6. Thương hiệu tiêu biểu (logo)
+## 6. Gian hàng tiêu biểu đang sử dụng KiotViet
 
-Danh sách logo người dùng cung cấp (ảnh không ghi chú thích – nhiều khả năng là khách hàng/đối tác tiêu biểu; cần xác nhận trước khi dùng công khai):
+Các thương hiệu/gian hàng tiêu biểu đang sử dụng phần mềm KiotViet (theo logo người dùng cung cấp, đã xác nhận ngày 2026-11-25):
 
 | # | Thương hiệu | Lĩnh vực |
 |---|---|---|
