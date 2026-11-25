@@ -93,3 +93,12 @@ Cả hai ngành dưới đây có cùng mức giá cho 3 gói:
 | Giấy in tem (khổ 50*30) | 33.000đ | Liên hệ |
 | Giấy in decal nhiệt 100mm*150mm (500 tem) | 95.000đ | 12 tháng |
 | Khay đựng tiền KV405 | 920.000đ | Liên hệ |
+
+## 3. Hotline nước ngoài
+
+| Quốc gia | Hotline |
+|---|---|
+| 🇻🇳 Việt Nam | (+84) 24 3990 4991 |
+| 🇯🇵 Nhật Bản | (+81) 50 5050 8167 |
+| 🇱🇦 Lào | (+856) 20 9991 5707 |
+| 🇰🇭 Campuchia | (+855) 23 962 610 |
