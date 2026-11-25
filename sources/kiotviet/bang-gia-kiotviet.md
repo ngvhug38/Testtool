@@ -138,10 +138,10 @@ Các thương hiệu/gian hàng tiêu biểu đang sử dụng phần mềm Kiot
 | 3 | Grab | Gọi xe, giao đồ ăn |
 | 4 | Vietnam Post | Bưu chính, vận chuyển |
 | 5 | 5S Fashion | Thời trang |
-| 6 | Vietnhat | (chưa rõ) |
+| 6 | Vietnhat | Siêu thị mini |
 | 7 | Green Food | Thực phẩm |
 | 8 | Diva Group – "Nơi kiến tạo thương hiệu" | Phát triển thương hiệu |
-| 9 | miniBAO | (chưa rõ) |
+| 9 | miniBAO | F&B (ăn uống) |
 | 10 | KAFA Café | Cà phê |
 | 11 | thegioisua.com | Bán lẻ sữa |
 | 12 | Hanvico – "Ấm áp như lòng mẹ" | Chăn ga gối đệm |
