@@ -1,0 +1,12 @@
+{
+ "bpm": 123.99499999999955,
+ "T": 0.4838904794548185,
+ "t0": 0.01,
+ "window": [
+  7,
+  70
+ ],
+ "match": 0.9846153846153847,
+ "mean_abs_ms": 4.57301791435958,
+ "note": "grid fit on kick onsets (40-160Hz, percussive) within 7-70s; excerpt starts at source bar 4 (beat 16); drop at source bar 8 (beat 32)"
+}
