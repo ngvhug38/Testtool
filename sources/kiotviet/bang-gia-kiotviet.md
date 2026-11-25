@@ -112,3 +112,17 @@ Cả hai ngành dưới đây có cùng mức giá cho 3 gói:
 | **Tài chính** | Giải pháp thanh toán QR · Giải pháp vay vốn kinh doanh |
 | **Bán hàng Online** | Đồng bộ sàn TMĐT và mạng xã hội · Tích hợp FoodApp · Tích hợp OTA · Tạo website bán hàng · Giải pháp giao hàng |
 | **Quản lý nhân viên** | Bảng chấm công · Bảng tính lương · Lịch làm việc · Bảng hoa hồng |
+
+## 5. Khám phá các giải pháp toàn diện (nhóm tính năng)
+
+> "Không chỉ là bán hàng" – hệ sinh thái giúp cửa hàng **Tối ưu vận hành, Quản lý chặt chẽ và Thúc đẩy doanh thu.**
+
+| Nhóm | Tính năng |
+|---|---|
+| **Tối ưu vận hành** | Tra cứu sản phẩm · Bán hàng · Trả hàng · Đặt hàng · Thanh toán · Kết ca · Giao vận · Thiết bị phần cứng · Chuyên ngành |
+| **Tối ưu quản lý** | Hàng hóa · Giao dịch · Nhà cung cấp · Khách hàng · Nhân viên · Sổ quỹ · Báo cáo · Thiết lập · Kết nối API |
+| **Thúc đẩy doanh thu** | Cửa hàng Online trên Zalo · KiotViet Web · Bán Online (Sàn TMĐT, MXH) · Phân tích · Khuyến mại · Voucher · Coupon · Tích điểm · Chăm sóc khách hàng |
+| **Thuế – Kế toán** | Thiết lập ban đầu Thuế – Kế toán · Tờ khai Thuế HKD · Kế toán HKD – Sổ kế toán · Kế toán HKD – Giao dịch · Kế toán HKD – Hạch toán |
+| **Hóa đơn điện tử – Chữ ký số** | Đăng ký Chữ ký số · Thiết lập ban đầu HĐĐT · Phát hành HĐĐT · Xử lý sai sót HĐĐT · Chứng từ điện tử & Phiếu xuất kho |
+
+(HKD = hộ kinh doanh; HĐĐT = hóa đơn điện tử. Trang có link "Xem thêm: Tổng Quan Các Nhóm Giải Pháp KiotViet".)
