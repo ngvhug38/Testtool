@@ -37,6 +37,29 @@ Trạng thái: chờ người dùng duyệt kịch bản phân cảnh (bước c
 ## 4. Nhạc nền
 `bgm-tech-house.mp3` (Mixkit), ~123 BPM → 1 ô nhịp (4 phách) ≈ 1,95s ≈ 58,5 frame. Lấy đoạn năng lượng ổn định (~10–65s của bản gốc), lưới nhịp sẽ được khớp chính xác (librosa) trước khi dựng; chuyển cảnh rơi đúng phách 1 của ô nhịp.
 
+### 4b. Lưới nhịp đã đo (giai đoạn sản xuất)
+- `analysis/grid.json`: 123.995 BPM, T = 0.48389 s, beat0 nguồn = 0.0100 s; khớp kick 98,5 %, sai số TB 4,6 ms (cửa sổ 7–70 s).
+- Đoạn trích bắt đầu ở phách nguồn 16 (7,752 s, `startFrom` 233f); drop nhạc (RMS nhảy 15,471 s) = phách video 16 = đầu cảnh "1 MÃ QR".
+- Ranh giới cảnh (phách video → frame): logo 0–9 (0–130) · scale 9–16 (130–232) · qrMask 16–28 (232–406) · qrLock 28–36 (406–522) · benefits 36–48 (522–696) · ecosystem 48–60 (696–871) · features 60–70 (871–1016) · devices 70–78 (1016–1132) · pricing 78–88 (1132–1277) · customers 88–98 (1277–1422) · outro 98–112 (1422–1625). Tổng 1625f = 54,2 s.
+
+### 4c. Card · style · demo TSX · mẫu Gallery
+| Cảnh | Card · style | Demo TSX | Sample |
+|---|---|---|---|
+| S1 | logo-shrink-wordmark-lockup | demos/outro/logo-shrink-wordmark-lockup/LogoShrinkWordmarkLockup.tsx | gallery media logo-shrink-wordmark-lockup |
+| S2 | odometer-digit-roll | demos/data/odometer-digit-roll/OdometerDigitRoll.tsx | odometer-digit-roll |
+| S3 | text-as-mask | demos/opening/text-as-mask/TextAsMask.tsx | text-as-mask |
+| S4 | fui-hud-moves · reticle-lock-on | demos/effects/fui-hud-moves/ReticleLockOn.tsx | reticle-lock-on |
+| S5 | doc-park-left-pill-deal | demos/ui-entrance/doc-park-left-pill-deal/DocParkLeftPillDeal.tsx | doc-park-left-pill-deal |
+| S6 | pill-slot-cycle | demos/typography/pill-slot-cycle/PillSlotCycle.tsx | pill-slot-cycle |
+| S7 | wall-reveal-moves · bento-light-up | demos/ui-entrance/wall-reveal-moves/BentoLightUp.tsx | bento-light-up |
+| S8 | runway-ground-skim | demos/ui-entrance/runway-ground-skim/RunwayGroundSkim.tsx | runway-ground-skim |
+| S9 | spotlight-hero-card | demos/opening/spotlight-hero-card/SpotlightHeroCard.tsx | spotlight-hero-card |
+| S10 | page-waterfall-wall | demos/ui-entrance/page-waterfall-wall/PageWaterfallWall.tsx + assets/lib/VerticalTicker.tsx | page-waterfall-wall |
+| S11 | outro-group-photo-launch | demos/outro/outro-group-photo-launch/OutroGroupPhotoLaunch.tsx | outro-group-photo-launch |
+| chuyển cảnh | shot-transitions · flash-cut | assets/lib/FlashCut.tsx (frame 522, 1277) | flash-cut |
+
+Điều chỉnh có chủ đích (ghi trong đầu mỗi file shot): S3 dùng lớp knockout `mix-blend-mode: screen` thay cho CSS mask data-URI (để giữ font Be Vietnam Pro có dấu tiếng Việt), vẫn tách lớp chữ ×26 và lớp cảnh quay; S7 nền navy đậm (card yêu cầu nền tối cho trạng thái mờ 0.18); S8 mặt sàn 3000×1700, z cuối −590 để chữ đọc được; S9 zoom 1.6 (thẻ giá lớn hơn thẻ demo); S11 bỏ fade-out cuối để CTA ở lại đến frame cuối.
+
 ## 5. Kịch bản phân cảnh
 Xem bảng trong chat ngày 2026-11-25 (bản chép ở dưới).
 

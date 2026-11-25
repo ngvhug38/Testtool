@@ -31,7 +31,7 @@ let loaded = false;
 export const ensureFonts = () => {
   if (loaded || typeof document === 'undefined') return;
   loaded = true;
-  const handle = delayRender('Be Vietnam Pro');
+  const handle = delayRender('Be Vietnam Pro', { timeoutInMilliseconds: 180000, retries: 2 });
   const faces = WEIGHTS.flatMap((w) =>
     SUBSETS.map(
       ({ sub, range }) =>
