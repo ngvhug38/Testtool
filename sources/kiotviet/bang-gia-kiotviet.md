@@ -151,3 +151,20 @@ Các thương hiệu/gian hàng tiêu biểu đang sử dụng phần mềm Kiot
 | 16 | Coconails – "Tinh tế từng chạm" | Làm móng, làm đẹp |
 | 17 | Pierre Cardin Paris | Thời trang |
 | 18 | Thế Giới Thời Gian – World of Time | Đồng hồ |
+
+## 7. Về KiotViet (số liệu tổng quan)
+
+- KiotViet là đơn vị đi đầu trong lĩnh vực cung cấp **phần mềm quản lý bán hàng** tại Việt Nam.
+- **300.000+** nhà bán hàng tin dùng.
+- **25 văn phòng** đại diện khắp cả nước.
+- Phục vụ đa dạng hộ kinh doanh và doanh nghiệp: **bán lẻ, dịch vụ ăn uống F&B và dịch vụ đặt chỗ (hotel, salon…)**.
+
+**Tỷ trọng khách hàng KiotViet theo lĩnh vực**
+
+| Lĩnh vực | Tỷ trọng |
+|---|---|
+| Bán lẻ | 75% |
+| F&B | 20% |
+| Đặt chỗ | 5% |
+
+Định dạng slide tham khảo (ảnh "Về KiotViet"): nền trắng, thanh nhấn xanh gradient bên trái tiêu đề; tiêu đề đậm xanh navy; số liệu lớn trong thẻ bo góc (cam nhạt – chữ cam; xanh lá nhạt – chữ xanh lá); biểu đồ tròn xanh dương #0070F4 / cam #FF8A00 / xanh lá #0A9E1E; font sans-serif hiện đại (kiểu Inter/Be Vietnam Pro).
