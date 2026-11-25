@@ -68,23 +68,24 @@ const Caption: React.FC<{ text: string; left: number; top: number; size: number;
 };
 
 const DW = 250, DH = 190;
-const PX = 206, PY = 58, PH = 34, PG = 14, PW = 196;
+const PX = 206, PY = 50, PH = 32, PG = 26, PW = 196; // PG widened so captions can stay on screen
 const T0 = [0.26, 0.48, 0.7];
 
 export const S5_DEFAULTS = {
-  eyebrow: 'VIETQRPAY · VIETQRGLOBAL',
+  eyebrow: 'VietQRPay · VietQRGlobal',
+  headline: 'Quét là trả, nhận tiền tức thì',
   items: [
-    { n: '1 mã QR cho mọi khách', ic: 'qr' as IconK, cap: 'Thanh toán nội địa & quốc tế' },
-    { n: 'Tiền về tức thì', ic: 'bolt' as IconK, cap: 'An toàn, thuận tiện cho chủ quán' },
+    { n: 'Nội địa & quốc tế', ic: 'qr' as IconK, cap: 'Khách nào cũng quét được' },
+    { n: 'Tiền về tức thì', ic: 'bolt' as IconK, cap: 'Chủ quán nhận chuyển khoản ngay' },
     { n: 'Tự vào báo cáo', ic: 'chart' as IconK, cap: 'Doanh thu rõ ràng trên KiotViet' },
   ],
 };
 
 export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
-  const { eyebrow, items } = { ...S5_DEFAULTS, ...p };
+  const { eyebrow, headline, items } = { ...S5_DEFAULTS, ...p };
   const t = useT();
   const park = seg(t, 0.06, 0.24, E.inOutCubic);
-  const eyebrowOp = seg(t, 0.2, 0.26, E.outQuad);
+  const eyebrowOp = seg(t, 0.12, 0.2, E.outQuad);
   return (
     <DesignStage bg={C.bg} raster="zoom">
       <div style={{ position: 'absolute', inset: 0, background: C.bg, overflow: 'hidden', fontFamily: FONT }}>
@@ -103,18 +104,19 @@ export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
             }}
           >
             <div style={{ position: 'absolute', inset: 0, borderRadius: 12, overflow: 'hidden', background: '#000', boxShadow: '0 10px 30px rgba(12,45,94,.18)' }}>
-              <OffthreadVideo src={staticFile('footage/tablet.mp4')} playbackRate={0.5} muted style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+              <OffthreadVideo src={staticFile('footage/tablet-slow.mp4')} muted style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
-          <div style={{ position: 'absolute', left: PX + 4, top: PY - 22, font: `800 8px/1 ${FONT}`, letterSpacing: 1.6, color: C.blue, opacity: eyebrowOp }}>{eyebrow}</div>
+          <div style={{ position: 'absolute', left: PX + 2, top: 2, font: `800 8px/1 ${FONT}`, letterSpacing: 0.6, color: C.blue, opacity: eyebrowOp }}>{eyebrow}</div>
+          <div style={{ position: 'absolute', left: PX + 2, top: 15, font: `800 14px/1.15 ${FONT}`, color: TXT, whiteSpace: 'nowrap', opacity: eyebrowOp, transform: `translateY(${(1 - eyebrowOp) * 6}px)` }}>{headline}</div>
           {items.map((it, k) => {
             const f = T0[k];
             const o = seg(t, f, f + 0.035, E.outQuad);
             const b = seg(t, f, f + 0.062, E.outBack);
-            const cs = f + 0.05, ce = k < 2 ? T0[k + 1] - 0.03 : 0.98;
+            const cs = f + 0.05, ce = cs + 0.2; // captions persist (card note: ce>1 / no out) so each line is readable
             const showV = seg(t, cs, cs + 0.02);
             const innP = seg(t, cs, cs + (ce - cs) * 0.7);
-            const outP = seg(t, ce - 0.05, ce, E.outQuad);
+            const outP = 0;
             return (
               <React.Fragment key={k}>
                 <div
@@ -140,7 +142,7 @@ export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
                   <Icon k={it.ic} size={15} />
                   <div style={{ font: `700 11.5px/1 ${FONT}`, color: TXT, whiteSpace: 'nowrap' }}>{it.n}</div>
                 </div>
-                <Caption text={it.cap} left={PX + 4} top={PY + k * (PH + PG) + PH + 6} size={8.5} showV={showV} innP={innP} outP={outP} />
+                <Caption text={it.cap} left={PX + 4} top={PY + k * (PH + PG) + PH + 6} size={9} showV={showV} innP={innP} outP={outP} />
               </React.Fragment>
             );
           })}

@@ -29,6 +29,8 @@ export interface VerticalTickerProps {
   columnWidth?: number;
   /** Gap between columns and between items within a column, px */
   gap?: number;
+  /** per-column start phase 0..1 (fraction of one loop) */
+  phases?: number[];
 }
 
 /**
@@ -48,6 +50,7 @@ export const VerticalTicker: React.FC<VerticalTickerProps> = ({
   scale = 1.2,
   columnWidth = 400,
   gap = 30,
+  phases = [],
 }) => {
   return (
     <AbsoluteFill style={{ backgroundColor, overflow: 'hidden' }}>
@@ -63,7 +66,7 @@ export const VerticalTicker: React.FC<VerticalTickerProps> = ({
         }}
       >
         {columns.map((col, idx) => (
-          <Column key={idx} {...col} width={columnWidth} gap={gap} />
+          <Column key={idx} {...col} width={columnWidth} gap={gap} phase={phases[idx] ?? 0} />
         ))}
       </div>
       {/* Fade masks sit above the wall so rows enter/exit softly */}
@@ -93,18 +96,19 @@ export const VerticalTicker: React.FC<VerticalTickerProps> = ({
   );
 };
 
-const Column: React.FC<TickerColumn & { width: number; gap: number }> = ({
+const Column: React.FC<TickerColumn & { width: number; gap: number; phase: number }> = ({
   items,
   durationInSeconds,
   direction,
   width,
   gap,
+  phase,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const loopFrames = durationInSeconds * fps;
-  const progress = (frame % loopFrames) / loopFrames;
+  const progress = (((frame + phase * loopFrames) % loopFrames) + loopFrames) % loopFrames / loopFrames;
   // up: 0 → -50%; down: -50% → 0（起点即偏移半程，首帧无空白）
   const translateY = direction === -1 ? progress * -50 : -50 + progress * 50;
 

@@ -61,7 +61,11 @@ Trạng thái: chờ người dùng duyệt kịch bản phân cảnh (bước c
 Điều chỉnh có chủ đích (ghi trong đầu mỗi file shot): S3 dùng lớp knockout `mix-blend-mode: screen` thay cho CSS mask data-URI (để giữ font Be Vietnam Pro có dấu tiếng Việt), vẫn tách lớp chữ ×26 và lớp cảnh quay; S7 nền navy đậm (card yêu cầu nền tối cho trạng thái mờ 0.18); S8 mặt sàn 3000×1700, z cuối −590 để chữ đọc được; S9 zoom 1.6 (thẻ giá lớn hơn thẻ demo); S11 bỏ fade-out cuối để CTA ở lại đến frame cuối.
 
 ## 5. Kịch bản phân cảnh
-Xem bảng trong chat ngày 2026-11-25 (bản chép ở dưới).
+Bảng dưới là bản người dùng duyệt (thời gian theo giây ước lượng). **Khi có khác biệt, §4b (ranh giới theo lưới nhịp) và §4c (card/chuyển cảnh) là chuẩn thực thi**: flash-cut đặt ở 2 chỗ đổi tông mạnh (f522, f1277); chỗ #2→#3 và #7→#8 là cắt cứng đúng phách.
+
+### 5b. Sửa sau rà soát độc lập (2026-11-25)
+S2 nới ô số 126→150px và khóa số sớm hơn (giữ ≥40f); S3 lớp phủ chống dư mask nhanh hơn; S3/S4/S5 dùng clip quay chậm nội suy chuyển động (hết giật); S4 nhãn "VietQR · quét là trả"; S5 thêm tiêu đề "Quét là trả, nhận tiền tức thì", phụ đề dưới thẻ giữ lại trên màn hình; S9 giá tách dòng "đồng / tháng", giữ toàn cảnh lâu hơn 8f, ghi chú nền đặc, gói cao cấp "Chấm công 50 NV"; S10 lệch pha cột để đủ 18 logo đi qua vùng rõ + dải nền sau tiêu đề; S11 kiotviet.vn 42px navy; âm thanh bù độ trễ đỉnh + offset đầu ra, tăng gain tick/click/snap, riser dẫn thẳng vào cú nổ; chuẩn hóa loudness −15 LUFS.
+
 
 | # | Ô nhịp | Thời gian | Nội dung | Hiệu ứng | Chữ trên màn hình | Âm thanh |
 |---|---|---|---|---|---|---|

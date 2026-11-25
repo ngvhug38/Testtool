@@ -1,48 +1,72 @@
-// SFX pin table (stage 6). Every `from` is relative to SHOTS / beat grid — never a bare frame number.
-// Peaks measured with ffmpeg volumedetect (see public/audio/sfx): all ≈ 0…−7 dB except
-// clock-tick-single (−13.9 dB) which therefore gets a ≥1 gain. Big whole-frame accents: only 2
-// (qrMask takeover, outro stamp). BGM drums already mark the beats → SFX only on picture-specific actions.
-import { SHOTS } from './timeline';
+// SFX pin table (stage 6). Every cue is written as the PICTURE action frame (relative to SHOTS) and
+// converted with at(): from = action − sourcePeakLag − outputOffset, so the audible peak lands on the
+// action (sound-design §4.1 / §4.6; independent review finding A2/A9).
+// Peak lags measured from each file's RMS maximum (analysis/sync.md); output offset 42.7 ms ≈ 1.28 f.
+// Gains are set from measured peaks vs the BGM bed; clock-tick-single is recorded at −13.9 dB → gain 2.5.
+// Whole-frame accents: only 2 (qrMask takeover, outro stamp).
+import { SHOTS, FPS, OUTPUT_AUDIO_OFFSET_SEC } from './timeline';
 
 export type Sfx = { from: number; src: string; volume: number; dur?: number; note: string };
 const S = SHOTS;
 
+export const PEAK_LAG: Record<string, number> = {
+  'chime-crystal.mp3': 6.6,
+  'click-camera.mp3': 5.9,
+  'clock-tick-single.mp3': 15.0,
+  'hit-weak.mp3': 4.7,
+  'impact-deep-whoosh.mp3': 16.7,
+  'pop.mp3': 1.2,
+  'riser-cine.mp3': 35.2,
+  'sparkle.mp3': 44.1,
+  'swoosh-quick.mp3': 8.5,
+  'transition-snap.mp3': 3.3,
+  'transition-soft.mp3': 13.2,
+  'whoosh-big.mp3': 21.6,
+  'whoosh-fast.mp3': 21.9,
+};
+const OUT = OUTPUT_AUDIO_OFFSET_SEC * FPS;
+const at = (action: number, src: string, volume: number, tail: number, note: string): Sfx => {
+  const lag = PEAK_LAG[src] ?? 0;
+  const from = Math.max(0, Math.round(action - lag - OUT));
+  return { from, src, volume, dur: Math.round(action - from + tail), note };
+};
+
 export const SFX: Sfx[] = [
-  // S1 logo — soft air as the mark collapses, sparkle as the mark heals/locks (t≈0.37)
-  { from: S.logo.from + 2, src: 'transition-soft.mp3', volume: 0.35, dur: 40, note: 'logo collapse' },
-  { from: S.logo.from + 46, src: 'sparkle.mp3', volume: 0.28, dur: 70, note: 'mark locks' },
-  // S2 odometer — one tick per digit lock (locks at 28 + 7i), final confirm click on the lock pulse
-  ...[0, 1, 2, 3, 4, 5].map((i) => ({ from: S.scale.from + 28 + i * 7, src: 'clock-tick-single.mp3', volume: 1.0 - i * 0.06, dur: 10, note: `digit ${i} lock` })),
-  { from: S.scale.from + 63, src: 'click-camera.mp3', volume: 0.5, dur: 14, note: '300.000+ confirmed' },
-  // S3 text-as-mask — whoosh rides the ×26 takeover, deep impact when the footage owns the frame (big accent #1)
-  { from: S.qrMask.from + 98, src: 'whoosh-big.mp3', volume: 0.3, dur: 40, note: 'takeover push' },
-  { from: S.qrMask.from + 126, src: 'impact-deep-whoosh.mp3', volume: 0.42, dur: 60, note: 'footage takeover lands' },
-  // S4 reticle — frame flies in, mechanical click on the lock frame
-  { from: S.qrLock.from + 12, src: 'whoosh-fast.mp3', volume: 0.28, dur: 30, note: 'reticle fly-in' },
-  { from: S.qrLock.from + 44, src: 'click-camera.mp3', volume: 0.55, dur: 14, note: 'reticle lock' },
-  // S5 doc-park — flash cut swoosh, footage parks, three pills dealt (descending volumes)
-  { from: S.benefits.from - 4, src: 'swoosh-quick.mp3', volume: 0.3, dur: 24, note: 'flash cut into benefits' },
-  { from: S.benefits.from + 46, src: 'pop.mp3', volume: 0.42, dur: 16, note: 'pill 1' },
-  { from: S.benefits.from + 84, src: 'pop.mp3', volume: 0.36, dur: 16, note: 'pill 2' },
-  { from: S.benefits.from + 122, src: 'pop.mp3', volume: 0.3, dur: 16, note: 'pill 3' },
+  // S1 logo — air as the mark collapses (peak at the brake, t≈0.3), sparkle as the wordmark completes (t≈0.7)
+  at(S.logo.from + 38, 'transition-soft.mp3', 0.35, 20, 'logo collapse'),
+  at(S.logo.from + 92, 'sparkle.mp3', 0.3, 36, 'wordmark set'),
+  // S2 odometer — one tick per digit lock (locks at 22 + 7i), confirm click on the lock pulse (57)
+  ...[0, 1, 2, 3, 4, 5].map((i) => at(S.scale.from + 22 + i * 7, 'clock-tick-single.mp3', 2.5 - i * 0.12, 6, `digit ${i} lock`)),
+  at(S.scale.from + 57, 'click-camera.mp3', 0.9, 10, '300.000+ confirmed'),
+  // S3 text-as-mask — whoosh peaks mid-takeover, deep impact when the footage owns the frame (big accent #1)
+  at(S.qrMask.from + 118, 'whoosh-big.mp3', 0.3, 14, 'takeover push'),
+  at(S.qrMask.from + 130, 'impact-deep-whoosh.mp3', 0.42, 40, 'footage takeover lands'),
+  // S4 reticle — whoosh peaks as the frame arrives (22), mechanical click on the lock frame (44)
+  at(S.qrLock.from + 22, 'whoosh-fast.mp3', 0.28, 10, 'reticle fly-in'),
+  at(S.qrLock.from + 44, 'click-camera.mp3', 1.0, 10, 'reticle lock'),
+  // S5 doc-park — swoosh on the flash cut, three pills dealt (descending volumes)
+  at(S.benefits.from, 'swoosh-quick.mp3', 0.3, 12, 'flash cut into benefits'),
+  at(S.benefits.from + 46, 'pop.mp3', 0.42, 14, 'pill 1'),
+  at(S.benefits.from + 84, 'pop.mp3', 0.36, 14, 'pill 2'),
+  at(S.benefits.from + 122, 'pop.mp3', 0.3, 14, 'pill 3'),
   // S6 pill-slot — light swoosh per swap (alternating level), snap when the closing words land
-  ...[0, 1, 2, 3, 4].map((k) => ({ from: S.ecosystem.from + Math.round(14 + k * 20.4), src: 'swoosh-quick.mp3', volume: k % 2 ? 0.14 : 0.18, dur: 20, note: `pill swap ${k}` })),
-  { from: S.ecosystem.from + 116, src: 'transition-snap.mp3', volume: 0.4, dur: 18, note: 'trọn mọi việc lands' },
+  ...[0, 1, 2, 3, 4].map((k) => at(S.ecosystem.from + Math.round(18 + k * 20.4), 'swoosh-quick.mp3', k % 2 ? 0.14 : 0.18, 10, `pill swap ${k}`)),
+  at(S.ecosystem.from + 118, 'transition-snap.mp3', 0.45, 14, 'trọn mọi việc lands'),
   // S7 bento — scene air in, crystal chime only on the MIỄN PHÍ cell (single accent light)
-  { from: S.features.from, src: 'transition-soft.mp3', volume: 0.3, dur: 40, note: 'enter features' },
-  { from: S.features.from + 93, src: 'chime-crystal.mp3', volume: 0.3, dur: 50, note: 'free cell lights' },
+  at(S.features.from + 6, 'transition-soft.mp3', 0.3, 20, 'enter features'),
+  at(S.features.from + 93, 'chime-crystal.mp3', 0.3, 40, 'free cell lights'),
   // S8 runway — cards rain down, one weak hit for the touchdown cluster, big whoosh as the page rises
-  { from: S.devices.from + 4, src: 'whoosh-fast.mp3', volume: 0.3, dur: 30, note: 'cards fall' },
-  { from: S.devices.from + 17, src: 'hit-weak.mp3', volume: 0.4, dur: 18, note: 'touchdown' },
-  { from: S.devices.from + 38, src: 'whoosh-big.mp3', volume: 0.26, dur: 50, note: 'page rises' },
-  // S9 spotlight — rise whoosh, beam sparkle, reseat snap (card: each action its own sound)
-  { from: S.pricing.from + 46, src: 'whoosh-big.mp3', volume: 0.3, dur: 40, note: 'hero plan rises' },
-  { from: S.pricing.from + 60, src: 'sparkle.mp3', volume: 0.3, dur: 60, note: 'perimeter beam' },
-  { from: S.pricing.from + 127, src: 'transition-snap.mp3', volume: 0.42, dur: 18, note: 'reseat' },
-  // S10 logo wall — flash cut swoosh
-  { from: S.customers.from - 4, src: 'swoosh-quick.mp3', volume: 0.3, dur: 24, note: 'flash cut into customers' },
-  // S11 outro — fixed sentence: riser into assembly → deep impact on the wordmark stamp (peak) → sparkle on the rule
-  { from: S.outro.from + 42 - 146, src: 'riser-cine.mp3', volume: 0.32, dur: 146, note: 'riser into group photo' },
-  { from: S.outro.from + 42, src: 'impact-deep-whoosh.mp3', volume: 0.55, dur: 90, note: 'wordmark stamp (mix peak)' },
-  { from: S.outro.from + 60, src: 'sparkle.mp3', volume: 0.35, dur: 90, note: 'rule + CTA' },
+  at(S.devices.from + 14, 'whoosh-fast.mp3', 0.3, 10, 'cards fall'),
+  at(S.devices.from + 17, 'hit-weak.mp3', 0.45, 14, 'touchdown'),
+  at(S.devices.from + 60, 'whoosh-big.mp3', 0.26, 20, 'page rises'),
+  // S9 spotlight — rise whoosh, beam sparkle peaks on lap 1, reseat snap
+  at(S.pricing.from + 60, 'whoosh-big.mp3', 0.3, 14, 'hero plan rises'),
+  at(S.pricing.from + 76, 'sparkle.mp3', 0.3, 30, 'perimeter beam'),
+  at(S.pricing.from + 130, 'transition-snap.mp3', 0.9, 12, 'reseat'),
+  // S10 logo wall — swoosh on the flash cut
+  at(S.customers.from, 'swoosh-quick.mp3', 0.3, 12, 'flash cut into customers'),
+  // S11 outro — riser builds right into the stamp → deep impact (mix peak) → sparkle on rule + CTA
+  at(S.outro.from + 40, 'riser-cine.mp3', 0.34, 6, 'riser into wordmark stamp'),
+  at(S.outro.from + 46, 'impact-deep-whoosh.mp3', 0.55, 50, 'wordmark stamp (mix peak)'),
+  at(S.outro.from + 74, 'sparkle.mp3', 0.35, 50, 'rule + CTA'),
 ];

@@ -34,7 +34,7 @@ export const S8_DEFAULTS = {
     { name: 'Máy in hóa đơn', img: 'dev-printer-kv804.png' },
     { name: 'Máy quét mã vạch', img: 'dev-scanner-xl2302.png' },
     { name: 'Màn hình QR KV99', img: 'dev-qr-kv99.png' },
-    { name: 'Loa báo thanh toán KV66', img: 'dev-speaker-kv66.png' },
+    { name: 'Loa thanh toán KV66', img: 'dev-speaker-kv66.png' },
     { name: 'Máy chấm công', img: 'dev-timeclock-n308.png' },
   ],
 };

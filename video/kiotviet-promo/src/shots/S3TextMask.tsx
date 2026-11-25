@@ -23,12 +23,12 @@ export const S3TextMask: React.FC<Partial<typeof S3_DEFAULTS>> = (p) => {
   const dx = f < 100 ? driftX : interpolate(endT, [0, 1], [-110, 0]);
   const dashS = interpolate(endT, [0, 1], [1.15, 1]);
   const maskS = interpolate(endT, [0, 1], [1, 26]);
-  const cover = interpolate(endT, [0.25, 0.9], [0, 1], clamp);
+  const cover = interpolate(endT, [0.15, 0.6], [0, 1], clamp); // review: faster insurance fade removes plate residue
   const eyebrowOp = interpolate(f, [0, 10, 100, 112], [0, 1, 1, 0], clamp);
 
   const footage = (
     <AbsoluteFill style={{ transform: `translateX(${dx}px) scale(${dashS})`, transformOrigin: '50% 50%' }}>
-      <OffthreadVideo src={staticFile('footage/qr.mp4')} playbackRate={0.6} muted style={{ width: 1920, height: 1080, objectFit: 'cover' }} />
+      <OffthreadVideo src={staticFile('footage/qr-slow.mp4')} muted style={{ width: 1920, height: 1080, objectFit: 'cover' }} />
     </AbsoluteFill>
   );
 

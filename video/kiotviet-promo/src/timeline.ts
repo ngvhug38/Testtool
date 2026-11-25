@@ -8,7 +8,7 @@ export const SOURCE_START_BEAT = 16; // excerpt starts at source bar 4; drop = s
 export const AUDIO_START_FRAME = Math.round((SOURCE_BEAT0 + SOURCE_START_BEAT * BEAT_INT) * FPS); // 233
 // residual between the exact source beat and the frame-quantised audio start
 const START_RESIDUAL = SOURCE_BEAT0 + SOURCE_START_BEAT * BEAT_INT - AUDIO_START_FRAME / FPS; // ≈ -0.0144s
-export const OUTPUT_AUDIO_OFFSET_SEC = 0; // set from post-render measurement if a constant offset shows up
+export const OUTPUT_AUDIO_OFFSET_SEC = 0.0427; // measured: render audio lags design by 42.3–43.0 ms (AAC priming), see analysis/sync.md // set from post-render measurement if a constant offset shows up
 
 export const beatT = (n: number) => START_RESIDUAL + OUTPUT_AUDIO_OFFSET_SEC + n * BEAT_INT;
 export const beatF = (n: number) => Math.max(0, Math.round(beatT(n) * FPS));

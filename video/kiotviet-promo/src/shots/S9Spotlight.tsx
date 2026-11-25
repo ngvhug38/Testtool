@@ -30,7 +30,7 @@ export const S9_DEFAULTS = {
   plans: [
     { name: 'Gói hỗ trợ', price: '270K', desc: 'Kinh doanh nhỏ, vận hành đơn giản', feats: ['1 chi nhánh', 'Tối đa 3 tài khoản', '5.000 HĐĐT/năm'] },
     { name: 'Gói chuyên nghiệp', price: '330K', desc: 'Chuyên nghiệp, chuyên môn hóa quy trình', feats: ['Thêm chi nhánh 270K', 'Không giới hạn tài khoản', 'Website · Chấm công'], hot: true },
-    { name: 'Gói cao cấp', price: '490K', desc: 'Mô hình lớn, cần dịch vụ cao cấp', feats: ['Thêm chi nhánh 375K', 'Kết nối API', 'Phân tích với AI'] },
+    { name: 'Gói cao cấp', price: '490K', desc: 'Mô hình lớn, cần dịch vụ cao cấp', feats: ['Thêm chi nhánh 375K', 'Kết nối API', 'Chấm công 50 NV'] },
   ] as Plan[],
   chips: ['Miễn phí khởi tạo', 'Hóa đơn điện tử miễn phí', 'Chữ ký số miễn phí'],
   note: ['Gói phổ biến,', 'mở rộng chuỗi.'],
@@ -44,12 +44,12 @@ const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
         {hot && <div style={{ display: 'inline-block', padding: '6px 18px', borderRadius: 999, background: '#F3E8FF', color: '#6B21A8', fontSize: 24, fontWeight: 800 }}>Phổ biến</div>}
       </div>
       <div style={{ fontSize: 36, fontWeight: 800, color: hot ? '#fff' : C.navy, marginTop: 10 }}>{plan.name}</div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
-        <div style={{ fontSize: 112, fontWeight: 900, letterSpacing: -3, color: hot ? '#fff' : C.navy, lineHeight: 1.05 }}>{plan.price}</div>
-        <div style={{ fontSize: 30, fontWeight: 700, color: hot ? '#DCEBFF' : C.muted }}>đ/tháng</div>
+      <div style={{ marginTop: 6 }}>
+        <div style={{ fontSize: 112, fontWeight: 900, letterSpacing: -3, color: hot ? '#fff' : C.navy, lineHeight: 1.0 }}>{plan.price}</div>
+        <div style={{ fontSize: 30, fontWeight: 700, color: hot ? '#DCEBFF' : C.muted, marginTop: 4 }}>đồng / tháng</div>
       </div>
-      <div style={{ fontSize: 26, fontWeight: 500, color: hot ? '#DCEBFF' : C.muted, marginTop: 8, lineHeight: 1.35 }}>{plan.desc}</div>
-      <div style={{ height: 2, background: hot ? 'rgba(255,255,255,.3)' : C.line, margin: '24px 0 20px' }} />
+      <div style={{ fontSize: 25, fontWeight: 500, color: hot ? '#DCEBFF' : C.muted, marginTop: 10, lineHeight: 1.35 }}>{plan.desc}</div>
+      <div style={{ height: 2, background: hot ? 'rgba(255,255,255,.3)' : C.line, margin: '18px 0 14px' }} />
       {plan.feats.map((f) => (
         <div key={f} style={{ fontSize: 28, fontWeight: 700, color: hot ? '#fff' : C.text, lineHeight: 1.6, whiteSpace: 'nowrap' }}>
           ✓ {f}
@@ -61,8 +61,8 @@ const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
 
 const CAM_KEYS: CamKey2D[] = [
   { frame: 0, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
-  { frame: 32, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
-  { frame: 48, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
+  { frame: 40, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
+  { frame: 56, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
   { frame: 145, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
 ];
 const PUSH_EASE = Easing.bezier(0.35, 0, 0.2, 1);
@@ -75,18 +75,18 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
   const frame = useCurrentFrame();
   const macroIn = interpolate(frame, [0, 8], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
   const spotEase = Easing.bezier(0.4, 0, 0.3, 1);
-  const spotX = interpolate(frame, [4, 8, 16, 22, 28, 48], [22, 22, 78, 40, 50, 50], { ...cl, easing: spotEase });
-  const spotY = interpolate(frame, [4, 8, 16, 22, 28, 48], [55, 55, 50, 60, 52, 50], { ...cl, easing: spotEase });
+  const spotX = interpolate(frame, [4, 10, 20, 28, 36, 56], [22, 22, 78, 40, 50, 50], { ...cl, easing: spotEase });
+  const spotY = interpolate(frame, [4, 10, 20, 28, 36, 56], [55, 55, 50, 60, 52, 50], { ...cl, easing: spotEase });
   const spotOn = interpolate(frame, [2, 10], [0, 1], cl);
-  const poolBase = interpolate(frame, [22, 32, 48], [620, 420, 360], { ...cl, easing: Easing.bezier(0.4, 0, 0.3, 1) });
-  const poolPulse = interpolate(frame, [32, 36, 41], [0, 0.06, 0], cl);
+  const poolBase = interpolate(frame, [28, 40, 56], [620, 420, 360], { ...cl, easing: Easing.bezier(0.4, 0, 0.3, 1) });
+  const poolPulse = interpolate(frame, [40, 44, 49], [0, 0.06, 0], cl);
   const poolRx = poolBase * (1 + poolPulse);
   const poolRy = poolBase * 0.8 * (1 + poolPulse);
-  const vignette = interpolate(frame, [22, 32, 48], [0.16, 0.34, 0.42], cl);
-  const rise = interpolate(frame, [48, 58], [0, 1], { ...cl, easing: POP_EASE });
+  const vignette = interpolate(frame, [28, 40, 56], [0.16, 0.34, 0.42], cl);
+  const rise = interpolate(frame, [56, 66], [0, 1], { ...cl, easing: POP_EASE });
   const reseat = interpolate(frame, [112, 130], [0, 1], { ...cl, easing: RESEAT_EASE });
   const lift = rise * (1 - reseat);
-  const bob = Math.sin(((frame - 58) / 40) * Math.PI * 2) * 4 * lift;
+  const bob = Math.sin(((frame - 66) / 40) * Math.PI * 2) * 4 * lift;
   const z = 110 * lift + bob;
   const landed = frame >= 130;
   const press = interpolate(frame, [126, 129, 130], [1, 0.997, 1], cl);
@@ -94,11 +94,11 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
   const slotVis = Math.min(1, rise * 2) * (1 - reseat);
   const landPulse = interpolate(frame, [126, 130, 134], [0, 1, 0], cl);
   const slotEdge = Math.min(1, 0.4 * (1 - reseat)) + landPulse * 0.6;
-  const beam1Prog = interpolate(frame, [60, 74], [0, 1], cl);
-  const beam1On = frame >= 59 && frame <= 75;
-  const beam2Prog = interpolate(frame, [80, 100], [0, 1], { ...cl, easing: Easing.bezier(0.4, 0, 0.4, 1) });
-  const beam2On = frame >= 79 && frame <= 101;
-  const beamTrail = interpolate(frame, [100, 112], [0.35, 0], cl);
+  const beam1Prog = interpolate(frame, [68, 82], [0, 1], cl);
+  const beam1On = frame >= 67 && frame <= 83;
+  const beam2Prog = interpolate(frame, [86, 104], [0, 1], { ...cl, easing: Easing.bezier(0.4, 0, 0.4, 1) });
+  const beam2On = frame >= 85 && frame <= 105;
+  const beamTrail = interpolate(frame, [104, 112], [0.35, 0], cl);
   const bw = CARD.w + 6;
   const bh = CARD.h + 6;
 
@@ -124,7 +124,7 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
               ))}
             </div>
           </div>
-          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 8, background: 'rgba(255,255,255,0.85)', filter: 'blur(6px)', opacity: 0.6 * Math.min(1, lift + Math.max(0, (frame - 32) / 16)) }} />
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 8, background: 'rgba(255,255,255,0.85)', filter: 'blur(6px)', opacity: 0.6 * Math.min(1, lift + Math.max(0, (frame - 40) / 16)) }} />
           <div style={{ transformStyle: 'preserve-3d' }}>
             {slotVis > 0.02 ? (
               <div style={{ position: 'absolute', left: CARD.x - 2, top: CARD.y - 2, width: CARD.w + 4, height: CARD.h + 4, background: '#E9EDF4', borderRadius: RADIUS, boxShadow: `inset 0 0 26px rgba(0,111,255,${0.12 * slotEdge})`, opacity: slotVis }}>
@@ -146,19 +146,19 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
               {beamTrail > 0.01 ? <div style={{ position: 'absolute', inset: -3, borderRadius: RADIUS + 3, border: '2px solid #7FB8FF', opacity: beamTrail }} /> : null}
             </div>
           </div>
-          {frame >= 60 && frame <= 130
+          {frame >= 68 && frame <= 130
             ? (() => {
-                const noteIn = interpolate(frame, [60, 70], [0, 1], { ...cl, easing: Easing.bezier(0.2, 0.75, 0.3, 1) });
+                const noteIn = interpolate(frame, [68, 78], [0, 1], { ...cl, easing: Easing.bezier(0.2, 0.75, 0.3, 1) });
                 const noteOut = interpolate(frame, [116, 126], [1, 0], cl);
                 const noteVis = noteIn * noteOut;
-                const noteZ = 92 + Math.sin(((frame - 60) / 44) * Math.PI * 2) * 3;
-                const hl = interpolate(frame, [74, 86], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
+                const noteZ = 92 + Math.sin(((frame - 68) / 44) * Math.PI * 2) * 3;
+                const hl = interpolate(frame, [80, 92], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
                 const NX = CARD.x - 330;
                 const NY = MCY - 80;
                 return (
                   <div style={{ transformStyle: 'preserve-3d' }}>
                     <div style={{ position: 'absolute', left: NX + 10, top: NY + 80, width: 250, height: 74, transform: 'translateZ(2px)', background: 'radial-gradient(ellipse at 50% 50%, rgba(12,45,94,0.3), transparent 70%)', filter: 'blur(12px)', opacity: 0.55 * noteVis }} />
-                    <div style={{ position: 'absolute', left: NX, top: NY, width: 270, transform: `translateZ(${noteZ}px) translateY(${(1 - noteIn) * 26}px)`, opacity: noteVis, filter: `blur(${(1 - noteIn) * 4}px)`, fontFamily: FONT, background: 'rgba(240,242,246,0.94)', borderRadius: 18, padding: '16px 20px', boxShadow: '0 12px 30px rgba(12,45,94,.12)' }}>
+                    <div style={{ position: 'absolute', left: NX, top: NY, width: 270, transform: `translateZ(${noteZ}px) translateY(${(1 - noteIn) * 26}px)`, opacity: noteVis, filter: `blur(${(1 - noteIn) * 4}px)`, fontFamily: FONT, background: '#F0F2F6', borderRadius: 18, padding: '16px 20px', boxShadow: '0 12px 30px rgba(12,45,94,.12)' }}>
                       <div style={{ fontSize: 38, fontWeight: 800, color: C.navy, lineHeight: 1.2 }}>{note[0]}</div>
                       <div style={{ position: 'relative', display: 'inline-block' }}>
                         <div style={{ position: 'absolute', left: -5, top: '12%', bottom: '4%', width: `calc(${hl} * (100% + 10px))`, background: '#CFE5FF', borderRadius: 4 }} />

@@ -9,11 +9,11 @@ import { useCurrentFrame, interpolate, interpolateColors, Easing } from 'remotio
 import { C, FONT } from '../theme';
 
 const ROW = 210;
-const DW = 126;
+const DW = 150; // widened from 126: Be Vietnam Pro 800 glyphs are wider than Helvetica (review: clipped digits)
 const FS = 190;
 const SPIN = 0.85;
 const DIGITS = [3, 0, 0, 0, 0, 0];
-const S0 = 6; // first decel frame
+const S0 = 0; // first decel frame (shot is 7 beats: lock earlier to give the stat a ≥40f hold)
 const STEP = 7;
 const LOCK = S0 + (DIGITS.length - 1) * STEP + 22; // 63
 

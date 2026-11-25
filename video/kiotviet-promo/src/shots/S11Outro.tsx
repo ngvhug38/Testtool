@@ -200,7 +200,7 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
           <div style={{ opacity: tag, transform: `translateY(${(1 - tag) * 10}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 34 }}>
             <div style={{ fontSize: 60, fontWeight: 900, color: C.blue }}>{cta}</div>
             <div style={{ fontSize: 46, fontWeight: 800, color: C.navy, marginTop: 14 }}>{contact}</div>
-            <div style={{ fontSize: 32, fontWeight: 700, color: C.muted, marginTop: 14, letterSpacing: 1 }}>{site}</div>
+            <div style={{ fontSize: 42, fontWeight: 800, color: C.navy, marginTop: 14, letterSpacing: 1 }}>{site}</div>
           </div>
         </div>
       </AbsoluteFill>

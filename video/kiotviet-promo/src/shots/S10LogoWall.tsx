@@ -18,7 +18,7 @@ const tile = (name: string) => (
     <Img src={staticFile(`logos/${name}.png`)} style={{ maxWidth: 380, maxHeight: 180, objectFit: 'contain' }} />
   </div>
 );
-const cols = (loops: [number, number, number]): TickerColumn[] => [
+const cols = (loops: [number, number, number]): TickerColumn[] => [ // review: every logo must cross the clear band within the shot
   { items: LOGOS.filter((_, i) => i % 3 === 0).map(tile), durationInSeconds: loops[0], direction: -1 },
   { items: LOGOS.filter((_, i) => i % 3 === 1).map(tile), durationInSeconds: loops[1], direction: 1 },
   { items: LOGOS.filter((_, i) => i % 3 === 2).map(tile), durationInSeconds: loops[2], direction: -1 },
@@ -35,8 +35,9 @@ export const S10LogoWall: React.FC<Partial<typeof S10_DEFAULTS>> = (p) => {
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <AbsoluteFill style={{ transform: `scale(${push})` }}>
-        <VerticalTicker columns={cols([12, 9, 14])} backgroundColor={C.bg} columnWidth={520} gap={30} maskHeight={320} />
+        <VerticalTicker columns={cols([7, 9.5, 7.5])} backgroundColor={C.bg} columnWidth={520} gap={30} maskHeight={220} phases={[0.62, 0.98, 0.58]} />
       </AbsoluteFill>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 190, background: `linear-gradient(180deg, ${C.bg} 70%, rgba(240,242,246,0))`, zIndex: 15 }} />
       <div style={{ position: 'absolute', top: 54, width: '100%', textAlign: 'center', fontFamily: FONT, fontSize: 62, fontWeight: 800, color: C.navy, opacity: tIn, transform: `translateY(${(1 - tIn) * 14}px)`, zIndex: 20 }}>
         {title}
       </div>

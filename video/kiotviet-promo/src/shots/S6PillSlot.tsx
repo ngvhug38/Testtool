@@ -131,7 +131,7 @@ export const S6PillSlot: React.FC<Partial<typeof S6_DEFAULTS>> = (p) => {
       <div
         style={{
           position: 'absolute',
-          left: 170,
+          left: 205,
           top: 540,
           transform: `translateY(calc(-50% + ${(1 - stemT) * 50}px))`,
           display: 'flex',

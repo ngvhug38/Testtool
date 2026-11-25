@@ -24,7 +24,7 @@ export const S4_DEFAULTS = {
   lockFrame: 44,
   title: ['Khách trong nước', '& quốc tế đều quét được'],
   chips: ['VietQRPay', 'VietQRGlobal', 'NAPAS'],
-  label: 'VietQR · 1 mã cho mọi khách',
+  label: 'VietQR · quét là trả',
 };
 
 export const S4ReticleLock: React.FC<Partial<typeof S4_DEFAULTS>> = (p) => {
@@ -52,7 +52,7 @@ export const S4ReticleLock: React.FC<Partial<typeof S4_DEFAULTS>> = (p) => {
   ];
   return (
     <AbsoluteFill style={{ background: '#000', overflow: 'hidden', fontFamily: FONT }}>
-      <OffthreadVideo src={staticFile('footage/qrlock.mp4')} playbackRate={0.32} muted style={{ width: 1920, height: 1080, objectFit: 'cover' }} />
+      <OffthreadVideo src={staticFile('footage/qrlock-slow.mp4')} muted style={{ width: 1920, height: 1080, objectFit: 'cover' }} />
       <AbsoluteFill style={{ background: 'linear-gradient(90deg, rgba(8,26,56,.9) 0%, rgba(8,26,56,.72) 34%, rgba(8,26,56,0) 52%)' }} />
       {locked && (
         <div style={{ position: 'absolute', left: CARD_X, top: CARD_Y, width: CARD_W, height: CARD_H, borderRadius: 18, background: '#E9FFF6', opacity: glow * 0.6, mixBlendMode: 'screen' }} />
@@ -97,7 +97,7 @@ export const S4ReticleLock: React.FC<Partial<typeof S4_DEFAULTS>> = (p) => {
         ))}
         <div style={{ display: 'flex', gap: 16, marginTop: 40 }}>
           {chips.map((c, i) => (
-            <div key={c} style={{ padding: '12px 26px', borderRadius: 999, background: 'rgba(255,255,255,.14)', border: '2px solid rgba(255,255,255,.4)', color: '#fff', fontSize: 28, fontWeight: 700, opacity: textIn(14 + i * 3) }}>
+            <div key={c} style={{ padding: '12px 26px', borderRadius: 999, background: 'rgba(255,255,255,.14)', border: '2px solid rgba(255,255,255,.4)', color: '#fff', fontSize: 32, fontWeight: 700, opacity: textIn(14 + i * 3) }}>
               {c}
             </div>
           ))}
