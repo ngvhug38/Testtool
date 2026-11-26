@@ -2,6 +2,7 @@ import React from 'react';
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from 'remotion';
 import { SHOTS, TOTAL, AUDIO_START_FRAME, beatF } from './timeline';
 import { ensureFonts } from './theme';
+import { LayoutCtx, LANDSCAPE, PORTRAIT } from './layout';
 import { FlashCut } from './lib/FlashCut';
 import { SFX } from './sfx';
 import { S1LogoLockup } from './shots/S1LogoLockup';
@@ -35,8 +36,9 @@ export const SHOT_COMPONENTS: { key: keyof typeof SHOTS; C: React.FC }[] = [
 // flash-cut (shot-transitions A): from = cut − 5, 10f, only over hard cuts with a big tonal jump
 export const FLASH_CUTS = [SHOTS.benefits.from, SHOTS.customers.from];
 
-export const Main: React.FC<{ bgm?: boolean }> = ({ bgm = true }) => {
+export const Main: React.FC<{ bgm?: boolean; vertical?: boolean }> = ({ bgm = true, vertical = false }) => {
   return (
+    <LayoutCtx.Provider value={vertical ? PORTRAIT : LANDSCAPE}>
     <AbsoluteFill style={{ background: '#F0F2F6' }}>
       {SHOT_COMPONENTS.map(({ key, C }) => (
         <Sequence key={key} from={SHOTS[key].from} durationInFrames={SHOTS[key].dur} name={key}>
@@ -61,5 +63,6 @@ export const Main: React.FC<{ bgm?: boolean }> = ({ bgm = true }) => {
         </Sequence>
       ))}
     </AbsoluteFill>
+    </LayoutCtx.Provider>
   );
 };

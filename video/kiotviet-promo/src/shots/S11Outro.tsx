@@ -12,6 +12,7 @@
 import React from 'react';
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, Easing } from 'remotion';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 const FLY_EASE = Easing.bezier(0.34, 1.4, 0.44, 1);
 const CRANE_EASE = Easing.bezier(0.3, 0, 0.2, 1);
@@ -72,6 +73,16 @@ const ELS: El[] = [
   { key: 'pillfree', w: 440, h: 84, cx: 1390, cy: 175, rot: 2.5, dx: 360, dy: -200, radius: 999, cue: 25, node: pill('Hóa đơn điện tử · Miễn phí', C.green) },
 ];
 
+const POS_V: Record<string, { cx: number; cy: number; dx: number; dy: number; w?: number }> = {
+  stat: { cx: 540, cy: 280, dx: 0, dy: -160, w: 620 },
+  pillqr: { cx: 300, cy: 392, dx: -300, dy: -120 },
+  pillfree: { cx: 720, cy: 392, dx: 300, dy: -120, w: 420 },
+  qr: { cx: 220, cy: 560, dx: -420, dy: 0, w: 230 },
+  price: { cx: 800, cy: 580, dx: 420, dy: 0 },
+  logos: { cx: 540, cy: 1290, dx: 0, dy: 300, w: 640 },
+  device: { cx: 250, cy: 1420, dx: -380, dy: 260 },
+  bento: { cx: 760, cy: 1425, dx: 380, dy: 260, w: 380 },
+};
 const DUST = Array.from({ length: 20 }, (_, i) => ({
   x: (i * 439 + 137) % 1920,
   y0: (i * 613 + 271) % 1080,
@@ -98,6 +109,9 @@ export const S11_DEFAULTS = {
 export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
   const { cta, contact, site } = { ...S11_DEFAULTS, ...p };
   const frame = useCurrentFrame();
+  const L = useLayout();
+  const V = L.vertical;
+  const els = V ? ELS.map((e) => { const q = POS_V[e.key]; return q ? { ...e, ...q, w: q.w ?? e.w, h: e.key === 'qr' && q.w ? q.w : e.h } : e; }) : ELS;
   const blur = interpolate(frame, [0, 24], [0, 14], { ...cl, easing: Easing.bezier(0.4, 0, 0.4, 1) });
   const rule = interpolate(frame, [58, 70], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
   const tag = interpolate(frame, [68, 80], [0, 1], cl);
@@ -123,11 +137,11 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
     <AbsoluteFill style={{ background: C.bg }}>
       <AbsoluteFill style={{ transform: `perspective(1400px) rotateX(${camTilt}deg) scale(${camScale})`, transformOrigin: '50% 45%' }}>
         <AbsoluteFill style={{ filter: `blur(${blur}px)` }}>
-          <Img src={staticFile('img/still-counter.jpg')} style={{ width: 1920, height: 1080, objectFit: 'cover' }} />
+          <Img src={staticFile('img/still-counter.jpg')} style={{ width: L.W, height: L.H, objectFit: 'cover' }} />
         </AbsoluteFill>
         <AbsoluteFill style={{ background: 'radial-gradient(1200px 800px at 50% 48%, rgba(240,242,246,0.93), rgba(240,242,246,0.75) 60%, rgba(240,242,246,0.55))' }} />
         <AbsoluteFill>
-          {ELS.map((el) => {
+          {els.map((el) => {
             if (frame < el.cue) return null;
             const t = interpolate(frame, [el.cue, el.cue + 12], [0, 1], { ...cl, easing: FLY_EASE });
             const opacity = interpolate(frame, [el.cue, el.cue + 3], [0, 1], cl);
@@ -160,8 +174,8 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
 
       <AbsoluteFill>
         {DUST.map((d, i) => {
-          const y = (((d.y0 - frame * d.rise) % 1080) + 1080) % 1080;
-          const x = d.x + Math.sin(frame * d.swayFreq + d.phase) * d.swayAmp;
+          const y = ((((d.y0 * L.H) / 1080 - frame * d.rise) % L.H) + L.H) % L.H;
+          const x = (d.x * L.W) / 1920 + Math.sin(frame * d.swayFreq + d.phase) * d.swayAmp;
           return <div key={i} style={{ position: 'absolute', left: x, top: y, width: d.size, height: d.size, borderRadius: '50%', background: '#6FB3FF', opacity: d.opacity }} />;
         })}
       </AbsoluteFill>
@@ -171,7 +185,7 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
         </AbsoluteFill>
       ) : null}
       {stageLight > 0 ? (
-        <AbsoluteFill style={{ background: 'radial-gradient(760px 420px at 960px 520px, rgba(250,252,255,0.97), rgba(250,252,255,0.4) 55%, rgba(250,252,255,0) 75%)', opacity: stageLight * 1.6 }} />
+        <AbsoluteFill style={{ background: `radial-gradient(760px 420px at ${L.W / 2}px ${V ? 930 : 520}px, rgba(250,252,255,0.97), rgba(250,252,255,0.4) 55%, rgba(250,252,255,0) 75%)`, opacity: stageLight * 1.6 }} />
       ) : null}
       {vignette > 0 ? <AbsoluteFill style={{ background: 'radial-gradient(1400px 900px at 50% 50%, rgba(12,45,94,0) 55%, rgba(12,45,94,0.6) 100%)', opacity: vignette }} /> : null}
 
@@ -198,8 +212,14 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
             ) : null}
           </div>
           <div style={{ opacity: tag, transform: `translateY(${(1 - tag) * 10}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 34 }}>
-            <div style={{ fontSize: 60, fontWeight: 900, color: C.blue }}>{cta}</div>
-            <div style={{ fontSize: 46, fontWeight: 800, color: C.navy, marginTop: 14 }}>{contact}</div>
+            <div style={{ fontSize: V ? 66 : 60, fontWeight: 900, color: C.blue }}>{cta}</div>
+            {V ? (
+              contact.split(' · ').map((line, i) => (
+                <div key={i} style={{ fontSize: i === 0 ? 44 : 60, fontWeight: 800, color: C.navy, marginTop: i === 0 ? 14 : 4 }}>{line}</div>
+              ))
+            ) : (
+              <div style={{ fontSize: 46, fontWeight: 800, color: C.navy, marginTop: 14 }}>{contact}</div>
+            )}
             <div style={{ fontSize: 42, fontWeight: 800, color: C.navy, marginTop: 14, letterSpacing: 1 }}>{site}</div>
           </div>
         </div>

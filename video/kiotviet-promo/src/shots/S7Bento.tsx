@@ -10,12 +10,19 @@
 import React from 'react';
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from 'remotion';
 import { C, FONT } from '../theme';
+import { useLayout, Layout } from '../layout';
 
-const CELL_W = 520;
-const CELL_H = 300;
-const GUT = 36;
-const LEFT = (1920 - (CELL_W * 3 + GUT * 2)) / 2;
-const TOP = (1080 - (CELL_H * 2 + GUT)) / 2 + 60;
+const geom = (L: Layout) => {
+  const cols = L.vertical ? 2 : 3;
+  const CELL_W = L.vertical ? 430 : 520;
+  const CELL_H = L.vertical ? 330 : 300;
+  const GUT = L.vertical ? 28 : 36;
+  const rows = Math.ceil(6 / cols);
+  const LEFT = L.vertical ? L.safe.l + 2 : (1920 - (CELL_W * 3 + GUT * 2)) / 2;
+  const TOP = L.vertical ? 360 : (1080 - (CELL_H * 2 + GUT)) / 2 + 60;
+  return { cols, CELL_W, CELL_H, GUT, rows, LEFT, TOP };
+};
+type Geom = ReturnType<typeof geom>;
 
 type Cell = { title: string; items: string[]; free?: boolean };
 export const S7_DEFAULTS = {
@@ -31,10 +38,11 @@ export const S7_DEFAULTS = {
   ] as Cell[],
 };
 
-const CellView: React.FC<{ i: number; frame: number; cell: Cell; first: number; gap: number }> = ({ i, frame, cell, first, gap }) => {
+const CellView: React.FC<{ i: number; frame: number; cell: Cell; first: number; gap: number; g: Geom; V: boolean }> = ({ i, frame, cell, first, gap, g, V }) => {
+  const { cols, CELL_W, CELL_H, GUT, LEFT, TOP } = g;
   const start = first + i * gap;
-  const col = i % 3;
-  const row = Math.floor(i / 3);
+  const col = i % cols;
+  const row = Math.floor(i / cols);
   const x = LEFT + col * (CELL_W + GUT);
   const y = TOP + row * (CELL_H + GUT);
   const accent = cell.free ? C.greenBright : '#39B8FF';
@@ -59,17 +67,17 @@ const CellView: React.FC<{ i: number; frame: number; cell: Cell; first: number; 
           height: CELL_H,
           boxSizing: 'border-box',
           background: cell.free ? '#E8F9EC' : '#FFFFFF',
-          padding: '34px 38px',
+          padding: V ? '26px 30px' : '34px 38px',
           fontFamily: FONT,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ width: 16, height: 16, borderRadius: 5, background: cell.free ? C.green : C.blue }} />
-          <div style={{ fontSize: cell.free ? 50 : 40, fontWeight: 900, color: cell.free ? C.green : C.navy, letterSpacing: cell.free ? 2 : 0 }}>{cell.title}</div>
+          <div style={{ fontSize: cell.free ? (V ? 46 : 50) : V ? 36 : 40, fontWeight: 900, whiteSpace: 'nowrap', color: cell.free ? C.green : C.navy, letterSpacing: cell.free ? 2 : 0 }}>{cell.title}</div>
         </div>
         <div style={{ marginTop: 22, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {cell.items.map((it) => (
-            <div key={it} style={{ fontSize: 30, fontWeight: 600, color: C.text, whiteSpace: 'nowrap' }}>
+            <div key={it} style={{ fontSize: V ? 26 : 30, fontWeight: 600, color: C.text, whiteSpace: V ? 'normal' : 'nowrap', lineHeight: 1.25 }}>
               {it}
             </div>
           ))}
@@ -101,16 +109,18 @@ const CellView: React.FC<{ i: number; frame: number; cell: Cell; first: number; 
 export const S7Bento: React.FC<Partial<typeof S7_DEFAULTS>> = (p) => {
   const { title, beat, cells } = { ...S7_DEFAULTS, ...p };
   const frame = useCurrentFrame();
+  const L = useLayout();
+  const g = geom(L);
   const FIRST = beat;
   const allLit = FIRST + (cells.length - 1) * beat + 14;
   const push = interpolate(frame, [allLit, allLit + 25], [1, 1.04], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 0, 0.2, 1) });
   const titleLit = interpolate(frame, [2, 16], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.quad) });
   return (
     <AbsoluteFill style={{ background: `radial-gradient(1400px 900px at 50% 40%, #12305C, ${C.navyDeep})`, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, transform: `scale(${push})`, transformOrigin: '960px 560px' }}>
-        <div style={{ position: 'absolute', left: LEFT, top: TOP - 118, opacity: titleLit, fontFamily: FONT, fontSize: 64, fontWeight: 800, color: '#fff' }}>{title}</div>
+      <div style={{ position: 'absolute', inset: 0, transform: `scale(${push})`, transformOrigin: `${L.W / 2}px ${L.vertical ? 820 : 560}px` }}>
+        <div style={{ position: 'absolute', left: g.LEFT, top: g.TOP - (L.vertical ? 104 : 118), opacity: titleLit, fontFamily: FONT, fontSize: L.vertical ? 60 : 64, fontWeight: 800, color: '#fff' }}>{title}</div>
         {cells.map((c, i) => (
-          <CellView key={i} i={i} frame={frame} cell={c} first={FIRST} gap={beat} />
+          <CellView key={i} i={i} frame={frame} cell={c} first={FIRST} gap={beat} g={g} V={L.vertical} />
         ))}
       </div>
     </AbsoluteFill>

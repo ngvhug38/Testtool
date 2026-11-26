@@ -8,6 +8,7 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from 'remotion';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 type IK = 'cart' | 'receipt' | 'qr' | 'globe' | 'users';
 const IconSvg: React.FC<{ k: IK }> = ({ k }) => (
@@ -62,6 +63,7 @@ export const S6_DEFAULTS = {
 export const S6PillSlot: React.FC<Partial<typeof S6_DEFAULTS>> = (p) => {
   const { stem, pills: PILLS, finale, finaleLandFrame } = { ...S6_DEFAULTS, ...p };
   const frame = useCurrentFrame();
+  const V = useLayout().vertical;
   const INTRO = 14;
   const CYCLES = PILLS.length;
   const BEAT = (finaleLandFrame - INTRO) / CYCLES;
@@ -127,16 +129,17 @@ export const S6PillSlot: React.FC<Partial<typeof S6_DEFAULTS>> = (p) => {
 
   return (
     <AbsoluteFill style={{ background: C.bg }}>
-      <div style={{ position: 'absolute', width: 900, height: 900, left: 600, top: 200, borderRadius: '50%', background: '#CFE2FF', filter: 'blur(140px)', opacity: 0.55 }} />
+      <div style={{ position: 'absolute', width: 900, height: 900, left: V ? 100 : 600, top: V ? 500 : 200, borderRadius: '50%', background: '#CFE2FF', filter: 'blur(140px)', opacity: 0.55 }} />
       <div
         style={{
           position: 'absolute',
-          left: 205,
-          top: 540,
+          left: V ? 96 : 205,
+          top: V ? 830 : 540,
           transform: `translateY(calc(-50% + ${(1 - stemT) * 50}px))`,
           display: 'flex',
-          alignItems: 'center',
-          gap: 32,
+          flexDirection: V ? 'column' : 'row',
+          alignItems: V ? 'flex-start' : 'center',
+          gap: V ? 28 : 32,
           opacity: stemT,
         }}
       >

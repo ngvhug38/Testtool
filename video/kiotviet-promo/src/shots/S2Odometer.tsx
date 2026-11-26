@@ -7,6 +7,7 @@
 import React from 'react';
 import { useCurrentFrame, interpolate, interpolateColors, Easing } from 'remotion';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 const ROW = 210;
 const DW = 150; // widened from 126: Be Vietnam Pro 800 glyphs are wider than Helvetica (review: clipped digits)
@@ -69,24 +70,25 @@ export const S2_DEFAULTS = {
 export const S2Odometer: React.FC<Partial<typeof S2_DEFAULTS>> = (p) => {
   const { label, chips } = { ...S2_DEFAULTS, ...p };
   const frame = useCurrentFrame();
+  const L = useLayout();
   const ink = interpolateColors(frame, [LOCK, LOCK + 4, LOCK + 8], [C.navy, '#061634', C.navy]);
   const pulse = interpolate(frame, [LOCK, LOCK + 4, LOCK + 8], [1, 1.035, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.quad) });
   const labelOp = interpolate(frame, [LOCK - 3, LOCK + 13], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.quad) });
   const enter = interpolate(frame, [0, 6], [0, 1], { extrapolateRight: 'clamp' });
   return (
-    <div style={{ width: 1920, height: 1080, background: C.bg, position: 'relative', overflow: 'hidden', fontFamily: FONT }}>
+    <div style={{ width: L.W, height: L.H, background: C.bg, position: 'relative', overflow: 'hidden', fontFamily: FONT }}>
       <div style={{ position: 'absolute', width: 900, height: 900, left: -250, top: -380, borderRadius: '50%', background: '#BFD9FF', filter: 'blur(120px)', opacity: 0.5 }} />
       <div style={{ position: 'absolute', width: 800, height: 800, right: -220, bottom: -380, borderRadius: '50%', background: '#C9F2D2', filter: 'blur(120px)', opacity: 0.5 }} />
       <div
         style={{
           position: 'absolute',
           left: 0,
-          top: 300,
-          width: 1920,
+          top: L.vertical ? 640 : 300,
+          width: L.W,
           display: 'flex',
           justifyContent: 'center',
-          transform: `scale(${pulse})`,
-          transformOrigin: '960px 105px',
+          transform: `scale(${pulse * (L.vertical ? 0.8 : 1)})`,
+          transformOrigin: `${L.W / 2}px 105px`,
           opacity: enter,
         }}
       >
@@ -99,11 +101,11 @@ export const S2Odometer: React.FC<Partial<typeof S2_DEFAULTS>> = (p) => {
         <DigitReel frame={frame} i={5} color={ink} />
         <Glyph ch="+" color={C.blue} w={130} />
       </div>
-      <div style={{ position: 'absolute', left: 0, top: 560, width: 1920, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 40, opacity: labelOp }}>
-        <div style={{ fontSize: 64, fontWeight: 800, color: C.navy, transform: `translateY(${(1 - labelOp) * 12}px)` }}>{label}</div>
-        <div style={{ display: 'flex', gap: 20 }}>
+      <div style={{ position: 'absolute', left: 0, top: L.vertical ? 900 : 560, width: L.W, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 40, opacity: labelOp }}>
+        <div style={{ fontSize: L.vertical ? 70 : 64, fontWeight: 800, color: C.navy, transform: `translateY(${(1 - labelOp) * 12}px)` }}>{label}</div>
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center', maxWidth: L.vertical ? 760 : 1800 }}>
           {chips.map((c) => (
-            <div key={c} style={{ padding: '16px 32px', borderRadius: 999, background: '#fff', boxShadow: '0 10px 30px rgba(12,45,94,.08)', fontSize: 32, fontWeight: 700, color: C.navy }}>
+            <div key={c} style={{ padding: '16px 32px', borderRadius: 999, background: '#fff', boxShadow: '0 10px 30px rgba(12,45,94,.08)', fontSize: L.vertical ? 38 : 32, fontWeight: 700, color: C.navy }}>
               {c}
             </div>
           ))}

@@ -8,15 +8,18 @@ import React from 'react';
 import { Img, staticFile } from 'remotion';
 import { DesignStage, E, lerp, seg, useT } from '../lib/Motion';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 const ICON = 44; // design px (×4 on screen)
 const WORD_H = ICON * (216 / 470); // wordmark/mark height ratio of the official logo
 const WORD_W = WORD_H * (1027 / 216);
 const GAP = ICON * (140 / 470);
 const LOCK_W = ICON + GAP + WORD_W;
-const LOCK_LEFT = 240 - LOCK_W / 2;
-const SHIFT = LOCK_LEFT + ICON / 2 - 240; // mark centre moves from stage centre to its lockup slot
-const WORD_LEFT = LOCK_LEFT + ICON + GAP;
+// stage is 480×270 (16:9) or 270×480 (9:16); lockup is centred on the stage either way
+const lockGeom = (SW: number) => {
+  const LOCK_LEFT = SW / 2 - LOCK_W / 2;
+  return { SHIFT: LOCK_LEFT + ICON / 2 - SW / 2, WORD_LEFT: LOCK_LEFT + ICON + GAP };
+};
 // glyph boundaries in logo-word.png (px of the 1027-wide source): K i o t V i e t
 const CUTS = [0, 166, 228, 394, 503, 695, 756, 915, 1027];
 const STAGGER = (0.7 - 0.46 - 0.1) / (CUTS.length - 1); // card: (0.7-0.46)/n so letters finish before 0.7
@@ -26,6 +29,10 @@ export const S1_DEFAULTS = { tagline: 'Phần mềm quản lý bán hàng phổ 
 export const S1LogoLockup: React.FC<Partial<typeof S1_DEFAULTS>> = (p) => {
   const { tagline, accent } = { ...S1_DEFAULTS, ...p };
   const t = useT();
+  const L = useLayout();
+  const SW = L.vertical ? 270 : 480;
+  const SH = L.vertical ? 480 : 270;
+  const { SHIFT, WORD_LEFT } = lockGeom(SW);
   const k = seg(t, 0.02, 0.28, E.inOutCubic);
   const brake = Math.sin(seg(t, 0.26, 0.37) * Math.PI) * 0.06;
   const s = lerp(k, 5.4, 1) * (1 + brake);
@@ -34,7 +41,7 @@ export const S1LogoLockup: React.FC<Partial<typeof S1_DEFAULTS>> = (p) => {
   const scaleW = WORD_W / 1027;
 
   return (
-    <DesignStage bg={C.bg} raster="zoom">
+    <DesignStage bg={C.bg} raster="zoom" w={SW} h={SH}>
       <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', fontFamily: FONT }}>
         {/* soft brand glows (styleframe 01) */}
         <div style={{ position: 'absolute', width: 230, height: 230, left: -60, top: -90, borderRadius: '50%', background: '#BFD9FF', filter: 'blur(30px)', opacity: 0.55 }} />
@@ -58,7 +65,7 @@ export const S1LogoLockup: React.FC<Partial<typeof S1_DEFAULTS>> = (p) => {
           <Img src={staticFile('img/logo-mark.png')} style={{ position: 'absolute', inset: 0, width: ICON, height: ICON, opacity: 0.35 + 0.65 * heal }} />
         </div>
         {/* wordmark glyphs slide in left→right */}
-        <div style={{ position: 'absolute', left: WORD_LEFT, top: 135 - WORD_H / 2 + 1, height: WORD_H, width: WORD_W }}>
+        <div style={{ position: 'absolute', left: WORD_LEFT, top: SH / 2 - WORD_H / 2 + 1, height: WORD_H, width: WORD_W }}>
           {CUTS.slice(0, -1).map((x0, i) => {
             const x1 = CUTS[i + 1];
             const st = 0.46 + i * STAGGER;
@@ -86,12 +93,12 @@ export const S1LogoLockup: React.FC<Partial<typeof S1_DEFAULTS>> = (p) => {
         <div
           style={{
             position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 135 + ICON / 2 + 14,
+            left: L.vertical ? 20 : 0,
+            right: L.vertical ? 38 : 0,
+            top: SH / 2 + ICON / 2 + 14,
             textAlign: 'center',
             color: accent,
-            font: `700 12px/1.2 ${FONT}`,
+            font: `700 ${L.vertical ? 15 : 12}px/1.3 ${FONT}`,
             letterSpacing: 0.4,
             opacity: seg(t, 0.72, 0.84, E.outQuad),
           }}

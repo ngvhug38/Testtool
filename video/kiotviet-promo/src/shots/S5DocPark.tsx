@@ -10,6 +10,7 @@ import React from 'react';
 import { OffthreadVideo, staticFile } from 'remotion';
 import { DesignStage, E, lerp, seg, useT } from '../lib/Motion';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 const DIM = '#C3CCD9';
 const TXT = '#0C2D5E';
@@ -75,7 +76,7 @@ export const S5_DEFAULTS = {
   eyebrow: 'VietQRPay · VietQRGlobal',
   headline: 'Quét là trả, nhận tiền tức thì',
   items: [
-    { n: 'Nội địa & quốc tế', ic: 'qr' as IconK, cap: 'Khách nào cũng quét được' },
+    { n: 'Xuyên quốc gia', ic: 'qr' as IconK, cap: 'Khách nào cũng quét được' },
     { n: 'Tiền về tức thì', ic: 'bolt' as IconK, cap: 'Chủ quán nhận chuyển khoản ngay' },
     { n: 'Tự vào báo cáo', ic: 'chart' as IconK, cap: 'Doanh thu rõ ràng trên KiotViet' },
   ],
@@ -86,29 +87,37 @@ export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
   const t = useT();
   const park = seg(t, 0.06, 0.24, E.inOutCubic);
   const eyebrowOp = seg(t, 0.12, 0.2, E.outQuad);
+  const V = useLayout().vertical;
+  // geometry: 16:9 keeps the demo's 440×240 canvas; 9:16 stacks footage card above the pill list,
+  // parking upward (scale 0.8, origin top-centre) inside the TikTok safe band (design y 52–360).
+  const G = V
+    ? { cv: { left: 0, top: 0, w: 270, h: 480 }, card: { left: 20, top: 60, w: 230, h: 150 }, x: 30, ey: 186, hy: 198, py: 226, step: 46, ph: 28, capOff: 32,
+        parkT: `translateY(${lerp(park, 0, -6)}px) scale(${lerp(park, 1, 0.8)})`, origin: '50% 0%' }
+    : { cv: { left: 20, top: 15, w: 440, h: 240 }, card: { left: 34, top: (240 - DH) / 2, w: DW, h: DH }, x: PX, ey: 2, hy: 15, py: PY, step: PH + PG, ph: PH, capOff: PH + 6,
+        parkT: `translateX(${lerp(park, 0, -55)}%) scale(${lerp(park, 1, 0.92)})`, origin: '0% 50%' };
   return (
-    <DesignStage bg={C.bg} raster="zoom">
+    <DesignStage bg={C.bg} raster="zoom" w={V ? 270 : 480} h={V ? 480 : 270}>
       <div style={{ position: 'absolute', inset: 0, background: C.bg, overflow: 'hidden', fontFamily: FONT }}>
         <div style={{ position: 'absolute', width: 180, height: 180, right: -40, top: -70, borderRadius: '50%', background: '#BFD9FF', filter: 'blur(30px)', opacity: 0.5 }} />
-        <div style={{ position: 'absolute', left: '50%', top: '50%', width: 440, height: 240, margin: '-120px 0 0 -220px' }}>
+        <div style={{ position: 'absolute', left: G.cv.left, top: G.cv.top, width: G.cv.w, height: G.cv.h }}>
           {/* footage card parks left (origin = left-edge midpoint) */}
           <div
             style={{
               position: 'absolute',
-              left: 34,
-              top: (240 - DH) / 2,
-              width: DW,
-              height: DH,
-              transformOrigin: '0% 50%',
-              transform: `translateX(${lerp(park, 0, -55)}%) scale(${lerp(park, 1, 0.92)})`,
+              left: G.card.left,
+              top: G.card.top,
+              width: G.card.w,
+              height: G.card.h,
+              transformOrigin: G.origin,
+              transform: G.parkT,
             }}
           >
             <div style={{ position: 'absolute', inset: 0, borderRadius: 12, overflow: 'hidden', background: '#000', boxShadow: '0 10px 30px rgba(12,45,94,.18)' }}>
               <OffthreadVideo src={staticFile('footage/tablet-slow.mp4')} muted style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
-          <div style={{ position: 'absolute', left: PX + 2, top: 2, font: `800 8px/1 ${FONT}`, letterSpacing: 0.6, color: C.blue, opacity: eyebrowOp }}>{eyebrow}</div>
-          <div style={{ position: 'absolute', left: PX + 2, top: 15, font: `800 14px/1.15 ${FONT}`, color: TXT, whiteSpace: 'nowrap', opacity: eyebrowOp, transform: `translateY(${(1 - eyebrowOp) * 6}px)` }}>{headline}</div>
+          <div style={{ position: 'absolute', left: G.x + 2, top: G.ey, font: `800 8px/1 ${FONT}`, letterSpacing: 0.6, color: C.blue, opacity: eyebrowOp }}>{eyebrow}</div>
+          <div style={{ position: 'absolute', left: G.x + 2, top: G.hy, font: `800 14px/1.15 ${FONT}`, color: TXT, whiteSpace: 'nowrap', opacity: eyebrowOp, transform: `translateY(${(1 - eyebrowOp) * 6}px)` }}>{headline}</div>
           {items.map((it, k) => {
             const f = T0[k];
             const o = seg(t, f, f + 0.035, E.outQuad);
@@ -122,11 +131,11 @@ export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
                 <div
                   style={{
                     position: 'absolute',
-                    left: PX,
-                    top: PY + k * (PH + PG),
+                    left: G.x,
+                    top: G.py + k * G.step,
                     width: PW,
-                    height: PH,
-                    borderRadius: PH / 2,
+                    height: G.ph,
+                    borderRadius: G.ph / 2,
                     background: '#fff',
                     border: `1px solid ${LINE}`,
                     boxSizing: 'border-box',
@@ -142,7 +151,7 @@ export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
                   <Icon k={it.ic} size={15} />
                   <div style={{ font: `700 11.5px/1 ${FONT}`, color: TXT, whiteSpace: 'nowrap' }}>{it.n}</div>
                 </div>
-                <Caption text={it.cap} left={PX + 4} top={PY + k * (PH + PG) + PH + 6} size={9} showV={showV} innP={innP} outP={outP} />
+                <Caption text={it.cap} left={G.x + 4} top={G.py + k * G.step + G.capOff} size={9} showV={showV} innP={innP} outP={outP} />
               </React.Fragment>
             );
           })}

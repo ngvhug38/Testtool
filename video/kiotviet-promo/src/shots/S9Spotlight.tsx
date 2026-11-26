@@ -13,14 +13,35 @@ import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame, Easing } from 'remotion';
 import { PageCam2D, CamKey2D } from '../lib/PageCam2D';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 const RADIUS = 36;
-const CW = 480, CH = 560, GAPX = 60;
-const CY = 300;
-const CARDS = [0, 1, 2].map((i) => ({ x: 960 - CW / 2 + (i - 1) * (CW + GAPX), y: CY, w: CW, h: CH }));
-const CARD = CARDS[1];
-const MCX = CARD.x + CARD.w / 2;
-const MCY = CARD.y + CARD.h / 2;
+// 16:9: three cards side by side (hero centre x = 960). 9:16: three cards stacked inside the
+// TikTok safe band, hero in the middle (centre x = 540), card content laid out in two columns.
+const geo = (V: boolean) => {
+  const CW = V ? 860 : 480, CH = V ? 300 : 560;
+  const CARDS = V
+    ? [0, 1, 2].map((i) => ({ x: 110, y: 420 + i * (CH + 28), w: CW, h: CH }))
+    : [0, 1, 2].map((i) => ({ x: 960 - CW / 2 + (i - 1) * (CW + 60), y: 300, w: CW, h: CH }));
+  const CARD = CARDS[1];
+  const MCX = CARD.x + CARD.w / 2;
+  const MCY = CARD.y + CARD.h / 2;
+  const W = V ? 1080 : 1920, H = V ? 1920 : 1080;
+  const keys: CamKey2D[] = V
+    ? [
+        { frame: 0, cx: 540, cy: 960, zoom: 1, rotX: 0, rotY: 0, rotZ: 0, persp: 1400 },
+        { frame: 40, cx: 540, cy: 960, zoom: 1, rotX: 0, rotY: 0, rotZ: 0, persp: 1400 },
+        { frame: 56, cx: MCX - 20, cy: MCY - 40, zoom: 1.12, rotX: 8, rotY: 22, rotZ: 2, persp: 1400 },
+        { frame: 145, cx: MCX - 20, cy: MCY - 40, zoom: 1.12, rotX: 8, rotY: 22, rotZ: 2, persp: 1400 },
+      ]
+    : [
+        { frame: 0, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
+        { frame: 40, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
+        { frame: 56, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
+        { frame: 145, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
+      ];
+  return { CW, CH, CARDS, CARD, MCX, MCY, W, H, keys, V };
+};
 const BEAM = C.blue;
 const BEAM_CORE = 'rgba(240,248,255,0.98)';
 
@@ -36,8 +57,26 @@ export const S9_DEFAULTS = {
   note: ['Gói phổ biến,', 'mở rộng chuỗi.'],
 };
 
-const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
+const PlanCard: React.FC<{ plan: Plan; V?: boolean }> = ({ plan, V }) => {
   const hot = !!plan.hot;
+  if (V)
+    return (
+      <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, background: hot ? C.blue : '#fff', padding: '30px 40px', boxSizing: 'border-box', fontFamily: FONT, display: 'flex', gap: 30, boxShadow: hot ? 'none' : '0 18px 44px rgba(12,45,94,.08)' }}>
+        <div style={{ width: 380, flexShrink: 0 }}>
+          <div style={{ height: 38 }}>
+            {hot && <div style={{ display: 'inline-block', padding: '5px 16px', borderRadius: 999, background: '#F3E8FF', color: '#6B21A8', fontSize: 24, fontWeight: 800 }}>Phổ biến</div>}
+          </div>
+          <div style={{ fontSize: 36, fontWeight: 800, color: hot ? '#fff' : C.navy, marginTop: 6 }}>{plan.name}</div>
+          <div style={{ fontSize: 108, fontWeight: 900, letterSpacing: -3, color: hot ? '#fff' : C.navy, lineHeight: 1.0, marginTop: 4 }}>{plan.price}</div>
+          <div style={{ fontSize: 30, fontWeight: 700, color: hot ? '#DCEBFF' : C.muted, marginTop: 4 }}>đồng / tháng</div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6, borderLeft: `2px solid ${hot ? 'rgba(255,255,255,.3)' : C.line}`, paddingLeft: 26 }}>
+          {plan.feats.map((f) => (
+            <div key={f} style={{ fontSize: 30, fontWeight: 700, color: hot ? '#fff' : C.text, lineHeight: 1.35 }}>✓ {f}</div>
+          ))}
+        </div>
+      </div>
+    );
   return (
     <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, background: hot ? C.blue : '#fff', padding: '44px 44px', boxSizing: 'border-box', fontFamily: FONT, boxShadow: hot ? 'none' : '0 18px 44px rgba(12,45,94,.08)' }}>
       <div style={{ height: 40 }}>
@@ -59,12 +98,6 @@ const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
   );
 };
 
-const CAM_KEYS: CamKey2D[] = [
-  { frame: 0, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
-  { frame: 40, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
-  { frame: 56, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
-  { frame: 145, cx: MCX - 30, cy: MCY, zoom: 1.6, rotX: 8, rotY: 34, rotZ: 2, persp: 1200 },
-];
 const PUSH_EASE = Easing.bezier(0.35, 0, 0.2, 1);
 const POP_EASE = Easing.bezier(0.2, 1.25, 0.3, 1);
 const RESEAT_EASE = Easing.bezier(0.4, 0, 0.3, 1.05);
@@ -73,6 +106,7 @@ const cl = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as con
 export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
   const { title, plans, chips, note } = { ...S9_DEFAULTS, ...p };
   const frame = useCurrentFrame();
+  const { CW, CH, CARDS, CARD, MCX, MCY, W, H, keys: CAM_KEYS, V } = geo(useLayout().vertical);
   const macroIn = interpolate(frame, [0, 8], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
   const spotEase = Easing.bezier(0.4, 0, 0.3, 1);
   const spotX = interpolate(frame, [4, 10, 20, 28, 36, 56], [22, 22, 78, 40, 50, 50], { ...cl, easing: spotEase });
@@ -105,24 +139,25 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <AbsoluteFill style={{ opacity: macroIn }}>
-        <PageCam2D pageH={1080} keys={CAM_KEYS} ease={PUSH_EASE} bg={C.bg}>
+        <PageCam2D pageH={H} W={W} H={H} keys={CAM_KEYS} ease={PUSH_EASE} bg={C.bg}>
           {/* live pricing page */}
-          <div style={{ position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, background: C.bg, fontFamily: FONT }}>
-            <div style={{ position: 'absolute', top: 150, width: 1920, textAlign: 'center', fontSize: 68, fontWeight: 800, color: C.navy }}>{title}</div>
+          <div style={{ position: 'absolute', left: 0, top: 0, width: W, height: H, background: C.bg, fontFamily: FONT }}>
+            <div style={{ position: 'absolute', top: V ? 230 : 150, left: V ? 90 : 0, width: V ? 900 : 1920, textAlign: 'center', fontSize: V ? 62 : 68, fontWeight: 800, color: C.navy, lineHeight: 1.15, whiteSpace: V ? 'pre-line' : 'normal' }}>{V ? title.replace(', ', ',\n') : title}</div>
             {CARDS.map((c, i) =>
               i === 1 ? null : (
                 <div key={i} style={{ position: 'absolute', left: c.x, top: c.y, width: c.w, height: c.h }}>
-                  <PlanCard plan={plans[i]} />
+                  <PlanCard plan={plans[i]} V={V} />
                 </div>
               ),
             )}
-            <div style={{ position: 'absolute', top: CY + CH + 50, width: 1920, display: 'flex', justifyContent: 'center', gap: 22 }}>
+            {!V && <div style={{ position: 'absolute', top: 300 + CH + 50, width: 1920, display: 'flex', justifyContent: 'center', gap: 22 }}>
               {chips.map((t) => (
                 <div key={t} style={{ padding: '14px 30px', borderRadius: 999, background: '#fff', boxShadow: '0 10px 30px rgba(12,45,94,.08)', fontSize: 28, fontWeight: 700, color: C.navy }}>
                   {t}
                 </div>
               ))}
-            </div>
+            </div>}
+            {V && <div style={{ position: 'absolute', top: 1380, left: 90, width: 900, textAlign: 'center', fontSize: 30, fontWeight: 700, color: C.muted }}>Miễn phí khởi tạo · HĐĐT &amp; chữ ký số miễn phí</div>}
           </div>
           <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 8, background: 'rgba(255,255,255,0.85)', filter: 'blur(6px)', opacity: 0.6 * Math.min(1, lift + Math.max(0, (frame - 40) / 16)) }} />
           <div style={{ transformStyle: 'preserve-3d' }}>
@@ -133,7 +168,7 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
             ) : null}
             <div style={{ position: 'absolute', left: CARD.x, top: CARD.y, width: CARD.w, height: CARD.h, transform: `translateZ(${z}px) scale(${press})`, transformOrigin: 'center center', transformStyle: 'preserve-3d' }}>
               <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, overflow: 'hidden', boxShadow: landed ? '0 18px 44px rgba(0,111,255,.25)' : shadow }}>
-                <PlanCard plan={plans[1]} />
+                <PlanCard plan={plans[1]} V={V} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(255,255,255,0.35), transparent 40%)', opacity: lift }} />
               </div>
               <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, boxShadow: `inset 0 0 0 1px rgba(255,255,255,${0.7 * lift})` }} />
@@ -153,8 +188,8 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
                 const noteVis = noteIn * noteOut;
                 const noteZ = 92 + Math.sin(((frame - 68) / 44) * Math.PI * 2) * 3;
                 const hl = interpolate(frame, [80, 92], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
-                const NX = CARD.x - 330;
-                const NY = MCY - 80;
+                const NX = V ? CARD.x + 40 : CARD.x - 330;
+                const NY = V ? CARD.y - 150 : MCY - 80;
                 return (
                   <div style={{ transformStyle: 'preserve-3d' }}>
                     <div style={{ position: 'absolute', left: NX + 10, top: NY + 80, width: 250, height: 74, transform: 'translateZ(2px)', background: 'radial-gradient(ellipse at 50% 50%, rgba(12,45,94,0.3), transparent 70%)', filter: 'blur(12px)', opacity: 0.55 * noteVis }} />

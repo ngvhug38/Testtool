@@ -10,25 +10,29 @@
 import React from 'react';
 import { AbsoluteFill, OffthreadVideo, staticFile, useCurrentFrame, interpolate, Easing } from 'remotion';
 import { C, FONT } from '../theme';
+import { useLayout } from '../layout';
 
 const PLATE = '#F2F4F8';
-export const S3_DEFAULTS = { word: '1 MÃ QR', eyebrow: 'THANH TOÁN ĐA QUỐC GIA', origin: '31.5% 56%' };
+export const S3_DEFAULTS = { word: '1 MÃ QR', eyebrow: 'THANH TOÁN XUYÊN QUỐC GIA', origin: '31.5% 56%' };
 
 export const S3TextMask: React.FC<Partial<typeof S3_DEFAULTS>> = (p) => {
   const { word, eyebrow, origin } = { ...S3_DEFAULTS, ...p };
   const f = useCurrentFrame();
+  const L = useLayout();
+  const originUsed = L.vertical ? '20% 42%' : origin; // pinned inside a solid stroke (checked on stills)
+  const shown = L.vertical ? word.replace(/ (\S+)$/, '\n$1') : word;
   const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
   const endT = interpolate(f, [100, 130], [0, 1], { ...clamp, easing: Easing.bezier(0.4, 0, 0.2, 1) });
   const driftX = interpolate(f, [20, 100], [110, -110], clamp);
   const dx = f < 100 ? driftX : interpolate(endT, [0, 1], [-110, 0]);
   const dashS = interpolate(endT, [0, 1], [1.15, 1]);
   const maskS = interpolate(endT, [0, 1], [1, 26]);
-  const cover = interpolate(endT, [0.15, 0.6], [0, 1], clamp); // review: faster insurance fade removes plate residue
+  const cover = interpolate(endT, L.vertical ? [0.06, 0.35] : [0.15, 0.6], [0, 1], clamp); // review: faster insurance fade removes plate residue
   const eyebrowOp = interpolate(f, [0, 10, 100, 112], [0, 1, 1, 0], clamp);
 
   const footage = (
     <AbsoluteFill style={{ transform: `translateX(${dx}px) scale(${dashS})`, transformOrigin: '50% 50%' }}>
-      <OffthreadVideo src={staticFile('footage/qr-slow.mp4')} muted style={{ width: 1920, height: 1080, objectFit: 'cover' }} />
+      <OffthreadVideo src={staticFile('footage/qr-slow.mp4')} muted style={{ width: L.W, height: L.H, objectFit: 'cover' }} />
     </AbsoluteFill>
   );
 
@@ -42,7 +46,7 @@ export const S3TextMask: React.FC<Partial<typeof S3_DEFAULTS>> = (p) => {
             style={{
               background: PLATE,
               transform: `scale(${maskS})`,
-              transformOrigin: origin,
+              transformOrigin: originUsed,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -50,13 +54,13 @@ export const S3TextMask: React.FC<Partial<typeof S3_DEFAULTS>> = (p) => {
           >
             {/* plate must stay larger than the frame while scaling, so pad it with an outer plate */}
             <div style={{ position: 'absolute', inset: -2000, background: PLATE }} />
-            <div style={{ position: 'relative', fontSize: 420, fontWeight: 900, letterSpacing: -10, color: '#000', lineHeight: 1, marginTop: 60, whiteSpace: 'nowrap' }}>{word}</div>
+            <div style={{ position: 'relative', fontSize: L.vertical ? 340 : 420, fontWeight: 900, letterSpacing: -10, color: '#000', lineHeight: L.vertical ? 1.05 : 1, marginTop: 60, whiteSpace: 'pre', textAlign: 'center' }}>{shown}</div>
           </AbsoluteFill>
         </AbsoluteFill>
       </AbsoluteFill>
       {/* takeover insurance layer: same motion, unmasked */}
       <AbsoluteFill style={{ opacity: cover }}>{footage}</AbsoluteFill>
-      <div style={{ position: 'absolute', top: 236, width: '100%', textAlign: 'center', fontSize: 40, fontWeight: 800, letterSpacing: 10, color: C.blue, opacity: eyebrowOp }}>
+      <div style={{ position: 'absolute', top: L.vertical ? 470 : 236, width: '100%', textAlign: 'center', fontSize: L.vertical ? 38 : 40, fontWeight: 800, letterSpacing: L.vertical ? 4 : 10, color: C.blue, opacity: eyebrowOp }}>
         {eyebrow}
       </div>
     </AbsoluteFill>
