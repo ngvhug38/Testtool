@@ -27,7 +27,7 @@ export const S3TextMask: React.FC<Partial<typeof S3_DEFAULTS>> = (p) => {
   const dx = f < 100 ? driftX : interpolate(endT, [0, 1], [-110, 0]);
   const dashS = interpolate(endT, [0, 1], [1.15, 1]);
   const maskS = interpolate(endT, [0, 1], [1, 26]);
-  const cover = interpolate(endT, L.vertical ? [0.0, 0.22] : [0.15, 0.6], [0, 1], clamp); // review: faster insurance fade removes plate residue
+  const cover = interpolate(endT, L.vertical ? [0.0, 0.14] : [0.15, 0.6], [0, 1], clamp); // review: faster insurance fade removes plate residue
   const eyebrowOp = interpolate(f, L.vertical ? [0, 10, 92, 100] : [0, 10, 100, 112], [0, 1, 1, 0], clamp);
 
   const footage = (

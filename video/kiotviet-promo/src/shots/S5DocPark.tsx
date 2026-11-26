@@ -91,7 +91,7 @@ export const S5DocPark: React.FC<Partial<typeof S5_DEFAULTS>> = (p) => {
   // geometry: 16:9 keeps the demo's 440×240 canvas; 9:16 stacks footage card above the pill list,
   // parking upward (scale 0.8, origin top-centre) inside the TikTok safe band (design y 52–360).
   const G = V
-    ? { cv: { left: 0, top: 0, w: 270, h: 480 }, card: { left: 20, top: 60, w: 230, h: 150 }, x: 30, ey: 186, hy: 198, py: 226, step: 46, ph: 28, capOff: 32,
+    ? { cv: { left: 0, top: 0, w: 270, h: 480 }, card: { left: 20, top: 56, w: 230, h: 146 }, x: 30, ey: 176, hy: 188, py: 216, step: 46, ph: 28, capOff: 32,
         parkT: `translateY(${lerp(park, 0, -6)}px) scale(${lerp(park, 1, 0.8)})`, origin: '50% 0%' }
     : { cv: { left: 20, top: 15, w: 440, h: 240 }, card: { left: 34, top: (240 - DH) / 2, w: DW, h: DH }, x: PX, ey: 2, hy: 15, py: PY, step: PH + PG, ph: PH, capOff: PH + 6,
         parkT: `translateX(${lerp(park, 0, -55)}%) scale(${lerp(park, 1, 0.92)})`, origin: '0% 50%' };

@@ -74,13 +74,13 @@ const ELS: El[] = [
 ];
 
 const POS_V: Record<string, { cx: number; cy: number; dx: number; dy: number; w?: number }> = {
-  stat: { cx: 540, cy: 262, dx: 0, dy: -160, w: 620 },
-  pillqr: { cx: 280, cy: 368, dx: -300, dy: -120 },
-  pillfree: { cx: 700, cy: 368, dx: 300, dy: -120, w: 420 },
-  qr: { cx: 220, cy: 580, dx: -420, dy: 0, w: 230 },
-  price: { cx: 800, cy: 590, dx: 420, dy: 0 },
-  device: { cx: 250, cy: 1300, dx: -380, dy: 260 },
-  bento: { cx: 760, cy: 1330, dx: 380, dy: 260, w: 380 },
+  stat: { cx: 540, cy: 282, dx: 0, dy: -160, w: 620 },
+  pillqr: { cx: 290, cy: 388, dx: -300, dy: -120 },
+  pillfree: { cx: 690, cy: 388, dx: 300, dy: -120, w: 420 },
+  qr: { cx: 225, cy: 590, dx: -420, dy: 0, w: 230 },
+  price: { cx: 775, cy: 600, dx: 420, dy: 0 },
+  device: { cx: 255, cy: 1270, dx: -380, dy: 260 },
+  bento: { cx: 730, cy: 1300, dx: 380, dy: 260, w: 400 },
 };
 const DUST = Array.from({ length: 20 }, (_, i) => ({
   x: (i * 439 + 137) % 1920,

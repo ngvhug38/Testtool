@@ -19,9 +19,9 @@ const RADIUS = 36;
 // 16:9: three cards side by side (hero centre x = 960). 9:16: three cards stacked inside the
 // TikTok safe band, hero in the middle (centre x = 540), card content laid out in two columns.
 const geo = (V: boolean) => {
-  const CW = V ? 860 : 480, CH = V ? 300 : 560;
+  const CW = V ? 780 : 480, CH = V ? 290 : 560;
   const CARDS = V
-    ? [0, 1, 2].map((i) => ({ x: 110, y: 420 + i * (CH + 28), w: CW, h: CH }))
+    ? [0, 1, 2].map((i) => ({ x: 150, y: 400 + i * (CH + 24), w: CW, h: CH }))
     : [0, 1, 2].map((i) => ({ x: 960 - CW / 2 + (i - 1) * (CW + 60), y: 300, w: CW, h: CH }));
   const CARD = CARDS[1];
   const MCX = CARD.x + CARD.w / 2;
@@ -31,8 +31,8 @@ const geo = (V: boolean) => {
     ? [
         { frame: 0, cx: 540, cy: 960, zoom: 1, rotX: 0, rotY: 0, rotZ: 0, persp: 1400 },
         { frame: 40, cx: 540, cy: 960, zoom: 1, rotX: 0, rotY: 0, rotZ: 0, persp: 1400 },
-        { frame: 56, cx: MCX - 20, cy: MCY - 40, zoom: 1.12, rotX: 8, rotY: 22, rotZ: 2, persp: 1400 },
-        { frame: 145, cx: MCX - 20, cy: MCY - 40, zoom: 1.12, rotX: 8, rotY: 22, rotZ: 2, persp: 1400 },
+        { frame: 56, cx: 540, cy: 960, zoom: 1, rotX: 0, rotY: 0, rotZ: 0, persp: 1400 },
+        { frame: 145, cx: 540, cy: 960, zoom: 1, rotX: 0, rotY: 0, rotZ: 0, persp: 1400 },
       ]
     : [
         { frame: 0, cx: 960, cy: 560, zoom: 0.92, rotX: 0, rotY: 0, rotZ: 0, persp: 1200 },
@@ -62,7 +62,7 @@ const PlanCard: React.FC<{ plan: Plan; V?: boolean }> = ({ plan, V }) => {
   if (V)
     return (
       <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, background: hot ? C.blue : '#fff', padding: '30px 40px', boxSizing: 'border-box', fontFamily: FONT, display: 'flex', gap: 30, boxShadow: hot ? 'none' : '0 18px 44px rgba(12,45,94,.08)' }}>
-        <div style={{ width: 330, flexShrink: 0 }}>
+        <div style={{ width: 290, flexShrink: 0 }}>
           <div style={{ height: 38 }}>
             {hot && <div style={{ display: 'inline-block', padding: '5px 16px', borderRadius: 999, background: '#F3E8FF', color: '#6B21A8', fontSize: 24, fontWeight: 800 }}>Phổ biến</div>}
           </div>
@@ -72,7 +72,7 @@ const PlanCard: React.FC<{ plan: Plan; V?: boolean }> = ({ plan, V }) => {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6, borderLeft: `2px solid ${hot ? 'rgba(255,255,255,.3)' : C.line}`, paddingLeft: 26 }}>
           {plan.feats.map((f) => (
-            <div key={f} style={{ fontSize: 28, fontWeight: 700, color: hot ? '#fff' : C.text, lineHeight: 1.4, whiteSpace: 'nowrap' }}>✓ {f}</div>
+            <div key={f} style={{ fontSize: 26, fontWeight: 700, color: hot ? '#fff' : C.text, lineHeight: 1.4, whiteSpace: 'nowrap' }}>✓ {f}</div>
           ))}
         </div>
       </div>
@@ -121,7 +121,7 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
   const reseat = interpolate(frame, [112, 130], [0, 1], { ...cl, easing: RESEAT_EASE });
   const lift = rise * (1 - reseat);
   const bob = Math.sin(((frame - 66) / 40) * Math.PI * 2) * 4 * lift;
-  const z = 110 * lift + bob;
+  const z = (V ? 50 : 110) * lift + bob;
   const landed = frame >= 130;
   const press = interpolate(frame, [126, 129, 130], [1, 0.997, 1], cl);
   const shadow = `0 ${8 * lift}px ${10 + 12 * lift}px rgba(12,45,94,${0.2 * lift}), 0 ${46 * lift}px ${90 * lift}px rgba(12,45,94,${0.25 * lift})`;
@@ -157,7 +157,7 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
                 </div>
               ))}
             </div>}
-            {V && <div style={{ position: 'absolute', top: 1380, left: 90, width: 900, textAlign: 'center', fontSize: 32, fontWeight: 700, color: C.muted }}>Miễn phí khởi tạo &amp; HĐĐT</div>}
+            {V && <div style={{ position: 'absolute', top: 1330, left: 90, width: 900, textAlign: 'center', fontSize: 32, fontWeight: 700, color: C.muted }}>Miễn phí khởi tạo &amp; HĐĐT</div>}
           </div>
           <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 8, background: 'rgba(255,255,255,0.85)', filter: 'blur(6px)', opacity: 0.6 * Math.min(1, lift + Math.max(0, (frame - 40) / 16)) }} />
           <div style={{ transformStyle: 'preserve-3d' }}>
@@ -181,7 +181,7 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
               {beamTrail > 0.01 ? <div style={{ position: 'absolute', inset: -3, borderRadius: RADIUS + 3, border: '2px solid #7FB8FF', opacity: beamTrail }} /> : null}
             </div>
           </div>
-          {frame >= 68 && frame <= 130
+          {!V && frame >= 68 && frame <= 130
             ? (() => {
                 const noteIn = interpolate(frame, [68, 78], [0, 1], { ...cl, easing: Easing.bezier(0.2, 0.75, 0.3, 1) });
                 const noteOut = interpolate(frame, [116, 126], [1, 0], cl);

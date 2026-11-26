@@ -73,7 +73,7 @@ const CellView: React.FC<{ i: number; frame: number; cell: Cell; first: number; 
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ width: 16, height: 16, borderRadius: 5, background: cell.free ? C.green : C.blue }} />
-          <div style={{ fontSize: cell.free ? (V ? 44 : 50) : V ? 34 : 40, fontWeight: 900, whiteSpace: 'nowrap', color: cell.free ? C.green : C.navy, letterSpacing: cell.free ? 2 : 0 }}>{cell.title}</div>
+          <div style={{ fontSize: cell.free ? (V ? 44 : 50) : V ? 34 : 40, fontWeight: 900, whiteSpace: V ? 'normal' : 'nowrap', lineHeight: 1.1, color: cell.free ? C.green : C.navy, letterSpacing: cell.free ? 2 : 0 }}>{cell.title}</div>
         </div>
         <div style={{ marginTop: 22, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {cell.items.map((it) => (
