@@ -61,13 +61,13 @@ const PlanCard: React.FC<{ plan: Plan; V?: boolean }> = ({ plan, V }) => {
   const hot = !!plan.hot;
   if (V)
     return (
-      <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, background: hot ? C.blue : '#fff', padding: '30px 40px', boxSizing: 'border-box', fontFamily: FONT, display: 'flex', gap: 30, boxShadow: hot ? 'none' : '0 18px 44px rgba(12,45,94,.08)' }}>
+      <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, background: hot ? C.blue : '#fff', padding: '20px 40px', boxSizing: 'border-box', fontFamily: FONT, display: 'flex', gap: 30, boxShadow: hot ? 'none' : '0 18px 44px rgba(12,45,94,.08)' }}>
         <div style={{ width: 290, flexShrink: 0 }}>
-          <div style={{ height: 38 }}>
-            {hot && <div style={{ display: 'inline-block', padding: '5px 16px', borderRadius: 999, background: '#F3E8FF', color: '#6B21A8', fontSize: 24, fontWeight: 800 }}>Phổ biến</div>}
+          <div style={{ height: 32 }}>
+            {hot && <div style={{ display: 'inline-block', padding: '3px 14px', borderRadius: 999, background: '#F3E8FF', color: '#6B21A8', fontSize: 22, fontWeight: 800 }}>Phổ biến</div>}
           </div>
-          <div style={{ fontSize: 36, fontWeight: 800, color: hot ? '#fff' : C.navy, marginTop: 6 }}>{plan.name}</div>
-          <div style={{ fontSize: 108, fontWeight: 900, letterSpacing: -3, color: hot ? '#fff' : C.navy, lineHeight: 1.0, marginTop: 4 }}>{plan.price}</div>
+          <div style={{ fontSize: 30, fontWeight: 800, color: hot ? '#fff' : C.navy, marginTop: 2, lineHeight: 1.2, whiteSpace: 'nowrap' }}>{plan.name}</div>
+          <div style={{ fontSize: 100, fontWeight: 900, letterSpacing: -3, color: hot ? '#fff' : C.navy, lineHeight: 1.0, marginTop: 4 }}>{plan.price}</div>
           <div style={{ fontSize: 30, fontWeight: 700, color: hot ? '#DCEBFF' : C.muted, marginTop: 4 }}>đồng / tháng</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6, borderLeft: `2px solid ${hot ? 'rgba(255,255,255,.3)' : C.line}`, paddingLeft: 26 }}>
