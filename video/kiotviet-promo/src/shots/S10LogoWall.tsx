@@ -25,6 +25,12 @@ const cols = (loops: [number, number, number], h = 250): TickerColumn[] => [ // 
   { items: LOGOS.filter((_, i) => i % 3 === 2).map((n) => tile(n, h)), durationInSeconds: loops[2], direction: -1 },
 ];
 
+// TikTok: 2 columns × 9 logos, 390 px wide inside the safe zone (x 64–956), masks hide everything outside y 480–1440
+const cols2 = (loops: [number, number], h: number): TickerColumn[] => [
+  { items: LOGOS.filter((_, i) => i % 2 === 0).map((n) => tile(n, h)), durationInSeconds: loops[0], direction: -1 },
+  { items: LOGOS.filter((_, i) => i % 2 === 1).map((n) => tile(n, h)), durationInSeconds: loops[1], direction: 1 },
+];
+
 export const S10_DEFAULTS = { title: 'Gian hàng tiêu biểu đang dùng KiotViet' };
 
 export const S10LogoWall: React.FC<Partial<typeof S10_DEFAULTS>> = (p) => {
@@ -32,13 +38,13 @@ export const S10LogoWall: React.FC<Partial<typeof S10_DEFAULTS>> = (p) => {
   const frame = useCurrentFrame();
   const V = useLayout().vertical;
   const { durationInFrames } = useVideoConfig();
-  const push = interpolate(frame, [0, durationInFrames], [1, 1.06]);
+  const push = interpolate(frame, [0, durationInFrames], [1, V ? 1.0 : 1.06]);
   const tIn = interpolate(frame, [0, 10], [0, 1], { extrapolateRight: 'clamp' });
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <AbsoluteFill style={{ transform: `scale(${push})` }}>
         {V ? (
-          <VerticalTicker columns={cols([7.5, 6, 8], 300)} backgroundColor={C.bg} columnWidth={300} gap={30} maskHeight={300} scale={1.1} phases={[0.3, 0.75, 0.55]} />
+          <VerticalTicker columns={cols2([7, 5.5], 260)} backgroundColor={C.bg} columnWidth={390} gap={30} maskHeight={480} scale={1} tiltDeg={12} phases={[0.0, 0.0]} />
         ) : (
           <VerticalTicker columns={cols([7.5, 6, 8])} backgroundColor={C.bg} columnWidth={520} gap={30} maskHeight={220} phases={[0.62, 0.9, 0.5]} />
         )}

@@ -62,7 +62,7 @@ const PlanCard: React.FC<{ plan: Plan; V?: boolean }> = ({ plan, V }) => {
   if (V)
     return (
       <div style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, background: hot ? C.blue : '#fff', padding: '30px 40px', boxSizing: 'border-box', fontFamily: FONT, display: 'flex', gap: 30, boxShadow: hot ? 'none' : '0 18px 44px rgba(12,45,94,.08)' }}>
-        <div style={{ width: 380, flexShrink: 0 }}>
+        <div style={{ width: 330, flexShrink: 0 }}>
           <div style={{ height: 38 }}>
             {hot && <div style={{ display: 'inline-block', padding: '5px 16px', borderRadius: 999, background: '#F3E8FF', color: '#6B21A8', fontSize: 24, fontWeight: 800 }}>Phổ biến</div>}
           </div>
@@ -72,7 +72,7 @@ const PlanCard: React.FC<{ plan: Plan; V?: boolean }> = ({ plan, V }) => {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6, borderLeft: `2px solid ${hot ? 'rgba(255,255,255,.3)' : C.line}`, paddingLeft: 26 }}>
           {plan.feats.map((f) => (
-            <div key={f} style={{ fontSize: 30, fontWeight: 700, color: hot ? '#fff' : C.text, lineHeight: 1.35 }}>✓ {f}</div>
+            <div key={f} style={{ fontSize: 28, fontWeight: 700, color: hot ? '#fff' : C.text, lineHeight: 1.4, whiteSpace: 'nowrap' }}>✓ {f}</div>
           ))}
         </div>
       </div>
@@ -157,7 +157,7 @@ export const S9Spotlight: React.FC<Partial<typeof S9_DEFAULTS>> = (p) => {
                 </div>
               ))}
             </div>}
-            {V && <div style={{ position: 'absolute', top: 1380, left: 90, width: 900, textAlign: 'center', fontSize: 30, fontWeight: 700, color: C.muted }}>Miễn phí khởi tạo · HĐĐT &amp; chữ ký số miễn phí</div>}
+            {V && <div style={{ position: 'absolute', top: 1380, left: 90, width: 900, textAlign: 'center', fontSize: 32, fontWeight: 700, color: C.muted }}>Miễn phí khởi tạo &amp; HĐĐT</div>}
           </div>
           <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 8, background: 'rgba(255,255,255,0.85)', filter: 'blur(6px)', opacity: 0.6 * Math.min(1, lift + Math.max(0, (frame - 40) / 16)) }} />
           <div style={{ transformStyle: 'preserve-3d' }}>

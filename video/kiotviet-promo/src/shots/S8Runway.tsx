@@ -23,7 +23,7 @@ const mulberry32 = (seed: number) => () => {
 // final pull-back sized so the whole page sits inside the safe band (y 210–1440).
 const geo = (V: boolean) => {
   const g = V
-    ? { GW: 1500, GH: 2300, SIDE: 0, CARD_W: 600, CARD_H: 360, IMG_H: 220, NAME: 52, cols: 2, GRID_X: 125, GRID_Y: 560, GAPX: 50, GAPY: 40, TITLE: 88, zEnd: -671, anchorEnd: 43, perspEnd: 43 }
+    ? { GW: 1500, GH: 2300, SIDE: 0, CARD_W: 600, CARD_H: 360, IMG_H: 220, NAME: 44, cols: 2, GRID_X: 125, GRID_Y: 560, GAPX: 50, GAPY: 40, TITLE: 88, zEnd: -671, anchorEnd: 43, perspEnd: 43 }
     : { GW: 3000, GH: 1700, SIDE: 560, CARD_W: 520, CARD_H: 430, IMG_H: 280, NAME: 40, cols: 4, GRID_X: 680, GRID_Y: 520, GAPX: 50, GAPY: 50, TITLE: 120, zEnd: -590, anchorEnd: 50, perspEnd: 50 };
   return { ...g, slotPos: (i: number) => ({ x: g.GRID_X + (i % g.cols) * (g.CARD_W + g.GAPX), y: g.GRID_Y + Math.floor(i / g.cols) * (g.CARD_H + g.GAPY) }) };
 };

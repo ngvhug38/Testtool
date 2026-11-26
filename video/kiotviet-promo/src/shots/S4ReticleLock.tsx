@@ -64,7 +64,7 @@ export const S4ReticleLock: React.FC<Partial<typeof S4_DEFAULTS>> = (p) => {
   const tr = R[1];
 
   const textBlock = L.vertical
-    ? { position: 'absolute' as const, left: L.safe.l + 16, top: 1010, width: L.safe.r - L.safe.l - 32 }
+    ? { position: 'absolute' as const, left: L.safe.l + 16, top: 1075, width: L.safe.r - L.safe.l - 32 }
     : { position: 'absolute' as const, left: 110, top: 330, width: 820 };
   const titleSize = L.vertical ? 64 : 62;
 
@@ -103,8 +103,8 @@ export const S4ReticleLock: React.FC<Partial<typeof S4_DEFAULTS>> = (p) => {
         <div
           style={{
             position: 'absolute',
-            left: L.vertical ? Math.min(tr[0] - 120, L.safe.r - 380) : tr[0] + 22,
-            top: L.vertical ? tr[1] - 90 : tr[1] - 30,
+            left: L.vertical ? Math.min(tr[0] - 120, L.safe.r - 440) : tr[0] + 22,
+            top: L.vertical ? tr[1] - 110 : tr[1] - 30,
             transform: `scale(${labelT})`,
             transformOrigin: '0 50%',
             background: C.hud,

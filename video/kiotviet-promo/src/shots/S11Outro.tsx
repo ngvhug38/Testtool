@@ -74,14 +74,13 @@ const ELS: El[] = [
 ];
 
 const POS_V: Record<string, { cx: number; cy: number; dx: number; dy: number; w?: number }> = {
-  stat: { cx: 540, cy: 280, dx: 0, dy: -160, w: 620 },
-  pillqr: { cx: 300, cy: 392, dx: -300, dy: -120 },
-  pillfree: { cx: 720, cy: 392, dx: 300, dy: -120, w: 420 },
-  qr: { cx: 220, cy: 560, dx: -420, dy: 0, w: 230 },
-  price: { cx: 800, cy: 580, dx: 420, dy: 0 },
-  logos: { cx: 540, cy: 1290, dx: 0, dy: 300, w: 640 },
-  device: { cx: 250, cy: 1420, dx: -380, dy: 260 },
-  bento: { cx: 760, cy: 1425, dx: 380, dy: 260, w: 380 },
+  stat: { cx: 540, cy: 262, dx: 0, dy: -160, w: 620 },
+  pillqr: { cx: 280, cy: 368, dx: -300, dy: -120 },
+  pillfree: { cx: 700, cy: 368, dx: 300, dy: -120, w: 420 },
+  qr: { cx: 220, cy: 580, dx: -420, dy: 0, w: 230 },
+  price: { cx: 800, cy: 590, dx: 420, dy: 0 },
+  device: { cx: 250, cy: 1300, dx: -380, dy: 260 },
+  bento: { cx: 760, cy: 1330, dx: 380, dy: 260, w: 380 },
 };
 const DUST = Array.from({ length: 20 }, (_, i) => ({
   x: (i * 439 + 137) % 1920,
@@ -111,8 +110,8 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
   const frame = useCurrentFrame();
   const L = useLayout();
   const V = L.vertical;
-  const els = V ? ELS.map((e) => { const q = POS_V[e.key]; return q ? { ...e, ...q, w: q.w ?? e.w, h: e.key === 'qr' && q.w ? q.w : e.h } : e; }) : ELS;
-  const blur = interpolate(frame, [0, 24], [0, 14], { ...cl, easing: Easing.bezier(0.4, 0, 0.4, 1) });
+  const els = V ? ELS.filter((e) => e.key !== 'logos').map((e) => { const q = POS_V[e.key]; return q ? { ...e, ...q, w: q.w ?? e.w, h: e.key === 'qr' && q.w ? q.w : e.h } : e; }) : ELS;
+  const blur = interpolate(frame, [0, 24], [8, 14], { ...cl, easing: Easing.bezier(0.4, 0, 0.4, 1) });
   const rule = interpolate(frame, [58, 70], [0, 1], { ...cl, easing: Easing.bezier(0.3, 0, 0.2, 1) });
   const tag = interpolate(frame, [68, 80], [0, 1], cl);
   const recede = interpolate(frame, [42, 50], [0, 1], cl);
