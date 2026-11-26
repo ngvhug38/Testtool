@@ -212,7 +212,7 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
           </div>
           <div style={{ opacity: tag, transform: `translateY(${(1 - tag) * 10}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 34 }}>
             <div style={{ fontSize: V ? 66 : 60, fontWeight: 900, color: C.blue }}>{cta}</div>
-            {V ? (
+            {!contact ? null : V ? (
               contact.split(' · ').map((line, i) => (
                 <div key={i} style={{ fontSize: i === 0 ? 44 : 60, fontWeight: 800, color: C.navy, marginTop: i === 0 ? 14 : 4 }}>{line}</div>
               ))

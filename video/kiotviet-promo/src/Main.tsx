@@ -36,13 +36,14 @@ export const SHOT_COMPONENTS: { key: keyof typeof SHOTS; C: React.FC }[] = [
 // flash-cut (shot-transitions A): from = cut − 5, 10f, only over hard cuts with a big tonal jump
 export const FLASH_CUTS = [SHOTS.benefits.from, SHOTS.customers.from];
 
-export const Main: React.FC<{ bgm?: boolean; vertical?: boolean }> = ({ bgm = true, vertical = false }) => {
+// `contact` overrides the end-card contact line per deliverable (empty string = clean/re-upload version)
+export const Main: React.FC<{ bgm?: boolean; vertical?: boolean; contact?: string }> = ({ bgm = true, vertical = false, contact }) => {
   return (
     <LayoutCtx.Provider value={vertical ? PORTRAIT : LANDSCAPE}>
     <AbsoluteFill style={{ background: '#F0F2F6' }}>
       {SHOT_COMPONENTS.map(({ key, C }) => (
         <Sequence key={key} from={SHOTS[key].from} durationInFrames={SHOTS[key].dur} name={key}>
-          <C />
+          {key === 'outro' && contact !== undefined ? <C {...({ contact } as object)} /> : <C />}
         </Sequence>
       ))}
       {FLASH_CUTS.map((f) => (
