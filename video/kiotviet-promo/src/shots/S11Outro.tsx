@@ -102,7 +102,7 @@ const CUTS = [0, 166, 228, 394, 503, 695, 756, 915, 1027];
 export const S11_DEFAULTS = {
   cta: 'Dùng thử miễn phí',
   contact: 'Liên hệ Hưng (KiotViet) · 0327 012 877',
-  site: 'kiotviet.vn',
+  site: '', // client round 4: website line removed from the end card
 };
 
 export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
@@ -219,7 +219,7 @@ export const S11Outro: React.FC<Partial<typeof S11_DEFAULTS>> = (p) => {
             ) : (
               <div style={{ fontSize: 46, fontWeight: 800, color: C.navy, marginTop: 14 }}>{contact}</div>
             )}
-            <div style={{ fontSize: 42, fontWeight: 800, color: C.navy, marginTop: 14, letterSpacing: 1 }}>{site}</div>
+            {site ? <div style={{ fontSize: 42, fontWeight: 800, color: C.navy, marginTop: 14, letterSpacing: 1 }}>{site}</div> : null}
           </div>
         </div>
       </AbsoluteFill>
